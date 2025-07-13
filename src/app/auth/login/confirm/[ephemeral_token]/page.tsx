@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import LoginForm from "./LoginForm";
+import LoginConfirmForm from "./LoginConfirmForm";
 
-function page() {
+async function page({params,}:{params:Promise<{ephemeral_token:string}>;}) {
+    const { ephemeral_token } = await params;
   return (
     <div className="flex min-h-full lg:flex">
         <div className="flex flex-1 flex-col justify-center px-8 py-12 ">
@@ -19,14 +20,14 @@ function page() {
               <p className="mt-2 text-sm/6 text-gray-500 dark:text-gray-100">
                 Not a member?{' '}
                 <Link href="/auth/register" className="font-semibold text-sky-600 hover:text-sky-500">
-                  Register here
+                  Enter code to confirm your login
                 </Link>
               </p>
             </div>
 
             <div className="mt-10">
               <div>
-               <LoginForm />
+               <LoginConfirmForm ephemeral_token={ephemeral_token}  />
               </div>
 
               <div className="mt-10">

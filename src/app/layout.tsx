@@ -1,3 +1,5 @@
+import Provider from '@/redux/provider';
+import { Setup } from '@/utils';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -27,7 +29,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
       >
+      <Provider>
+        <Setup />
         {children}
+      </Provider>
       </body>
     </html>
   );

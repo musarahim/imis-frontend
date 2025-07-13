@@ -1,0 +1,31 @@
+import { Form, Formik, FormikHelpers, FormikValues } from "formik";
+import { ReactNode } from "react";
+import * as Yup from "yup";
+
+interface FormikWrapperProps<T extends FormikValues = FormikValues> {
+  initialValues: T;
+  validationSchema: Yup.ObjectSchema<Record<string, unknown>>; // Replaced `any` with `Record<string, unknown>`
+  onSubmit: (values: T, formikHelpers: FormikHelpers<T>) => void | Promise<void>;
+  children: ReactNode;
+}
+
+export default function FormikWrapper<T extends FormikValues>({
+  initialValues,
+  validationSchema,
+  onSubmit,
+  children,
+}: FormikWrapperProps<T>) {
+  return (
+    <Formik<T>
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {({ handleSubmit }) => (
+        <Form onSubmit={handleSubmit} className="space-y-4">
+          {children}
+        </Form>
+      )}
+    </Formik>
+  );
+}
