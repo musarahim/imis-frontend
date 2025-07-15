@@ -1,9 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
-import LoginConfirmForm from "./LoginConfirmForm";
+import ResetPasswordConfirm from "./ResetPasswordConfirm";
 
-async function page({params,}:{params:Promise<{ephemeral_token:string}>;}) {
-    const { ephemeral_token } = await params;
+interface Props{
+    params: {
+        uid: string;
+        token: string;
+    }
+}
+
+function page({params:{uid, token}}: Props) {
   return (
     <div className="flex min-h-full lg:flex">
         <div className="flex flex-1 flex-col justify-center px-8 py-12 ">
@@ -16,18 +21,13 @@ async function page({params,}:{params:Promise<{ephemeral_token:string}>;}) {
                 src="/images/logo.png"
                 className="h-35 w-auto dark:bg-white"
               />
-              <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-gray-50">Enter code to confirm your login</h2>
-              <p className="mt-2 text-sm/6 text-gray-500 dark:text-gray-100">
-                Not a member?{' '}
-                <Link href="/auth/register" className="font-semibold text-sky-600 hover:text-sky-500">
-                  Register
-                </Link>
-              </p>
+              <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-gray-50">Confirm Password Reset</h2>
+             
             </div>
 
             <div className="mt-10">
               <div>
-               <LoginConfirmForm ephemeral_token={ephemeral_token}  />
+               <ResetPasswordConfirm uid={uid} token={token} />
               </div>
 
               <div className="mt-10">
