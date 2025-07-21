@@ -2,6 +2,14 @@ type Group = {
     name:string
 }
 
+type NavItem = {
+  name: string
+  href: string
+  icon: ElementType
+  current: boolean,
+  children?: { name: string; href: string, current:boolean }[]
+}
+
 type User = 
 {       id?:number,
         email:string,

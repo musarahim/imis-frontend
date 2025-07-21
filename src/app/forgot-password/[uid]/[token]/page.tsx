@@ -1,14 +1,20 @@
 import Image from "next/image";
 import ResetPasswordConfirm from "./ResetPasswordConfirm";
 
-interface Props{
+interface PageProps{
     params: {
         uid: string;
         token: string;
     }
 }
 
-function page({params:{uid, token}}: Props) {
+function page({params}: PageProps) {
+    const { uid, token } = params;
+
+    // Ensure uid and token are defined
+    if (!uid || !token) {
+        return <div className="text-red-500">Invalid or missing parameters.</div>;
+    }
   return (
     <div className="flex min-h-full lg:flex">
         <div className="flex flex-1 flex-col justify-center px-8 py-12 ">
