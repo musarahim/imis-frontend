@@ -47,10 +47,36 @@ interface MenuDropdownProps {
   };
 }
 
+type InstitutionForm = {
+  email: string;
+  alternative_email: string;
+  username: string;
+  phone: string;
+  alternative_phone_number: string;
+  password: string;
+  re_password: string;
+  name: string;
+  district: string;
+  institution_type: string;
+  landline: string;
+  contact_person: string;
+  contact_person_phone: string;
+  alternative_contact_person: string;
+  alternative_contact_person_phone: string;
+  logo: string;
+  
+}
+
 
 interface ListRespornse<T> {
   count: number;
   next: string | null;
   previous: string | null;
   results: T[];
+}
+
+interface District {
+  id: number;
+  name: string;
+  code: string;
 }

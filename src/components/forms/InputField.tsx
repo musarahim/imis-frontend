@@ -28,7 +28,7 @@ function InputField({...props}: Props) {
                     {props.link && (
 					<div className='text-sm'>
 						<Link
-							className='font-semibold text-indigo-600 hover:text-indigo-500'
+							className='font-semibold text-sky-600 hover:text-sky-500'
 							href={props.link.linkUrl}
 						>
 							{props.link.linkText}
@@ -38,7 +38,7 @@ function InputField({...props}: Props) {
                     <div className="mt-2">
                       <input
                         id={props.Id}
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-600 sm:text-sm/6"
                         {...field} {...props}
                       />
                     </div>

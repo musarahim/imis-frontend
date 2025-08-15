@@ -24,3 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+.react-tel-input .form-control:focus {
+  outline: 2px solid #0284c7 !important; /* sky-600 */
+  outline-offset: -2px !important;
+}
+/* Highlight the country picker dropdown on focus */
+.react-tel-input .flag-dropdown:focus-within,
+.react-tel-input .flag-dropdown:focus {
+  outline: 2px solid #0284c7 !important; /* Tailwind's sky-600 */
+  outline-offset: -2px !important;
+  border-radius: 0.375rem !important; /* rounded-md */
+}
