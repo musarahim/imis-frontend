@@ -11,6 +11,11 @@ interface Props {
 
 function PhoneNumberInput({ name, label, required = false }: Props) {
   const [field, meta, helpers] = useField(name);
+  const handleOnChange = (value: string, data: any, event: any, formattedValue: string) => {
+    // phone will be in the format +256XXXXXXXXXX
+    helpers.setValue(formattedValue);
+    
+  }
 
   return (
     <div className="w-full">
@@ -21,7 +26,8 @@ function PhoneNumberInput({ name, label, required = false }: Props) {
         <PhoneInput
           country={'ug'}
           value={field.value}
-          onChange={value => helpers.setValue(value)}
+          prefix='+'
+          onChange={handleOnChange}
           inputProps={{
             name: field.name,
             required: required,

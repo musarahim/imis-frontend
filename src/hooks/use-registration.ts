@@ -1,6 +1,7 @@
 "use client"
 import { useRegisterMutation } from "@/redux/features/authApiSlice";
 import { useGetDistrictsQuery } from "@/redux/features/commonApiSlice";
+import { fileToBase64 } from "@/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -87,14 +88,41 @@ function useregistration() {
 
     }
     
-    const onSubmit = (values: any) => {
-      register(values).unwrap().then((res) => {
-        toast.success("Registration successful");
-        router.push("/auth/login");
-      }).catch((err) => {
-        toast.error("Registration failed");
-      });
-    };
+    const onSubmit = async (values: InstitutionForm) => {
+      console.log(values.logo);
+      let logoBase64 = values.logo;
+
+      if(values.logo instanceof File) {
+        logoBase64 = await fileToBase64(values.logo);
+      }
+      var destructured_object = {
+        email:values.email,
+        username: values.username,
+        phone: values.phone,
+        alternative_phone_number: values.alternative_phone_number,
+        password: values.password,
+        re_password: values.re_password,
+        institution:{
+        name: values.name,
+        alternative_email:values.alternative_email,
+        district: values.district,
+        institution_type: values.institution_type,
+        landline: values.landline,
+        contact_person:  values.contact_person,
+        contact_person_phone: values.contact_person_phone,
+        alternative_contact_person: values.alternative_contact_person,
+        alternative_contact_person_phone: values.alternative_contact_person_phone,
+        logo: logoBase64, 
+        }
+      }
+      try {
+    await register(destructured_object).unwrap();
+    toast.success("Registration successful");
+    router.push("/auth/login");
+  } catch (err) {
+    toast.error("Registration failed");
+  }
+};
   
   return {
     isLoading,

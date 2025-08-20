@@ -7,8 +7,8 @@ type StepAProps = {
   onNext: () => void;
 }
  const institution_types = [
-    {label: "Public", value: "Public"},
-    {label: "Private", value: "Private"},
+    {label: "Public", value: "public"},
+    {label: "Private", value: "private"},
    
   ]
 function StepA({ onNext }: StepAProps) {

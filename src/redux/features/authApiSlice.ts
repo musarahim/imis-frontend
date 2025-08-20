@@ -21,7 +21,7 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     register: builder.mutation({
-      query: (args:User) => ({
+      query: (args:InstitutionRegForm) => ({
         url: "/users/",
         method: "POST",
         body: args,
