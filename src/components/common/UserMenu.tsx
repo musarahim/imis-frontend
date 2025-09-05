@@ -1,4 +1,5 @@
 "use client";
+import { logout } from "@/redux/features/authSlice";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Bars3Icon, BellIcon, ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 type UserNavItem = {
@@ -7,6 +8,7 @@ type UserNavItem = {
 }
 
 const userNavigation: UserNavItem[] = [
+
   { name: 'Your profile', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
@@ -16,6 +18,9 @@ interface UserMenuProps {
 }
 
 function UserMenu({ setSidebarOpen }: UserMenuProps) {
+  const handleLogout = () => {
+    logout()
+  }
   return (
     <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
                     <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-gray-700 lg:hidden">

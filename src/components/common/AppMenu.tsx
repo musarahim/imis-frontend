@@ -18,7 +18,7 @@ import {
 import { useState } from 'react';
 const navigation: NavItem[] = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
-  { name: 'Certificate of Classification and Registration', href: '#', icon: UsersIcon, current: false },
+  { name: 'Classification & Registration', href: '#', icon: UsersIcon, current: false },
   { name: 'Provisional License (OTI)', href: '#', icon: FolderIcon, current: false },
   { name: 'Provisional License (ODA)', href: '#', icon: CalendarIcon, current: false },
   { name: 'Interim Authority (ODA', href: '#', icon: DocumentDuplicateIcon, current: false },
