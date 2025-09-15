@@ -1,5 +1,4 @@
 import Image from "next/image";
-import ResetPasswordConfirm from "./ResetPasswordConfirm";
 
 
 export default async function Page({
@@ -26,13 +25,14 @@ export default async function Page({
               className="h-35 w-auto dark:bg-white"
             />
             <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              Confirm Password Reset
+              Reset Password link sent to your email
             </h2>
+            <p className="mt-2 text-sm/6 text-gray-500 dark:text-gray-100">
+              Please check your email to reset your password.
+            </p>
           </div>
 
-          <div className="mt-10">
-            <ResetPasswordConfirm uid={uid} token={token} />
-          </div>
+          
         </div>
       </div>
 

@@ -23,10 +23,10 @@ function UsePasswordReset() {
      resetPassword(values).unwrap().then((res) => {
        
         toast.success("Request sent successfully, please check email to reset password")
-        router.push("/dashboard")
+        router.push("/forgot-password/reset-link")
       }
       ).catch((err) => {
-        toast.error("failed to send request, please try again")
+        toast.error(err.data[0] || "failed to send request, please try again")
       })
      
     }

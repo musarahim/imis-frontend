@@ -15,6 +15,7 @@ import {
   UsersIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import { useState } from 'react';
 const navigation: NavItem[] = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -69,7 +70,9 @@ function AppMenu() {
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-sky-800  pb-4">
                     <div className="flex h-16 shrink-0 items-center pb-8 pt-4 mt-4">
-                      <img
+                      <Image
+                        height={500}
+                        width={500}
                         alt="NCHE IMIS"
                         src="/images/logo.png"
                         className=" bg-white"

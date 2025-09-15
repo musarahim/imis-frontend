@@ -8,27 +8,28 @@ interface Props {
 }
 
 function ResetPasswordConfirm({ uid, token }: Props) {
-    const { onSubmit, intialValues, isLoading, validationSchema } = UsePasswordResetConfirm(uid, token);
+  const { onSubmit, intialValues, isLoading, validationSchema } =
+    UsePasswordResetConfirm(uid, token);
+
   return (
-     <Form initialValues={intialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-    <InputField
-      name="new_password"
-      label="New Password"
-      type="password"
-      Id="id_new_password"
-      required
-    />
-    <InputField
-      name="re_new_password"
-      label="Confirm New Password"
-      type="password"
-      Id="id_re_new_password"
-      required
-    />
- 
-    <SubmitButton isLoading={isLoading} title="Request Password Reset" />
-  </Form>
-  )
+    <Form initialValues={intialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+      <InputField
+        name="new_password"
+        label="New Password"
+        type="password"
+        Id="id_new_password"
+        required
+      />
+      <InputField
+        name="re_new_password"
+        label="Confirm New Password"
+        type="password"
+        Id="id_re_new_password"
+        required
+      />
+      <SubmitButton isLoading={isLoading} title="Request Password Reset" />
+    </Form>
+  );
 }
 
-export default ResetPasswordConfirm
+export default ResetPasswordConfirm;

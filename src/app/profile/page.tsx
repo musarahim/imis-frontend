@@ -1,25 +1,20 @@
 import { AppMenu } from '@/components';
 import { RequireAuth } from '@/utils';
-
-
-
-export default function Home() {
+function page() {
   return (
-     <RequireAuth>
+  <RequireAuth>
          <AppMenu />
             {/* Main content */}
     
             <div className="flex flex-col">
               <main className="py-10">
-                <div className="px-4 sm:px-6 lg:px-8">{/* Your content */}
-                  <p> Landing page content</p>
-                </div>
+                <div className="px-4 sm:px-6 lg:px-8">
+ <h1 className="text-4xl font-bold mb-4">My institution profile page</h1>
+                    </div>
               </main>
             </div>
           </RequireAuth>
-  );
+  )
 }
 
-
-
-
+export default page

@@ -13,7 +13,7 @@ type StepAProps = {
   ]
 function StepA({ onNext }: StepAProps) {
     const {validateForm} = useFormikContext();
-    const { districtOptions, isLoading } = useRegistration();
+    const { districtOptions, } = useRegistration();
     const districts: Option[] = (districtOptions || []).map(opt => ({
         ...opt,
         value: String(opt.value),

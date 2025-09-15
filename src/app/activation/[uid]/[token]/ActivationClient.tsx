@@ -1,17 +1,24 @@
+"use client";
+
+import { useActivationMutation } from "@/redux/features/authApiSlice";
 import Image from "next/image";
-import ResetPasswordConfirm from "./ResetPasswordConfirm";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
+export default function ActivationClient({ uid, token }: { uid: string; token: string }) {
+  const [activation] = useActivationMutation();
+  const router = useRouter();
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ uid: string; token: string }>;
-}) {
-  const { uid, token } = await params;
+  useEffect(() => {
+    if (!uid || !token) return;
 
-  if (!uid || !token) {
-    return <div className="text-red-500">Invalid or missing parameters.</div>;
-  }
+    activation({ uid, token })
+      .unwrap()
+      .then(() => toast.success("Account activated successfully"))
+      .catch(() => toast.error("Account activation failed"))
+      .finally(() => router.push("/auth/login"));
+  }, [uid, token, activation, router]);
 
   return (
     <div className="flex min-h-full lg:flex">
@@ -25,17 +32,15 @@ export default async function Page({
               src="/images/logo.png"
               className="h-35 w-auto dark:bg-white"
             />
-            <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              Confirm Password Reset
-            </h2>
           </div>
 
           <div className="mt-10">
-            <ResetPasswordConfirm uid={uid} token={token} />
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Please wait while we activate your account.
+            </p>
           </div>
         </div>
       </div>
-
       <div className="relative hidden flex-1 lg:block">
         <Image
           fill
