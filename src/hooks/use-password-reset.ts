@@ -20,7 +20,7 @@ function UsePasswordReset() {
     const onSubmit = (values: UserEmail) => {
      // event.preventDefault();
   
-     resetPassword(values).unwrap().then((res) => {
+     resetPassword(values).unwrap().then(() => {
        
         toast.success("Request sent successfully, please check email to reset password")
         router.push("/forgot-password/reset-link")

@@ -27,13 +27,13 @@ function UsePasswordResetConfirm(uid:string, token:string) {
   
     const onSubmit = ({new_password, re_new_password}: UserPassword) => {
      // event.preventDefault();
-     console.log(uid, token, new_password, re_new_password);
-     resetPasswordConfirm({uid,token,new_password,re_new_password}).unwrap().then((res) => {
+     resetPasswordConfirm({uid,token,new_password,re_new_password}).unwrap().then(() => {
        
         toast.success("Password reset successfully")
         router.push("/auth/login")
       }
       ).catch((err) => {
+        console.log(err);
         toast.error("Paaaword reset failed")
       })
      

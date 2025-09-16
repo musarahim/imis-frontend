@@ -10,7 +10,7 @@ type props ={
 const stepsArray = ['A','B','C']
  function RegistrationForm({...props}:props) {
   const [step, setStep] = useState('A');
-  const { intialValues, validationSchema, onSubmit } = useRegistration();
+  const { initialValues, validationSchema, onSubmit } = useRegistration();
   const currentValidationSchema = validationSchema[step];
 
   const handleNext = () => {
@@ -50,7 +50,7 @@ const stepsArray = ['A','B','C']
       <div className="space-y-12 max-h-[520px] overflow-y-auto px-3">
       
            {renderTopStepNumber()}
-        <AppForm initialValues={intialValues} onSubmit={onSubmit} validationSchema={currentValidationSchema} >
+        <AppForm initialValues={initialValues} onSubmit={onSubmit} validationSchema={currentValidationSchema} >
 
           {step === 'A' && <StepA onNext={handleNext} />}
           {step === 'B' && <StepB onNext={handleNext} onBack={handleBack} />}

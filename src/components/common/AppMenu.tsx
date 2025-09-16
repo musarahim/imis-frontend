@@ -16,9 +16,10 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 const navigation: NavItem[] = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: true },
+  { name: 'Home', href: '/', icon: HomeIcon, current: true },
   { name: 'Classification & Registration', href: '#', icon: UsersIcon, current: false },
   { name: 'Provisional License (OTI)', href: '#', icon: FolderIcon, current: false },
   { name: 'Provisional License (ODA)', href: '#', icon: CalendarIcon, current: false },
@@ -46,6 +47,8 @@ const navigation: NavItem[] = [
 
 function AppMenu() {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
+    const pathname = usePathname();
+    const current = navigation.find((nav)=> nav.href === pathname)
   return (
     <>
    <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
@@ -86,9 +89,10 @@ function AppMenu() {
             </Dialog>
     
             {/* Static sidebar for desktop */}
-            <SideNavigation navigation={navigation} />
+            <SideNavigation navigation={navigation} current={!!current} />
               <div className="lg:pl-72">
               <UserMenu  setSidebarOpen={()=>setSidebarOpen(true)} />
+                
     </div>
     </>
   )

@@ -4,6 +4,7 @@ import { logout as setLogout } from "@/redux/features/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Bars3Icon, BellIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 import Link from "next/link";
 
 
@@ -16,10 +17,9 @@ function UserMenu({ setSidebarOpen }: UserMenuProps) {
  const [logout] = useLogoutMutation();
  const {data: user} = useRetrieveUserQuery();
  const handleLogout = () => {
-  logout(undefined).unwrap().then((res:any) => {
+  logout(undefined).unwrap().then(() => {
     dispatch(setLogout());
   });
-  setLogout();
  }
   return (
     <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
@@ -49,14 +49,16 @@ function UserMenu({ setSidebarOpen }: UserMenuProps) {
                         <Menu as="div" className="relative">
                           <MenuButton className="-m-1.5 flex items-center p-1.5">
                             <span className="sr-only">Open user menu</span>
-                            <img
+                            <Image
+                              width={32}
+                              height={32}
                               alt=""
-                              src={user?.profile_pic}
+                              src={user?.profile_pic ?? "/images/user.jpg"}
                               className="size-8 rounded-full bg-gray-50"
                             />
                             <span className="hidden lg:flex lg:items-center">
                               <span aria-hidden="true" className="ml-4 text-sm/6 font-semibold text-gray-900">
-                                {user?.first_name} {user?.last_name}
+                                {user?.username} 
                               </span>
                               <ChevronDownIcon aria-hidden="true" className="ml-2 size-5 text-gray-400" />
                             </span>

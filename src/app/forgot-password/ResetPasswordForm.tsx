@@ -8,7 +8,7 @@ function ResetPasswordForm() {
     const { onSubmit, intialValues, isLoading,validationSchema } = UsePasswordReset();
 
     return (
-      <Form initialValues={intialValues} onSubmit={onSubmit} validationSchema={validationSchema} className='space-y-6'>
+      <Form initialValues={intialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       <InputField
         name="email"
         label="Email"

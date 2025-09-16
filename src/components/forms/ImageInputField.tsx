@@ -11,7 +11,7 @@ interface ImageUploaderProps {
 function ImageInputField({ className, label, name }: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [field, meta] = useField(name);
-  const { setFieldValue } = useFormikContext<any>();
+  const { setFieldValue } = useFormikContext<unknown>();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {

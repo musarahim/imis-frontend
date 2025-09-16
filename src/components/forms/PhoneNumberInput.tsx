@@ -1,7 +1,9 @@
-"use client"
-import { useField } from 'formik';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+"use client";
+
+import { useField } from "formik";
+import { ChangeEvent } from "react";
+import PhoneInput, { CountryData } from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 interface Props {
   name: string;
@@ -11,26 +13,34 @@ interface Props {
 
 function PhoneNumberInput({ name, label, required = false }: Props) {
   const [field, meta, helpers] = useField(name);
-  const handleOnChange = (value: string, data: any, event: any, formattedValue: string) => {
-    // phone will be in the format +256XXXXXXXXXX
+
+  const handleOnChange = (
+    value: string,
+    data: Record<string, unknown> | CountryData,
+    event: ChangeEvent<HTMLInputElement>,
+    formattedValue: string
+  ) => {
+    // Save the phone number in full international format: +256XXXXXXXXXX
     helpers.setValue(formattedValue);
-    
-  }
+  };
 
   return (
     <div className="w-full">
-      <label htmlFor={name} className="block text-sm/6 font-medium text-gray-900">
+      <label
+        htmlFor={name}
+        className="block text-sm/6 font-medium text-gray-900"
+      >
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <div className="mt-2 grid grid-cols-1">
         <PhoneInput
-          country={'ug'}
+          country="ug"
           value={field.value}
-          prefix='+'
+          prefix="+"
           onChange={handleOnChange}
           inputProps={{
             name: field.name,
-            required: required,
+            required,
             autoFocus: true,
             onBlur: field.onBlur,
             id: name,
@@ -40,7 +50,7 @@ function PhoneNumberInput({ name, label, required = false }: Props) {
         />
       </div>
       {meta.touched && meta.error ? (
-        <small className='text-sm text-red-600'>{meta.error}</small>
+        <small className="text-sm text-red-600">{meta.error}</small>
       ) : null}
     </div>
   );

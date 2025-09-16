@@ -2,18 +2,23 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import cn from 'classnames';
+import Image from 'next/image';
+import Link from 'next/link';
 
 
 
-
-function SideNavigation({navigation}: {navigation: NavItem[]}) {
+function SideNavigation({navigation, current}: {navigation: NavItem[], current:boolean}) {
+  console.log(current, "current path")
   return (
+     
  <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
               {/* Sidebar component, swap this element with another sidebar if you like */}
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-sky-800  pb-4">
                 <div className="flex h-16 shrink-0 items-center pb-8 pt-4 mt-4">
-                  <img
-                    alt="Your Company"
+                  <Image
+                    width={290}
+                    height={40}
+                    alt="UNCHE IMIS"
                     src="/images/logo.png"
                     className=" bg-white"
                   />
@@ -25,7 +30,7 @@ function SideNavigation({navigation}: {navigation: NavItem[]}) {
                               {navigation.map((item) => (
                                 <li key={item.name}>
                                   {!item.children ? (
-                                    <a
+                                    <Link
                                       href={item.href}
                                       className={cn(
                                         item.current ? 'bg-sky-900' : 'hover:bg-sky-900',
@@ -34,7 +39,7 @@ function SideNavigation({navigation}: {navigation: NavItem[]}) {
                                     >
                                       <item.icon aria-hidden="true" className="size-6 shrink-0 text-gray-50" />
                                       {item.name}
-                                    </a>
+                                    </Link>
                                   ) : (
                                     <Disclosure as="div">
                                       <DisclosureButton
@@ -78,6 +83,7 @@ function SideNavigation({navigation}: {navigation: NavItem[]}) {
                       </nav>
               </div>
             </div>
+            
   )
 }
 

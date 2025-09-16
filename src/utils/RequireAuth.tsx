@@ -2,7 +2,6 @@
 import { Spinner } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { redirect } from "next/navigation";
-import { toast } from "react-toastify";
 
 interface Props {
 	children: React.ReactNode;
@@ -20,7 +19,7 @@ export default function RequireAuth({ children }: Props) {
 		);
 	}
 	if (!isAuthenticated) {
-		toast.error("You need to login to access this page");
+		//toast.error("You need to login to access this page");
 		redirect('/auth/login');
 	}
 

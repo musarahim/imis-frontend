@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
-function useregistration() {
+function useRegistration() {
     const [register, { isLoading }] = useRegisterMutation();
     const { data: districts } = useGetDistrictsQuery();
     const districtOptions = districts?.map((district) => ({
@@ -15,7 +15,7 @@ function useregistration() {
     }))
     const router = useRouter();
     
-    const intialValues = {
+    const initialValues = {
       email: "",
       alternative_email: "",
       username: "",
@@ -24,7 +24,7 @@ function useregistration() {
       password: "",
       re_password: "",
       name: "",
-     district: "",
+      district: "",
       institution_type: "",
       landline: "",
       contact_person: "",
@@ -33,7 +33,7 @@ function useregistration() {
     alternative_contact_person_phone: "",
     logo: "",
     };
-    const validationSchema : Record<string, Yup.ObjectSchema<any>> = {A:Yup.object({
+    const validationSchema : Record<string, Yup.AnyObjectSchema> = {A:Yup.object({
 
         name: Yup.string().required("Institution name is required"),
         district: Yup.string().required("District is required").notOneOf([''], 'Please select an option'),
@@ -95,7 +95,7 @@ function useregistration() {
       if(values.logo instanceof File) {
         logoBase64 = await fileToBase64(values.logo);
       }
-      var destructured_object = {
+      const destructured_object = {
         email:values.email,
         username: values.username,
         phone: values.phone,
@@ -120,17 +120,18 @@ function useregistration() {
     toast.success("Registration successful");
     router.push("/auth/login");
   } catch (err) {
+    console.error("Registration failed:", err);
     toast.error("Registration failed");
   }
 };
   
   return {
     isLoading,
-    intialValues,
+    initialValues,
     validationSchema,
     onSubmit,
     districtOptions
   }
 }
 
-export default useregistration;
+export default useRegistration;
