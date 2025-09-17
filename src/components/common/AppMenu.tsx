@@ -16,16 +16,16 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+
 import { useState } from 'react';
 const navigation: NavItem[] = [
-  { name: 'Home', href: '/', icon: HomeIcon, current: true },
-  { name: 'Classification & Registration', href: '#', icon: UsersIcon, current: false },
+  { name: 'Home', href: '/', icon: HomeIcon },
+  { name: 'Classification & Registration', href: '#', icon: UsersIcon },
   { name: 'Provisional License (OTI)', href: '#', icon: FolderIcon, current: false },
   { name: 'Provisional License (ODA)', href: '#', icon: CalendarIcon, current: false },
   { name: 'Interim Authority (ODA', href: '#', icon: DocumentDuplicateIcon, current: false },
   { name: 'Grant of a charter (ODAI)', href: '#', icon: ChartPieIcon, current: false },
-  { name: 'Interim Authority (University)', href: '#', icon: ChartPieIcon, current: false },
+  { name: 'Interim Authority (University)', href: '/interim-authority', icon: ChartPieIcon },
    { name: 'Provisional License (University)', href: '#', icon: CalendarIcon, current: false },
    { name: 'Grant of a charter (University)', href: '#', icon: ChartPieIcon, current: false },
    { name: 'Program Accreditation', href: '#', icon: ChartPieIcon, current: false },
@@ -47,8 +47,8 @@ const navigation: NavItem[] = [
 
 function AppMenu() {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
-    const pathname = usePathname();
-    const current = navigation.find((nav)=> nav.href === pathname)
+    
+   
   return (
     <>
    <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
@@ -89,7 +89,7 @@ function AppMenu() {
             </Dialog>
     
             {/* Static sidebar for desktop */}
-            <SideNavigation navigation={navigation} current={!!current} />
+            <SideNavigation navigation={navigation}  />
               <div className="lg:pl-72">
               <UserMenu  setSidebarOpen={()=>setSidebarOpen(true)} />
                 

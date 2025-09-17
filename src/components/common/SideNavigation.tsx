@@ -4,11 +4,14 @@ import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import cn from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 
-
-function SideNavigation({navigation, current}: {navigation: NavItem[], current:boolean}) {
-  console.log(current, "current path")
+function SideNavigation({navigation}: {navigation: NavItem[]}) {
+  const pathname = usePathname();
+  const current = navigation.find((nav)=> nav.href === pathname)
+  console.log({ href: current?.href}, "current")
+  console.log(pathname)
   return (
      
  <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
@@ -33,7 +36,7 @@ function SideNavigation({navigation, current}: {navigation: NavItem[], current:b
                                     <Link
                                       href={item.href}
                                       className={cn(
-                                        item.current ? 'bg-sky-900' : 'hover:bg-sky-900',
+                                        pathname === item.href ? 'bg-sky-900' : 'hover:bg-sky-900',
                                         'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white',
                                       )}
                                     >
@@ -44,7 +47,7 @@ function SideNavigation({navigation, current}: {navigation: NavItem[], current:b
                                     <Disclosure as="div">
                                       <DisclosureButton
                                         className={cn(
-                                          item.current ? 'bg-sky-900' : 'hover:bg-sky-900',
+                                          pathname === item.href ? 'bg-sky-900' : 'hover:bg-sky-900',
                                           'group flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm/6 font-semibold text-white',
                                         )}
                                       >
@@ -63,7 +66,7 @@ function SideNavigation({navigation, current}: {navigation: NavItem[], current:b
                                               as="a"
                                               href={subItem.href}
                                               className={cn(
-                                                subItem.current ? 'bg-sky-900' : 'hover:bg-sky-900',
+                                                pathname === subItem.href ? 'bg-sky-900' : 'hover:bg-sky-900',
                                                 'block rounded-md py-2 pr-2 pl-9 text-sm/6 text-white',
                                               )}
                                             >

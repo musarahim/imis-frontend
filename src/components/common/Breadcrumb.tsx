@@ -1,4 +1,4 @@
-import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid';
+import { HomeIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 
 interface Item{
@@ -14,33 +14,41 @@ interface breadcrumbProps {
 function Breadcrumb({ pages }: breadcrumbProps) {
   return (
     
-     <nav className="flex py-3 sm:px-3 mb-6 mt-6" aria-label="Breadcrumb">
-          <ol role="list" className="flex items-center space-x-6">
-            <li>
-              <div>
-                <Link href="/" className="text-gray-400 hover:text-gray-500">
-                  <HomeIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-                  <span className="sr-only">Home</span>
-                </Link>
-              </div>
-            </li>
-            {pages.map((page) => (
-              <li key={page.name}>
-                <div className="flex items-center">
-                  <ChevronRightIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                  <Link
-                    href={page.href}
-                    className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-                    aria-current={page.current ? 'page' : undefined}
-                  >
-                    {page.name}
-                  </Link>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </nav>
-        
+         <nav aria-label="Breadcrumb" className="flex border-b border-gray-200 bg-white">
+              <ol role="list" className="mx-auto flex w-full max-w-(--breakpoint-xl) space-x-4 px-4 sm:px-6 lg:px-8">
+                <li className="flex">
+                  <div className="flex items-center">
+                    <Link href="/" className="text-gray-400 hover:text-gray-500">
+                      <HomeIcon aria-hidden="true" className="size-5 shrink-0" />
+                      <span className="sr-only">Home</span>
+                    </Link>
+                  </div>
+                </li>
+                {pages.map((page) => (
+                  <li key={page.name} className="flex">
+                    <div className="flex items-center">
+                      <svg
+                        fill="currentColor"
+                        viewBox="0 0 24 44"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                        className="h-full w-6 shrink-0 text-gray-200"
+                      >
+                        <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                      </svg>
+                      <Link
+                        href={page.href}
+                        aria-current={page.current ? 'page' : undefined}
+                        className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                      >
+                        {page.name}
+                      </Link>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+      
   )
 }
 

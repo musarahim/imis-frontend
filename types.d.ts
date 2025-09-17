@@ -6,7 +6,7 @@ type NavItem = {
   name: string
   href: string
   icon: ElementType
-  current: boolean,
+  current?: boolean,
   children?: { name: string; href: string, current:boolean }[]
 }
 

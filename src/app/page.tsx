@@ -12,7 +12,7 @@ export default function Home() {
             <div className="flex flex-col lg:pl-72">
               <main className="py-10">
                 <div className="px-4 sm:px-6 lg:px-8">{/* Your content */}
-                  <p> Landing page content</p>
+                  <p> Institution Dashboard</p>
                 </div>
               </main>
             </div>
