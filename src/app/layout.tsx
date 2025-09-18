@@ -1,10 +1,10 @@
 import { ThemeProvider } from '@/components/common/theme-provider';
+import { SidebarProvider } from "@/components/ui/sidebar";
 import Provider from '@/redux/provider';
 import { Setup } from '@/utils';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,7 +29,7 @@ export default function RootLayout({
     //className="h-full bg-white"
     <html lang="en"  suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased [--header-height:calc(--spacing(14))]`}
       >
          <ThemeProvider
             attribute="class"
@@ -39,8 +39,9 @@ export default function RootLayout({
           >
       <Provider>
         <Setup />
+        <SidebarProvider className="flex flex-col">
         {children}
-        
+        </SidebarProvider>
       </Provider>
       </ThemeProvider>
       </body>

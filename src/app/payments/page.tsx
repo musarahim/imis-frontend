@@ -1,8 +1,10 @@
 "use server"
-import { DataTable } from "@/components/common/data-table"
-import { Button } from '@/components/ui/button'
-import { columns, Payment } from "./columns"
-
+import { AppSidebar } from "@/components/app-sidebar";
+import { DataTable } from "@/components/common/data-table";
+import { SiteHeader } from "@/components/site-header";
+import { Button } from '@/components/ui/button';
+import { SidebarInset } from "@/components/ui/sidebar";
+import { columns, Payment } from "./columns";
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.
   return [
@@ -70,9 +72,20 @@ export default async function Page() {
   const data = await getData()
 
   return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
-      <Button>Button</Button>
-    </div>
+    <>
+  <SiteHeader />
+      <AppSidebar />
+     <div className="flex flex-1">
+          <AppSidebar />
+          <SidebarInset>
+            <div className="flex flex-1 flex-col gap-4 p-4">
+           <DataTable columns={columns} data={data} />
+      <Button size={"sm"}>Button</Button>
+           </div>
+          </SidebarInset>
+        </div>
+     </>
+
+      
   )
 }
