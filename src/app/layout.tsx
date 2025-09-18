@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/common/theme-provider';
 import Provider from '@/redux/provider';
 import { Setup } from '@/utils';
 import type { Metadata } from "next";
@@ -25,15 +26,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full bg-white">
+    //className="h-full bg-white"
+    <html lang="en"  suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
       >
+         <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
       <Provider>
         <Setup />
         {children}
         
       </Provider>
+      </ThemeProvider>
       </body>
     </html>
   );
