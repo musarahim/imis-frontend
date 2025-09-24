@@ -47,7 +47,7 @@ const stepsArray = ['A','B','C']
 
   return (
     
-      <div className="space-y-12 max-h-[520px] overflow-y-auto px-3">
+      <div className="space-y-12 max-h-[70vh] overflow-y-auto px-3">
       
            {renderTopStepNumber()}
         <AppForm initialValues={initialValues} onSubmit={onSubmit} validationSchema={currentValidationSchema} >

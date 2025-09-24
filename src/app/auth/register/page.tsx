@@ -3,7 +3,7 @@ import Link from "next/link";
 import RegistrationForm from "./RegistrationForm";
 function page() {
   return (
-    <div className="flex min-h-full lg:flex">
+    <div className="flex min-h-screen lg:flex">
         <div className="flex flex-1 flex-col justify-start px-8 py-3 h-screen  ">
           <div className="mx-auto w-full h-full flex flex-col justify-start">
   <div>

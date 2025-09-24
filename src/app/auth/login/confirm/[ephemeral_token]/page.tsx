@@ -5,7 +5,7 @@ import LoginConfirmForm from "./LoginConfirmForm";
 async function page({params,}:{params:Promise<{ephemeral_token:string}>;}) {
     const { ephemeral_token } = await params;
   return (
-    <div className="flex min-h-full lg:flex">
+    <div className="flex min-h-screen lg:flex">
         <div className="flex flex-1 flex-col justify-center px-8 py-12 ">
           <div className="mx-auto w-full justify-center max-w-md">
             <div>

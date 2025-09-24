@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 
 function page() {
   return (
-    <div className="flex min-h-full lg:flex">
+    <div className="flex min-h-screen lg:flex">
         <div className="flex flex-1 flex-col justify-center px-8 py-12 ">
           <div className="mx-auto w-full justify-center max-w-md">
             <div>

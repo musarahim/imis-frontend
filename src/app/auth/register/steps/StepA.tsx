@@ -46,7 +46,7 @@ function StepA({ onNext }: StepAProps) {
 
         
             <div className="sm:col-span-3">
-                <SelectField name="district" options={districts} label="District" required />
+                <SelectField name="district" options={districts} label="District" placeholder="Select District" required />
              
             </div>
 
