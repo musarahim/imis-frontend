@@ -2,7 +2,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { DataTable } from "@/components/common/data-table";
 import { SiteHeader } from "@/components/site-header";
-import { Button } from '@/components/ui/button';
 import { SidebarInset } from "@/components/ui/sidebar";
 import { columns, Payment } from "./columns";
 async function getData(): Promise<Payment[]> {
@@ -79,8 +78,8 @@ export default async function Page() {
           <AppSidebar />
           <SidebarInset>
             <div className="flex flex-1 flex-col gap-4 p-4">
-           <DataTable columns={columns} data={data} />
-      <Button size={"sm"}>Button</Button>
+           <DataTable columns={columns} data={data} addHref="/payments/new" addText="New Payment" />
+     
            </div>
           </SidebarInset>
         </div>

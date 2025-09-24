@@ -11,16 +11,22 @@ export default function Home() {
    
 
              <RequireAuth>
-    <SiteHeader items={[    { label: "Home", href: "/" },
-    { label: "Lincenses", href: "/" },
-    { label: "Interim Authority (University)" }, // current page
+    <SiteHeader items={[    { label: "Dashboard", href: "/" },
+    
 ]} />
           <AppSidebar />
          <div className="flex flex-1">
               <AppSidebar />
               <SidebarInset>
-                <div className="flex flex-1 flex-col gap-4 p-4">
-            <p> Institution Dashboard</p>
+ <div className="flex flex-1 flex-col gap-4 p-4">
+                    <div className="flex flex-1 flex-col gap-4 p-4">
+              <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+                <div className="bg-muted/100 aspect-video rounded-xl" />
+                <div className="bg-muted/100 aspect-video rounded-xl" />
+                <div className="bg-muted/100 aspect-video rounded-xl" />
+              </div>
+              <div className="bg-muted/100 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
+            </div>
                </div>
               </SidebarInset>
         

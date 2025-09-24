@@ -3,24 +3,19 @@ import { DataTableColumnHeader } from "@/components/common/data-table-column-hea
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { LinkAsBadge } from "@/components/ui/link-as-badge"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-export const columns: ColumnDef<Payment>[] = [
+
+export const columns: ColumnDef<IntrimAuthority>[] = [
     
   {
     id: "select",
@@ -45,34 +40,36 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
     {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "application_code",
+    header: "Application Code",
+  },
+  {
+    accessorKey: "institution",
+    header: "Institution",
   },
  
   {
-    accessorKey: "email",
+    accessorKey: "application_date",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
+      <DataTableColumnHeader column={column} title="Application Date" />
     ),
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "status",
+    header: () => <div className="text-center">Status</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
- 
-      return <div className="text-right font-medium">{formatted}</div>
+      return (
+        <div className="flex justify-center">
+      <LinkAsBadge href="#" text={row.original.status} className="bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600" />
+        </div>
+    )
     },
   },
   {
     id: "actions",
     header: () => <div className="text-center">Action</div>,
     cell: ({ row }) => {
-      const payment = row.original
+      const application = row.original
  
       return (
         <div className="flex justify-center">
@@ -84,15 +81,16 @@ export const columns: ColumnDef<Payment>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(String(application.id))}
             >
-              Copy payment ID
+              View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+             <DropdownMenuSeparator />
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         </div>

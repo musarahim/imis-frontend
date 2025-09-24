@@ -104,3 +104,24 @@ interface District {
   name: string;
   code: string;
 }
+
+
+interface IntrimAuthority {
+  id: number,
+  application_code?: string,
+  has_title_deed: boolean,
+  names_of_promoters: string,
+  vision: string,
+  mission: string,
+  objectives: string,
+  philosophy: string,
+  governance_structure: string,
+  human_resources: string,
+  source_of_finance: string,
+  action_plan: string,
+  infrastructure: string,
+  programmes: string,
+  status: "pending" | "approved" | "rejected" | "draft" | "submitted" | "pending",
+  institution: string,
+  application_date?:string
+}

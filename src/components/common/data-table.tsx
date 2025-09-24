@@ -1,6 +1,7 @@
 "use client"
 
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
+import { LinkButton } from "@/components/ui/link-button";
 import {
   Table,
   TableBody,
@@ -8,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -20,24 +21,29 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table"
-import * as React from "react"
-import { DataTablePagination } from "./data-table-pagination"
-import { DataTableViewOptions } from "./data-table-view-options "
+} from "@tanstack/react-table";
+import * as React from "react";
+import { DataTablePagination } from "./data-table-pagination";
+import { DataTableViewOptions } from "./data-table-view-options ";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
+  addHref?: string,
+  addText?: string
 }
 
 export function DataTable<TData, TValue>({
   
   columns,
   data,
+  addHref,
+  addText
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
+
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
@@ -71,8 +77,17 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        
+      
+        <div className="ml-auto mr-2" >
+            {addHref && (
+          
+          <LinkButton href={addHref} linkText={addText || "Add New"} />
+             )}
+      
+        </div>
+     
         <DataTableViewOptions table={table} />
+        
       </div>
     <div className="overflow-hidden rounded-md border">
       <Table>

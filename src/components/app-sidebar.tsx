@@ -1,7 +1,6 @@
 "use client"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
@@ -14,16 +13,18 @@ import {
 } from "@/components/ui/sidebar"
 import {
   BookOpen,
-  Bot,
+  Building,
   Frame,
+  GraduationCap,
+  HomeIcon,
   LifeBuoy,
   Map,
   PieChart,
   Send,
-  Settings2,
-  SquareTerminal
+  Settings2
 } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import * as React from "react"
 
 const data = {
@@ -34,65 +35,98 @@ const data = {
   },
   navMain: [
     {
-      title: "Playground",
+      title: "Dashboard",
+      url: "/",
+      icon: HomeIcon,
+      isActive: true
+    },
+    
+    {
+      title: "Institution",
       url: "#",
-      icon: SquareTerminal,
+      icon: Building,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Institution Details",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "Programmes",
           url: "#",
         },
         {
-          title: "Settings",
+          title: "Licenses",
+          url: "#",
+        },
+        {
+          title: "Our Programmes",
           url: "#",
         },
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
+      title: "License Applications",
       url: "#",
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
+          title: "Classification & Registration",
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "Provisional License (OTI)",
           url: "#",
         },
         {
-          title: "Tutorials",
+          title: "Provisional License (ODAI)",
           url: "#",
         },
         {
-          title: "Changelog",
+          title: "Interim Authority (ODAI)",
           url: "#",
         },
+        {
+          title: "Grant of a charter (ODAI)",
+          url: "#",
+        },
+        {
+          title: "Interim Authority (University)'",
+          url: "/interim-authority",
+        },
+        {
+          title: "Provisional License (University)",
+          url: "#",
+        },
+        {
+          title: "Grant of a charter (University)",
+          url: "#",
+        },
+        
+      ],
+    },
+    {
+      title: "Programmes Accreditation",
+      url: "#",
+      icon: GraduationCap,
+      items: [
+        {
+          title: "Accreditation Applications",
+          url: "#",
+        },
+       
+      ],
+    },
+    {
+      title: "Institution Affiliation",
+      url: "#",
+      icon: GraduationCap,
+      items: [
+        {
+          title: "Accreditation Applications",
+          url: "#",
+        },
+       
       ],
     },
     {
@@ -159,22 +193,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="px-0 py-0">
-             <a href="#">
+             <Link href="/">
       <Image
                 height={500}
                 width={500}
                 alt="NCHE IMIS"
                 src="/images/logo2.png"
-                className=" object-cover bg-white rounded-lg  w-full"
+                className="object-cover bg-white rounded-lg  w-full"
                 />
-                 </a>
+                 </Link>
            
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+       
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

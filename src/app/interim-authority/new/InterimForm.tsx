@@ -1,3 +1,4 @@
+
 "use client";
 import { AppForm } from "@/components/forms";
 import { useRegistration } from "@/hooks";
@@ -8,7 +9,7 @@ type props ={
 }
 
 const stepsArray = ['A','B','C']
- function RegistrationForm({...props}:props) {
+ function InterimForm({...props}:props) {
   const [step, setStep] = useState('A');
   const { initialValues, validationSchema, onSubmit } = useRegistration();
   const currentValidationSchema = validationSchema[step];
@@ -63,4 +64,4 @@ const stepsArray = ['A','B','C']
   )
 }
 
-export default RegistrationForm;
+export default InterimForm;
