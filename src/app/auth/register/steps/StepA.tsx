@@ -23,7 +23,7 @@ function StepA({ onNext }: StepAProps) {
         if (Object.keys(errors).length === 0) {
             onNext();
         } else {
-            toast.error("Make sure all required fields are filled.");
+            toast.error("Make sure all required fields are filled and valid.");
             console.log(errors);
         }
     };  
@@ -52,8 +52,8 @@ function StepA({ onNext }: StepAProps) {
 
             <div className="sm:col-span-3">
             
-              <SelectField name="institution_type" options={institution_types} label="Institution Type" required />
-            </div>
+              <SelectField name="institution_type" options={institution_types} label="Institution Type" placeholder="Select Institution Type" required />
+            </div> 
              <div className="sm:col-span-3">
                 <PhoneNumberInput name="phone" label="Phone Number (Mobile)" required   />
             </div>

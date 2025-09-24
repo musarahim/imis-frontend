@@ -1,6 +1,5 @@
 "use client"
 import { InputField, PhoneNumberInput } from "@/components/forms";
-import { PhoneInput } from '@/components/ui/phone-input';
 import { useFormikContext } from "formik";
 import { toast } from "react-toastify";
 type StepAProps = {
@@ -14,7 +13,7 @@ function StepA({ onNext }: StepAProps) {
             onNext();
             //submit form
         } else {
-            toast.error("Make sure all required fields are filled.");
+            toast.error("Make sure all required fields are filled and valid.");
             console.log(errors);
         }
     };  
@@ -52,12 +51,6 @@ function StepA({ onNext }: StepAProps) {
         
         <PhoneNumberInput name="mobile" label="Mobile" required />
         </div>
-          <div className="sm:col-span-3">
-            <PhoneInput
-              value=""
-              prefix="+"
-              onChange={() => {}} />
-              </div>
 
 
       </div>

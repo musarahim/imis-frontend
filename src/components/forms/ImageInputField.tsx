@@ -40,7 +40,7 @@ function ImageInputField({ className, label, name }: ImageUploaderProps) {
   return (
     <div
     className={`relative border-2 border-dashed border-gray-300 rounded-lg p-2 text-center cursor-pointer
-                hover:bg-gray-50 hover:border-sky-400 transition-colors duration-300
+                hover:bg-gray-50 hover:border-sky-400 transition-colors duration-300 dark:hover:bg-gray-800
                 flex items-center justify-center max-w-32 h-32 ${className}`}
     onClick={handleBoxClick}
   >

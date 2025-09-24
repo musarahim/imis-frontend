@@ -34,7 +34,7 @@ const stepsArray = ['A','B','C']
         return (
            <section className="mt-2 mb-4 flex justify-between">
             {stepsArray.map((item, index) => (
-                <div key={index} className={`w-8 h-8 flex justify-center items-center border-2 border-secondary rounded-full cursor-pointer ${
+                <div key={index} className={`w-8 h-8 flex justify-center items-center border-2 border-primary rounded-full cursor-pointer ${
                     item === step ? 'bg-primary text-white' : ''
                   }`}
                  // onClick={() => setStep(item)}
