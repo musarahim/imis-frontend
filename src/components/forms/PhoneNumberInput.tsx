@@ -1,9 +1,7 @@
 "use client";
 
+import { PhoneInput } from "@/components/ui/phone-input";
 import { useField } from "formik";
-import { ChangeEvent } from "react";
-import PhoneInput, { CountryData } from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 
 interface Props {
   name: string;
@@ -12,17 +10,7 @@ interface Props {
 }
 
 function PhoneNumberInput({ name, label, required = false }: Props) {
-  const [field, meta, helpers] = useField(name);
-
-  const handleOnChange = (
-    value: string,
-    data: Record<string, unknown> | CountryData,
-    event: ChangeEvent<HTMLInputElement>,
-    formattedValue: string
-  ) => {
-    // Save the phone number in full international format: +256XXXXXXXXXX
-    helpers.setValue(formattedValue);
-  };
+  const [field, meta, helpers] = useField<string>(name);
 
   return (
     <div className="w-full">
@@ -32,23 +20,27 @@ function PhoneNumberInput({ name, label, required = false }: Props) {
       >
         {label} {required && <span className="text-red-500">*</span>}
       </label>
-      <div className="mt-2 grid grid-cols-1">
+
+      <div className="mt-2">
         <PhoneInput
-          country="ug"
-          value={field.value}
-          prefix="+"
-          onChange={handleOnChange}
-          inputProps={{
-            name: field.name,
-            required,
-            autoFocus: true,
-            onBlur: field.onBlur,
-            id: name,
-          }}
-          inputClass="!w-full block rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 !focus:outline-2 !focus:-outline-offset-2 !focus:outline-sky-600 sm:text-sm/6 dark:bg-gray-700 dark:text-gray-50 dark:placeholder:text-gray-400 dark:outline-gray-600 dark:focus:outline-sky-500"
-          containerClass="!w-full"
+          /** react-phone-number-input expects ISO-3166 alpha-2 in UPPERCASE */
+          defaultCountry="UG"
+          /** value should be an E.164 string like "+256..." or "" */
+          value={field.value || ""}
+          /** your wrapper already coerces undefined -> "" */
+          onChange={(val) => helpers.setValue((val as string) || "")}
+          /** forward accessibility / form props to the underlying input */
+          name={field.name}
+          id={name}
+          required={required}
+          onBlur={field.onBlur}
+          /** optional: let users type with international prefix */
+          international
+          /** optional: placeholder */
+          placeholder="+256 712 345678"
         />
       </div>
+
       {meta.touched && meta.error ? (
         <small className="text-sm text-red-600">{meta.error}</small>
       ) : null}

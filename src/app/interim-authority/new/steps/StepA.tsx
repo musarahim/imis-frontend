@@ -1,5 +1,6 @@
 "use client"
 import { InputField, PhoneNumberInput } from "@/components/forms";
+import { PhoneInput } from '@/components/ui/phone-input';
 import { useFormikContext } from "formik";
 import { toast } from "react-toastify";
 type StepAProps = {
@@ -51,6 +52,13 @@ function StepA({ onNext }: StepAProps) {
         
         <PhoneNumberInput name="mobile" label="Mobile" required />
         </div>
+          <div className="sm:col-span-3">
+            <PhoneInput
+              value=""
+              prefix="+"
+              onChange={() => {}} />
+              </div>
+
 
       </div>
       <div className="mt-6 flex items-center justify-end gap-x-6 border-t  border-gray-900/10  dark:border-gray-400">
