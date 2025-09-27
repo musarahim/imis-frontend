@@ -15,7 +15,7 @@ const LoginConfirmForm: React.FC<Props> = ({ ephemeral_token }) => {
       name="code"
       label="Code"
       type="text"
-      Id='id_code'
+      id='id_code'
       required
     />
      <p className="mt-3 mb-2 text-sm leading-6 text-right text-gray-500 dark:text-gray-100">

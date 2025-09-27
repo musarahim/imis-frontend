@@ -5,7 +5,10 @@ const commonApiSlice = apiSlice.injectEndpoints({
     getDistricts: builder.query<District[], void>({
       query: () => "/common/districts/",
     }),
+    getRegions: builder.query<Region[], void>({
+      query: () => "/common/regions/",
+    }),
   }),
 });
 
-export const { useGetDistrictsQuery } = commonApiSlice;
+export const { useGetDistrictsQuery, useGetRegionsQuery } = commonApiSlice;

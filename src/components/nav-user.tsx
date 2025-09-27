@@ -52,14 +52,14 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:text-gray-600 text-white"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user?.profile_pic ?? "/images/user.jpg"} alt={user?.username} />
                 <AvatarFallback className="rounded-lg">NC</AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user?.username}</span>
+              <div className="grid flex-1 text-left text-sm leading-tight  ">
+                <span className="truncate font-medium ">{user?.username}</span>
                 
               </div>
               <ChevronsUpDown className="ml-auto size-4" />

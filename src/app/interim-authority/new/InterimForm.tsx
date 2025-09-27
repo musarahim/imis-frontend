@@ -1,7 +1,5 @@
 
 "use client";
-import { AppForm } from "@/components/forms";
-import { useRegistration } from "@/hooks";
 import { useState } from "react";
 import { StepA, StepB, StepC } from "./steps";
 type props ={
@@ -11,8 +9,7 @@ type props ={
 const stepsArray = ['A','B','C']
  function InterimForm({...props}:props) {
   const [step, setStep] = useState('A');
-  const { initialValues, validationSchema, onSubmit } = useRegistration();
-  const currentValidationSchema = validationSchema[step];
+ 
 
   const handleNext = () => {
     if (step === 'A') {
@@ -51,13 +48,13 @@ const stepsArray = ['A','B','C']
       <div className="space-y-12 max-h-[520px] overflow-y-auto px-3">
       
            {renderTopStepNumber()}
-        <AppForm initialValues={initialValues} onSubmit={onSubmit} validationSchema={currentValidationSchema} >
+        <div >
 
           {step === 'A' && <StepA onNext={handleNext} />}
           {step === 'B' && <StepB onNext={handleNext} onBack={handleBack} />}
           {step === 'C' && <StepC  onBack={handleBack} />}
 
-        </AppForm>
+        </div>
         
       </div>
 

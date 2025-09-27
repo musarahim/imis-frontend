@@ -44,7 +44,7 @@ function page() {
             blurDataURL="/images/login_bg.png"
             alt=""
             src="/images/login_bg.png"
-            className="absolute inset-0 size-full object-cover"
+            className="absolute inset-0 size-auto object-cover"
           />
         </div>
       </div>

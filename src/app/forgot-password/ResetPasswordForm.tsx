@@ -13,7 +13,7 @@ function ResetPasswordForm() {
         name="email"
         label="Email"
         type="email"
-        Id="id_email"
+        id="id_email"
         required
       />
        <p className="my-3 py-3 text-sm leading-6 text-right text-gray-500">

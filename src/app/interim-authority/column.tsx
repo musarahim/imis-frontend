@@ -3,11 +3,11 @@ import { DataTableColumnHeader } from "@/components/common/data-table-column-hea
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { LinkAsBadge } from "@/components/ui/link-as-badge"
 import { ColumnDef } from "@tanstack/react-table"
@@ -60,7 +60,7 @@ export const columns: ColumnDef<IntrimAuthority>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex justify-center">
-      <LinkAsBadge href="#" text={row.original.status} className="bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600" />
+      <LinkAsBadge href="#" text={row.original.status ?? ""} className="bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600" />
         </div>
     )
     },

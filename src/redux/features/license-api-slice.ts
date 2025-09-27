@@ -25,4 +25,4 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetIntrimAuthoritiesQuery } = LicenseApiSlice;
+export const { useGetIntrimAuthoritiesQuery, useRetrieveIntrimAuthorityQuery, usePatchIntrimAuthorityMutation, useCreateIntrimAuthorityMutation } = LicenseApiSlice;

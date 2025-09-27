@@ -69,17 +69,25 @@ type InstitutionForm = {
   
 }
 
-type institution = {
+type Institution = {
+        id ?: number;
         name: string;
+        acroynm: string;
+        postal_address: string;
+        website: string;
+        landline: string;
+        region: string ;
         district: string;
         alternative_email: string;
         institution_type: string;
         landline: string;
+        phone?: string;
         contact_person: string;
         contact_person_phone: string;
         alternative_contact_person: string;
         alternative_contact_person_phone: string;
         logo: string | File;
+        location?: string
     }
 type InstitutionRegForm = {
   email: string;
@@ -98,6 +106,11 @@ interface ListRespornse<T> {
   previous: string | null;
   results: T[];
 }
+interface Region {
+  id: number;
+  name: string;
+  code: string;
+}
 
 interface District {
   id: number;
@@ -107,7 +120,7 @@ interface District {
 
 
 interface IntrimAuthority {
-  id: number,
+  id?: number,
   application_code?: string,
   has_title_deed: boolean,
   names_of_promoters: string,
@@ -120,8 +133,8 @@ interface IntrimAuthority {
   source_of_finance: string,
   action_plan: string,
   infrastructure: string,
-  programmes: string,
-  status: "pending" | "approved" | "rejected" | "draft" | "submitted" | "pending",
-  institution: string,
+  programmes: string | File,
+  status?: "pending" | "approved" | "rejected" | "draft" | "submitted" | "pending",
+  institution?: string,
   application_date?:string
 }

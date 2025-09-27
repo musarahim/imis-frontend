@@ -15,6 +15,7 @@ function page() {
                 src="/images/logo.png"
                 className="h-35 w-auto dark:bg-white"
               />
+              <h2 className="mt-8 text-3xl/9 font-bold tracking-tight text-secondary dark:text-gray-50">Welcome to NCHE IMIS</h2>
               <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-gray-50">Institutional Login</h2>
               <p className="mt-2 text-sm/6 text-gray-500 dark:text-gray-100">
                 Not a member?{' '}
@@ -51,7 +52,7 @@ function page() {
             blurDataURL="/images/login_bg.png"
             alt=""
             src="/images/login_bg.png"
-            className="absolute inset-0 size-full object-cover"
+            className="absolute inset-0 size-auto object-fill"
           />
         </div>
       </div>

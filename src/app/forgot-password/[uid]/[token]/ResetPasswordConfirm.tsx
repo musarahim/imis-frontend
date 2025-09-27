@@ -17,14 +17,14 @@ function ResetPasswordConfirm({ uid, token }: Props) {
         name="new_password"
         label="New Password"
         type="password"
-        Id="id_new_password"
+        id="id_new_password"
         required
       />
       <InputField
         name="re_new_password"
         label="Confirm New Password"
         type="password"
-        Id="id_re_new_password"
+        id="id_re_new_password"
         required
       />
       <SubmitButton isLoading={isLoading} title="Request Password Reset" />

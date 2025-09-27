@@ -51,10 +51,10 @@ export function SiteHeader({ items }: SiteHeaderProps) {
   const crumbs = items ?? autoCrumbs
 
   return (
-    <header className="bg-gray-200 dark:bg-gray-900 sticky top-0 z-50 flex w-full items-center border-b">
+    <header className="bg-secondary dark:bg-gray-900 sticky top-0 z-50 flex w-full items-center border-b">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <Button
-          className="h-8 w-8"
+          className="h-8 w-8 bg-white"
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
@@ -73,12 +73,12 @@ export function SiteHeader({ items }: SiteHeaderProps) {
                 <span key={`${c.label}-${i}`} className="inline-flex items-center">
                   <BreadcrumbItem>
                     {isLast || !c.href ? (
-                      <BreadcrumbPage>{c.label}</BreadcrumbPage>
+                      <BreadcrumbPage className="text-white">{c.label}</BreadcrumbPage>
                     ) : (
-                      <BreadcrumbLink href={c.href}>{c.label}</BreadcrumbLink>
+                      <BreadcrumbLink href={c.href} className="text-white hover:text-gray-200">{c.label}</BreadcrumbLink>
                     )}
                   </BreadcrumbItem>
-                  {!isLast && <BreadcrumbSeparator />}
+                  {!isLast && <BreadcrumbSeparator className="text-white" />}
                 </span>
               )
             })}

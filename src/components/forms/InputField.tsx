@@ -1,6 +1,6 @@
 "use client" 
 import { Input } from '@/components/ui/input';
-import { useField } from 'formik';
+import { ErrorMessage, useField } from 'formik';
 import Link from 'next/link';
 import React from 'react';
 
@@ -13,7 +13,7 @@ interface Props {
 		linkText: string;
 		linkUrl: string;
 	};
-    Id?: string,
+    id?: string,
     value?: string,
     children?: React.ReactNode,
      autoComplete?: string,
@@ -39,12 +39,12 @@ function InputField({...props}: Props) {
                     <div className="mt-2">
                       
                       <Input
-                        id={props.Id}
+                        id={props.id}
                         {...field} {...props}
                       />
                     </div>
                     {meta.touched && meta.error ? (
-               <small className='text-sm text-red-600'>{meta.error}</small>
+               <ErrorMessage name={props.name} component="div" className="text-sm text-red-600" />
 			
 
 				) : null}
