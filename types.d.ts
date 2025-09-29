@@ -123,6 +123,7 @@ interface IntrimAuthority {
   id?: number,
   application_code?: string,
   has_title_deed: boolean,
+  title_deed?: string | File,
   names_of_promoters: string,
   vision: string,
   mission: string,

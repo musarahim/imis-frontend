@@ -1,5 +1,5 @@
 "use client"
-import { AppForm, InputField, PhoneNumberInput, SelectField, SubmitButton } from "@/components/forms";
+import { AppForm, InputField, PhoneNumberInput, SelectField, SubmitButton, TextAreaField } from "@/components/forms";
 import { useGetDistrictsQuery, useGetRegionsQuery } from "@/redux/features/commonApiSlice";
 import { useGetInstitutionsQuery, usePatchInstitutionMutation } from "@/redux/features/institution-api-slice";
 import { toast } from "react-toastify";
@@ -138,14 +138,14 @@ function StepA({ onNext }: StepAProps) {
           </div>
            <div className="sm:col-span-full">
         
-        <InputField name="location" label="Location (Village/Town)" required />
+        <TextAreaField name="location" type="text" label="Location of the Institution"  required />
         </div>
 
 
       </div>
       <div className="mt-6 flex items-center justify-end gap-x-6 border-t  border-gray-900/10  dark:border-gray-400">
              
-           <SubmitButton isLoading={false} title="Save & Continue" className="rounded-md flex min-w-32  justify-center text-sm px-3 my-2 py-1.5 font-semibold leading-6 text-white bg-sky-500"/>
+           <SubmitButton isLoading={isLoading} title="Save & Continue" className="rounded-md flex min-w-32  justify-center text-sm px-3 my-2 py-1.5 font-semibold leading-6 text-white bg-sky-500"/>
             </div>
      </AppForm>
    

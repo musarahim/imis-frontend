@@ -1,4 +1,4 @@
-import { AppForm } from "@/components/forms";
+import { AppForm, Editor, InputField, RadioInputField } from "@/components/forms";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 type StepBProps = {
@@ -7,37 +7,41 @@ type StepBProps = {
 }
 type FormValues = { 
     has_title_deed: boolean,
+    title_deed?: string | File,
     names_of_promoters: string,
-   vision: string,
-   mission: string,
-   objectives: string,
-   philosophy: string,
-   governance_structure: string,
-   human_resources: string,
-   source_of_finance: string,
+    governance_structure: string,
+    human_resources: string,
+    source_of_finance: string,
    action_plan: string,
    infrastructure: string,
    programmes: string | File,
-   status?: "pending" | "approved" | "rejected" | "draft" | "submitted" | "pending",
-   institution?: string,
-   application_date?:string
+  
 }
+
+const options = [
+    { label: "Yes", value: "true" },
+    { label: "No", value: "false" },
+]
 function StepB({ onNext, onBack }: StepBProps) {
   const stepBInitialValues = {
-        contact_person_1_name: "",
-        contact_person_1_email: "",
-        contact_person_1_phone: "",
-        contact_person_2_name: "",
-        contact_person_2_email: "",
-        contact_person_2_phone: "",
+        has_title_deed: false,
+        names_of_promoters: "",
+        governance_structure: "",
+        human_resources: "",
+        source_of_finance: "",
+       action_plan: "",
+       infrastructure: "",
+       programmes: "",
       }
   const stepBValidation = Yup.object({
-              contact_person_1_name: Yup.string().required("Contact person 1 name is required"),
-              contact_person_1_email: Yup.string().email("Invalid email address").required("Contact person 1 email is required"),
-              contact_person_1_phone: Yup.string().required("Contact person 1 phone number is required"),
-              contact_person_2_name: Yup.string().required("Contact person 2 name is required"),
-              contact_person_2_email: Yup.string().email("Invalid email address").required("Contact person 2 email is required"),
-              contact_person_2_phone: Yup.string().required("Contact person 2 phone number is required"),
+        has_title_deed: Yup.boolean().required("This field is required"),
+        names_of_promoters: Yup.string().required("This field is required"),
+        governance_structure: Yup.string().required("This field is required"),
+        human_resources: Yup.string().required("This field is required"),
+        source_of_finance: Yup.string().required("This field is required"),
+       action_plan: Yup.string().required("This field is required"),
+       infrastructure: Yup.string().required("This field is required"),
+       programmes: Yup.mixed().required("This field is required"),
   });
   const onSubmit = async (values: FormValues) => {
         
@@ -55,7 +59,18 @@ function StepB({ onNext, onBack }: StepBProps) {
       <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">Contact Persons</h2>
     </div>
     <div className="mt-3 grid grid-cols-1 gap-x-3 gap-y-6 sm:grid-cols-6">
-    
+    <div className="sm:col-span-full">
+        <RadioInputField name="has_title_deed" label="Do you already have a title deed?" options={options} />
+        </div>
+        <div className="sm:col-span-full">
+          <InputField name="title_deed" label="Title Deed" type="file" required />
+        </div>
+        <div className="sm:col-span-full">
+          <InputField name="governance_structure" label="Governance Structure" required />
+        </div>
+        <div className="sm:col-span-full">
+          <Editor />
+        </div>
         
          
         
