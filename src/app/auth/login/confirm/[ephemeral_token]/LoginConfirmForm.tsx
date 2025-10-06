@@ -24,7 +24,7 @@ const LoginConfirmForm: React.FC<Props> = ({ ephemeral_token }) => {
              Login
             </Link>
           </p>
-    <SubmitButton isLoading={isLoading} title="Submit" />
+    <SubmitButton isLoading={isLoading} title="Submit" className='w-full' />
   </Form>
   )
 }

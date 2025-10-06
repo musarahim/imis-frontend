@@ -1,4 +1,4 @@
-"use server"
+"use client"
 import { AppSidebar } from "@/components/app-sidebar";
 import { DataTable } from "@/components/common/data-table";
 import { SiteHeader } from "@/components/site-header";

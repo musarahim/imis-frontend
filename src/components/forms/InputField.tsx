@@ -1,4 +1,4 @@
-"use client" 
+"use client"
 import { Input } from '@/components/ui/input';
 import { ErrorMessage, useField } from 'formik';
 import Link from 'next/link';

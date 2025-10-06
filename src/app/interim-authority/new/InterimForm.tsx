@@ -1,25 +1,31 @@
 
 "use client";
 import { useState } from "react";
-import { StepA, StepB, StepC } from "./steps";
+import { StepA, StepB, StepC, StepD } from "./steps";
 type props ={
   showStepNumber:boolean
 }
 
-const stepsArray = ['A','B','C']
+const stepsArray = ['A','B','C','D']
  function InterimForm({...props}:props) {
   const [step, setStep] = useState('A');
- 
+  const [formData, setFormData] = useState<any>({});
 
-  const handleNext = () => {
+  const handleNext = (data?:IntrimAuthority) => {
+    if (data) setFormData(data);
     if (step === 'A') {
       setStep('B');
     } else if (step === 'B') {
       setStep('C');
     }
+    else if (step === 'C') {
+      setStep('D');
+    }
   };
   const handleBack = () => {
-    if (step === 'C') {
+    if (step === 'D') {
+      setStep('C');
+    } else if (step === 'C') {
       setStep('B');
     } else if (step === 'B') {
       setStep('A');
@@ -45,14 +51,15 @@ const stepsArray = ['A','B','C']
 
   return (
     
-      <div className="space-y-12 max-h-[520px] overflow-y-auto px-3">
+      <div className="space-y-12  overflow-y-auto px-3">
       
            {renderTopStepNumber()}
         <div >
 
           {step === 'A' && <StepA onNext={handleNext} />}
-          {step === 'B' && <StepB onNext={handleNext} onBack={handleBack} />}
-          {step === 'C' && <StepC  onBack={handleBack} />}
+          {step === 'B' && <StepB onNext={handleNext} onBack={handleBack}  />}
+          {step === 'C' && <StepC  onBack={handleBack} onNext={handleNext} data={formData} />}
+          {step === 'D' && <StepD onBack={handleBack}  data={formData} />}
 
         </div>
         

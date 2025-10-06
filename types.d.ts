@@ -120,7 +120,7 @@ interface District {
 
 
 interface IntrimAuthority {
-  id?: number,
+  id?: string,
   application_code?: string,
   has_title_deed: boolean,
   title_deed?: string | File,
@@ -138,4 +138,6 @@ interface IntrimAuthority {
   status?: "pending" | "approved" | "rejected" | "draft" | "submitted" | "pending",
   institution?: string,
   application_date?:string
+  promoters?: string | File,
+  project_proposal?: string | File
 }

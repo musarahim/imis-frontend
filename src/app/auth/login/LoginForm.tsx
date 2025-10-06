@@ -37,7 +37,7 @@ function LoginForm() {
                   </div>
 
                   <div>
-                    <SubmitButton isLoading={isLoading} title="Sign in" />
+                    <SubmitButton isLoading={isLoading} title="Sign in" className="w-full" />
                   </div>
                 </Form>
   )

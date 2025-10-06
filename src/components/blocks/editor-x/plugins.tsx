@@ -26,12 +26,8 @@ import { CharacterLimitPlugin } from "@/components/editor/plugins/actions/charac
 import { ClearEditorActionPlugin } from "@/components/editor/plugins/actions/clear-editor-plugin"
 import { CounterCharacterPlugin } from "@/components/editor/plugins/actions/counter-character-plugin"
 import { EditModeTogglePlugin } from "@/components/editor/plugins/actions/edit-mode-toggle-plugin"
-import { ImportExportPlugin } from "@/components/editor/plugins/actions/import-export-plugin"
-import { MarkdownTogglePlugin } from "@/components/editor/plugins/actions/markdown-toggle-plugin"
 import { MaxLengthPlugin } from "@/components/editor/plugins/actions/max-length-plugin"
-import { ShareContentPlugin } from "@/components/editor/plugins/actions/share-content-plugin"
 import { SpeechToTextPlugin } from "@/components/editor/plugins/actions/speech-to-text-plugin"
-import { TreeViewPlugin } from "@/components/editor/plugins/actions/tree-view-plugin"
 import { AutoLinkPlugin } from "@/components/editor/plugins/auto-link-plugin"
 import { AutocompletePlugin } from "@/components/editor/plugins/autocomplete-plugin"
 import { CodeActionMenuPlugin } from "@/components/editor/plugins/code-action-menu-plugin"
@@ -80,7 +76,6 @@ import { FormatParagraph } from "@/components/editor/plugins/toolbar/block-forma
 import { FormatQuote } from "@/components/editor/plugins/toolbar/block-format/format-quote"
 import { BlockInsertPlugin } from "@/components/editor/plugins/toolbar/block-insert-plugin"
 import { InsertColumnsLayout } from "@/components/editor/plugins/toolbar/block-insert/insert-columns-layout"
-import { InsertEmbeds } from "@/components/editor/plugins/toolbar/block-insert/insert-embeds"
 import { InsertHorizontalRule } from "@/components/editor/plugins/toolbar/block-insert/insert-horizontal-rule"
 import { InsertImage } from "@/components/editor/plugins/toolbar/block-insert/insert-image"
 import { InsertTable } from "@/components/editor/plugins/toolbar/block-insert/insert-table"
@@ -160,7 +155,7 @@ export function Plugins({}) {
                   <InsertImage />
                   <InsertTable />
                   <InsertColumnsLayout />
-                  <InsertEmbeds />
+                 
                 </BlockInsertPlugin>
               </>
             )}
@@ -221,6 +216,7 @@ export function Plugins({}) {
             ...TEXT_MATCH_TRANSFORMERS,
           ]}
         />
+        
         <TabFocusPlugin />
         <AutocompletePlugin />
         <AutoLinkPlugin />
@@ -278,29 +274,14 @@ export function Plugins({}) {
           </div>
           <div className="flex flex-1 justify-end">
             <SpeechToTextPlugin />
-            <ShareContentPlugin />
-            <ImportExportPlugin />
-            <MarkdownTogglePlugin
-              shouldPreserveNewLinesInMarkdown={true}
-              transformers={[
-                TABLE,
-                HR,
-                IMAGE,
-                EMOJI,
-                TWEET,
-                CHECK_LIST,
-                ...ELEMENT_TRANSFORMERS,
-                ...MULTILINE_ELEMENT_TRANSFORMERS,
-                ...TEXT_FORMAT_TRANSFORMERS,
-                ...TEXT_MATCH_TRANSFORMERS,
-              ]}
-            />
+          
+           
             <EditModeTogglePlugin />
             <>
               <ClearEditorActionPlugin />
               <ClearEditorPlugin />
             </>
-            <TreeViewPlugin />
+           
           </div>
         </div>
       </ActionsPlugin>

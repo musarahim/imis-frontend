@@ -64,7 +64,7 @@ function StepA({ onNext }: StepAProps) {
         
         <div className="mt-6 flex items-center justify-end gap-x-6 border-t  border-gray-900/10  dark:border-gray-400">
                 <button type="button" 
-                className="rounded-md flex  justify-center text-sm px-3 my-2 py-1.5 font-semibold leading-6 text-white bg-sky-500" 
+                className="rounded-md flex  justify-center text-sm px-3 my-2 py-1.5 font-semibold leading-6 text-white bg-sky-600" 
                 onClick={handleNext}>
                     Next
                 </button>

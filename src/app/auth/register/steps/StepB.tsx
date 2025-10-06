@@ -50,7 +50,7 @@ function StepB({ onNext, onBack }: StepBProps) {
                       onClick={handleNext}>
                           Next
                       </button>
-                 
+
                  
       
                   </div>

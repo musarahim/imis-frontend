@@ -22,7 +22,7 @@ function ResetPasswordForm() {
                Login
               </Link>
             </p>
-      <SubmitButton isLoading={isLoading} title="Submit" />
+      <SubmitButton isLoading={isLoading} title="Submit" className='w-full' />
     </Form>
   )
 }

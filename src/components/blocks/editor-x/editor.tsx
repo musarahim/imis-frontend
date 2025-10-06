@@ -1,37 +1,39 @@
-"use client"
+"use client";
 
+import { $generateHtmlFromNodes } from "@lexical/html";
 import {
   InitialConfigType,
   LexicalComposer,
-} from "@lexical/react/LexicalComposer"
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin"
-import { EditorState, SerializedEditorState } from "lexical"
+} from "@lexical/react/LexicalComposer";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import type { EditorState, SerializedEditorState } from "lexical";
 
-import { editorTheme } from "@/components/editor/themes/editor-theme"
-import { TooltipProvider } from "@/components/ui/tooltip"
-
-import { nodes } from "./nodes"
-import { Plugins } from "./plugins"
+import { editorTheme } from "@/components/editor/themes/editor-theme";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { nodes } from "./nodes";
+import { Plugins } from "./plugins";
 
 const editorConfig: InitialConfigType = {
   namespace: "Editor",
   theme: editorTheme,
   nodes,
   onError: (error: Error) => {
-    console.error(error)
+    console.error(error);
   },
-}
+};
 
 export function Editor({
   editorState,
   editorSerializedState,
   onChange,
   onSerializedChange,
+  onHtmlChange, // 👈 NEW
 }: {
-  editorState?: EditorState
-  editorSerializedState?: SerializedEditorState
-  onChange?: (editorState: EditorState) => void
-  onSerializedChange?: (editorSerializedState: SerializedEditorState) => void
+  editorState?: EditorState;
+  editorSerializedState?: SerializedEditorState;
+  onChange?: (editorState: EditorState) => void;
+  onSerializedChange?: (editorSerializedState: SerializedEditorState) => void;
+  onHtmlChange?: (html: string) => void; // 👈 NEW
 }) {
   return (
     <div className="bg-background overflow-hidden rounded-lg border shadow">
@@ -48,14 +50,19 @@ export function Editor({
           <Plugins />
 
           <OnChangePlugin
-            ignoreSelectionChange={true}
-            onChange={(editorState) => {
-              onChange?.(editorState)
-              onSerializedChange?.(editorState.toJSON())
+            ignoreSelectionChange
+            onChange={(editorState, editor) => {
+              // existing callbacks
+              onChange?.(editorState);
+              onSerializedChange?.(editorState.toJSON());
+
+              // 👉 HTML string
+              const html = editorState.read(() => $generateHtmlFromNodes(editor));
+              onHtmlChange?.(html);
             }}
           />
         </TooltipProvider>
       </LexicalComposer>
     </div>
-  )
+  );
 }
