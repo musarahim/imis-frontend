@@ -1,22 +1,27 @@
 import { AppForm, FileField, SubmitButton } from "@/components/forms";
 import { usePatchIntrimAuthorityMutation } from "@/redux/features/license-api-slice";
+import React from "react";
 import { toast } from "react-toastify";
 
 import * as Yup from "yup";
 type StepDProps = {
   onBack: () => void;
   data?: IntrimAuthority;
+  onNext: (data: IntrimAuthority) => void;
 }
 type FormValues = { 
       promoters?: string | File,
       project_proposal?: string | File
 }
-function StepD({ onBack,data }: StepDProps) {
+function StepD({ onBack,data, onNext }: StepDProps) {
   const [patchIntrimAuthority, {isLoading}] = usePatchIntrimAuthorityMutation();
   const stepDInitialValues = {
         promoters: data?.promoters || "",
         project_proposal: data?.project_proposal || "",
       }
+
+  // keep the original initial values to detect removals
+  const initialValuesRef = React.useRef(stepDInitialValues);
   const stepDValidation = Yup.object({
         promoters: Yup.mixed().required("This field is required"),
         project_proposal: Yup.mixed().required("This field is required"),
@@ -24,25 +29,46 @@ function StepD({ onBack,data }: StepDProps) {
   });
   const onSubmit = async (values: FormValues) => {
         const formdata = new FormData();
+        // list file fields so we treat them specially
+        const fileFields: (keyof FormValues)[] = ["promoters", "project_proposal"];
+
         Object.entries(values).forEach(([key, value]) => {
-          if (value !== undefined && value !== null && value !== "") {
-            formdata.append(key, value);
+          if (fileFields.includes(key as keyof FormValues)) {
+            // file field handling
+            if (value instanceof File) {
+              // user selected/replaced a file -> send it
+              formdata.append(key, value);
+            } else if (value === null && initialValuesRef.current[key as keyof FormValues]) {
+              // user removed an existing file -> signal backend to delete
+              formdata.append(`${key}_remove`, "1");
+            } else {
+              // value is a string (existing URL/name) -> do nothing (keep existing file)
+            }
+          } else {
+            // non-file fields: append if present
+            if (value !== undefined && value !== null && value !== "") {
+              formdata.append(key, String(value));
+            }
           }
         });
-      await patchIntrimAuthority({ id: data?.id || '', data: formdata }).unwrap().then((res) => {
-        if (res) {
-          toast.success("Details saved successfully. Please preview your application before submission.");
-        } else {
-          toast.error("No ID returned from server");
+
+        try {
+          const res = await patchIntrimAuthority({ id: Number(data?.id) || 0, data: formdata }).unwrap();
+          if (res) {
+            toast.success("Details saved successfully. Please preview your application before submission.");
+            onNext(res);
+          } else {
+            toast.error("No ID returned from server");
+          }
+        } catch (err) {
+          console.log(err);
+          toast.error("Error submitting details, please try again later");
         }
-       }).catch((err) => {
-        console.log(err);
-        toast.error("Error submitting details, please try again later");
-       });
+  }
         
         // Proceed to the next step
         
-  }
+  
    const handlePreviousStep = () => {
           onBack();
       };

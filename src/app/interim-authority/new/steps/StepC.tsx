@@ -56,7 +56,7 @@ function StepC({ onBack, onNext, data }: StepCProps) {
       });
   
       console.log("Form data:", formdata);
-       await patchInstitution({ id: data?.id || '', data: formdata }).unwrap().then((res) => {
+       await patchInstitution({ id: data?.id ? Number(data.id) : 0, data: formdata }).unwrap().then((res) => {
         
        if (res) {
             onNext(res);

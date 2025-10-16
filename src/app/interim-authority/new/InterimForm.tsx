@@ -1,13 +1,13 @@
 
 "use client";
 import { useState } from "react";
-import { StepA, StepB, StepC, StepD } from "./steps";
+import { Preview, StepA, StepB, StepC, StepD } from "./steps";
 type props ={
   showStepNumber:boolean
   application_id?:number
 }
 
-const stepsArray = ['A','B','C','D']
+const stepsArray = ['A','B','C','D','F'];
  function InterimForm({...props}:props) {
   const [step, setStep] = useState('A');
   const [formData, setFormData] = useState<any>({});
@@ -22,6 +22,9 @@ const stepsArray = ['A','B','C','D']
     else if (step === 'C') {
       setStep('D');
     }
+    else if (step === 'D') {
+      setStep('F');
+    }
   };
   const handleBack = () => {
     if (step === 'D') {
@@ -33,6 +36,12 @@ const stepsArray = ['A','B','C','D']
     }
   };
 
+  // method to navigate to a specific step for review
+  const handleStepClick = (step: string) => {
+    setStep(step);
+  }
+
+
   const renderTopStepNumber = () => {
     if (!props.showStepNumber || step==='F') return null
         return (
@@ -41,7 +50,7 @@ const stepsArray = ['A','B','C','D']
                 <div key={index} className={`w-8 h-8 flex justify-center items-center border-2 border-primary rounded-full cursor-pointer ${
                     item === step ? 'bg-primary text-white' : ''
                   }`}
-                 // onClick={() => setStep(item)}
+                 //onClick={() => setStep(item)}
                 >
                     {item}
                 </div>
@@ -60,7 +69,8 @@ const stepsArray = ['A','B','C','D']
           {step === 'A' && <StepA onNext={handleNext} />}
           {step === 'B' && <StepB onNext={handleNext} onBack={handleBack} id={props.application_id} />}
           {step === 'C' && <StepC  onBack={handleBack} onNext={handleNext} data={formData} />}
-          {step === 'D' && <StepD onBack={handleBack}  data={formData} />}
+          {step === 'D' && <StepD onBack={handleBack}  data={formData} onNext={handleNext} />}
+          {step === 'F' && <Preview onStepClick={handleStepClick} data={formData} />}
 
         </div>
         
