@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+
 import {
     Card,
     CardContent,
@@ -11,67 +12,22 @@ import {
     FieldLegend,
     FieldSet
 } from "@/components/ui/field";
+import { Separator } from "@/components/ui/separator";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
+    TableRow
 } from "@/components/ui/table";
+import { useGetInstitutionsQuery } from "@/redux/features/institution-api-slice";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-   
-    totalAmount: "$300.00hghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhj",
-   
-  },
-]
 type StepDProps = {
   data?: IntrimAuthority;
   onStepClick: (step: string) => void;
 }
 function Preview({ data, onStepClick }: StepDProps) {
-    console.log("Preview data:", data);
+    const {data: institutions, isLoading: isLoadingInstitutions} = useGetInstitutionsQuery(undefined, { refetchOnMountOrArgChange: true });
+    const institution = (institutions?.results[0])
   return (
     <>
      <div className="border-t  border-gray-900/10  dark:border-gray-400">
@@ -83,40 +39,67 @@ function Preview({ data, onStepClick }: StepDProps) {
        
       </CardHeader>
       <CardContent>
-        <FieldSet>
-  <FieldLegend>Profile</FieldLegend>
-  <FieldDescription>This appears on invoices and emails.</FieldDescription>
-  </FieldSet>
-  <FieldSet>
-  <FieldLegend>Profile</FieldLegend>
-  <FieldDescription>This appears on invoices and emails.</FieldDescription>
-  </FieldSet>
-   <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-         
-         
-          <TableHead className="text-right">Amount</TableHead>
-        </TableRow>
-      </TableHeader>
+        
+   <Table className="table-fixed rounded-2xl">
+    
       <TableBody>
-        {invoices.map((invoice) => (
-          <TableRow key={invoice.invoice}>
-            <TableCell className="font-medium">{invoice.invoice}</TableCell>
-            
-            
-            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+        
+          <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">Institution Name</TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.name}</TableCell>
           </TableRow>
-        ))}
+           <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">Acronym</TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.acroynm}</TableCell>
+          </TableRow>
+           <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">Postal Address</TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.postal_address} </TableCell>
+          </TableRow>
+           <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">Website Address </TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.website}</TableCell>
+          </TableRow>
+          <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">Landline </TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.landline}</TableCell>
+          </TableRow>
+          <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">Mobile </TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.phone}</TableCell>
+          </TableRow>
+            <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">Region </TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.region}</TableCell>
+          </TableRow>
+        <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">District </TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.district}</TableCell>
+          </TableRow>
+          <TableRow  className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-[100px]">Location </TableCell>
+
+
+            <TableCell className="text-right text-gray-800 dark:text-gray-100">{institution?.location}</TableCell>
+          </TableRow>
       </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$2,500.00</TableCell>
-        </TableRow>
-      </TableFooter>
+   
     </Table>
       
      
@@ -126,10 +109,36 @@ function Preview({ data, onStepClick }: StepDProps) {
           <Button variant="default" onClick={() => onStepClick('A')}>Edit</Button>
         
       </CardFooter>
+      <Separator />
+       <CardHeader>
+        <CardTitle>LOCATION AND LAND</CardTitle>
+       </CardHeader>
+      <CardContent>
+        <FieldSet>
+  <FieldLegend>Has Title Deed</FieldLegend>
+  <FieldDescription>{data?.has_title_deed ? 'Yes' : 'No'}</FieldDescription>
+  </FieldSet>
+  <FieldSet>
+  <FieldLegend>Title Deed</FieldLegend>
+  <FieldDescription>{
+    (() => {
+      const td = data?.title_deed;
+      if (!td) return '-';
+      if (typeof td === 'string') return td;
+      if (td instanceof File) return td.name;
+      return String(td);
+    })()
+  }</FieldDescription>
+  </FieldSet>
+        </CardContent>
+      <CardFooter className="flex items-center justify-end gap-2">
+         
+          <Button variant="default" onClick={() => onStepClick('B')}>Edit</Button>
+        
+      </CardFooter>
     </Card>
+    
 
-    <Button variant="link" className="p-0 mb-4" onClick={() => onStepClick('A')}>Edit Step A</Button>
-    <Button variant="link" className="p-0 mb-4" onClick={() => onStepClick('B')}>Edit Step B</Button>
     <Button variant="link" className="p-0 mb-4" onClick={() => onStepClick('C')}>Edit Step C</Button>
     <Button variant="link" className="p-0 mb-4" onClick={() => onStepClick('D')}>Edit Step D</Button>
     <div className="space-y-6">
