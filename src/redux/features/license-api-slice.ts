@@ -19,7 +19,7 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
     retrieveIntrimAuthority: builder.query<IntrimAuthority, number>({
         query: (id) => `/licenses/intrim-authority/${id}/`,
     }),
-    patchIntrimAuthority: builder.mutation<IntrimAuthority, {id: string, data: Partial<FormData>}>({
+    patchIntrimAuthority: builder.mutation<IntrimAuthority, {id: number, data: Partial<FormData>}>({
         query: ({id, data}) => ({
             url: `/licenses/intrim-authority/${id}/`,
             method: 'PATCH',

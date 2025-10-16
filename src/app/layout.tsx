@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     //className="h-full bg-white"
-    <html lang="en"  suppressHydrationWarning>
+    <html lang="en" dir='ltr' suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased [--header-height:calc(--spacing(14))]`}
       >

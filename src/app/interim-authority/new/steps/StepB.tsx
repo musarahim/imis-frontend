@@ -1,6 +1,6 @@
 "use client"
-import { AppForm, FileField, RadioInputField, SubmitButton, TextAreaField } from "@/components/forms";
-import { useCreateIntrimAuthorityMutation, useRetrieveIntrimAuthorityQuery } from "@/redux/features/license-api-slice";
+import { AppForm, FileField, RadioInputField, RichEditorField, SubmitButton, TextAreaField } from "@/components/forms";
+import { useCreateIntrimAuthorityMutation, usePatchIntrimAuthorityMutation, useRetrieveIntrimAuthorityQuery } from "@/redux/features/license-api-slice";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -22,10 +22,11 @@ const options = [
     { label: "No", value: "false" },
 ]
 function StepB({ onNext, onBack, id }: StepBProps) {
-  const [createInterimAuthority, {isLoading}] = useCreateIntrimAuthorityMutation();
+  const [createInterimAuthority, { isLoading: isCreating }] = useCreateIntrimAuthorityMutation();
   //fetch initial values if id is provided
   const { data: initialValues } = useRetrieveIntrimAuthorityQuery(id ?? skipToken);
-  console.log(initialValues?.infrastructure, "initial values")
+  const [patchIntrimAuthority, { isLoading: isPatching }] = usePatchIntrimAuthorityMutation();
+  const isLoading = isCreating || isPatching;
 
   const stepBInitialValues: FormValues = {
         has_title_deed: String(initialValues?.has_title_deed ?? "false"),
@@ -49,25 +50,41 @@ function StepB({ onNext, onBack, id }: StepBProps) {
         const formData = new FormData();
         // values.has_title_deed is "true" or "false" string coming from the radio options
         formData.append('has_title_deed', values.has_title_deed);
-        if (values.title_deed) {
+        if (values.title_deed instanceof File) {
           formData.append('title_deed', values.title_deed);
+        } else {
+          // If user explicitly removed an existing file, signal backend to remove it
+          // (FileField should set the form value to null when user clicks Remove)
+          if (values.title_deed === null && initialValues?.title_deed) {
+            formData.append('title_deed_remove', '1');
+          }
+          // If values.title_deed is a string (existing URL/name), do nothing -> backend keeps existing file
         }
         formData.append('names_of_promoters', values.names_of_promoters);
         formData.append('infrastructure', values.infrastructure);
         
-        await createInterimAuthority(formData).unwrap().then((res) => {
-          console.log(res);
-          if (res) {
-            onNext(res);
-          } else {
-            toast.error("No ID returned from server");
-          }
-         }).catch((err) => {
-          console.log(err);
-          toast.error("Error submitting details, please try again later");
-         });
-       
+          try {
+       let res;
+      if (id) {
+        // update existing
+        res = await patchIntrimAuthority({ id, data: formData }).unwrap();
+      } else {
+        // create new
+        res = await createInterimAuthority(formData).unwrap();
+      }
+
+      if (res) {
+        onNext(res); // pass response object back to parent
+      } else {
+        toast.error("No response from server");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Error submitting details, please try again later");
+    }
   };
+       
+  
       const handlePreviousStep = () => {
           onBack();
       };
@@ -84,7 +101,7 @@ function StepB({ onNext, onBack, id }: StepBProps) {
           <FileField name="title_deed" label="Please attach a photocopy of the land title" required />
         </div>
         <div className="sm:col-span-full">
-          <TextAreaField name="infrastructure" label="Describe the existing infrastructure to be used" required />
+          <RichEditorField name="infrastructure" label="Describe the existing infrastructure to be used" required />
         </div>
        
         <div className="sm:col-span-full">
