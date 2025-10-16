@@ -1,17 +1,64 @@
 "use client"
 import { DataTable } from "@/components/common/data-table";
 import { useGetIntrimAuthoritiesQuery } from '@/redux/features/license-api-slice';
+import { ColumnFiltersState, ColumnVisibilityState, PaginationState, SortingState } from "@tanstack/react-table";
+import React from 'react';
 import { columns } from "./column";
+// ...existing code...
+
 function IntrimAuthorityData() {
-    const {data,isLoading,isError}=useGetIntrimAuthoritiesQuery()
+  const [pagination, setPagination] = React.useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [globalFilter, setGlobalFilter] = React.useState<string>('');
+
+    // new table state pieces required by DataTable props
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = React.useState<ColumnVisibilityState>({});
+
+    // 2. Memoize the RTK Query argument object
+    const queryParams: ListParams = React.useMemo(() => {
+        // Convert TanStack table state to DRF API query params
+        const ordering = sorting.length > 0 
+            ? `${sorting[0].desc ? '-' : ''}${sorting[0].id}`
+            : undefined;
+
+        return {
+            page: pagination.pageIndex + 1, // RTK is 1-indexed, TanStack is 0-indexed
+            pageSize: pagination.pageSize,
+            search: globalFilter || undefined,
+            ordering: ordering,
+        };
+    }, [pagination, sorting, globalFilter]);
+
+    const {data,isLoading,isError}=useGetIntrimAuthoritiesQuery(queryParams)
     if(isLoading) return <div>Loading...</div>
     if(isError) return <div>Error...</div>
     console.log(data)
   return (
     <>
-     <DataTable columns={columns} data={data ?? []} addHref="/interim-authority/new" addText="Apply for Interim Authority" />
+     <DataTable<IntrimAuthority, unknown> 
+      rowCount={data?.count ?? 0} 
+      isFetching={isLoading} 
+      columns={columns} 
+      data={data?.results ?? []} 
+      pagination={pagination}
+      setPagination={setPagination}
+      sorting={sorting}
+      setSorting={setSorting}
+      globalFilter={globalFilter}
+      setGlobalFilter={setGlobalFilter}
+      columnFilters={columnFilters}
+      setColumnFilters={setColumnFilters}
+      columnVisibility={columnVisibility}
+      setColumnVisibility={setColumnVisibility}
+      addHref="/interim-authority/new" 
+      addText="New Application" />
     </>
   )
 }
 
 export default IntrimAuthorityData
+// ...existing code...

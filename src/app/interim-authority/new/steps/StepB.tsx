@@ -1,14 +1,16 @@
 "use client"
-import { AppForm, FileField, RadioInputField, RichEditorField, SubmitButton, TextAreaField } from "@/components/forms";
-import { useCreateIntrimAuthorityMutation } from "@/redux/features/license-api-slice";
+import { AppForm, FileField, RadioInputField, SubmitButton, TextAreaField } from "@/components/forms";
+import { useCreateIntrimAuthorityMutation, useRetrieveIntrimAuthorityQuery } from "@/redux/features/license-api-slice";
+import { skipToken } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 type StepBProps = {
   onNext: (data?: any) => void;
   onBack: () => void;
+  id?:number
 }
 type FormValues = { 
-    has_title_deed: boolean,
+    has_title_deed: string,
     title_deed?: string | File,
     names_of_promoters: string,
    infrastructure: string,
@@ -19,24 +21,34 @@ const options = [
     { label: "Yes", value: "true" },
     { label: "No", value: "false" },
 ]
-function StepB({ onNext, onBack }: StepBProps) {
+function StepB({ onNext, onBack, id }: StepBProps) {
   const [createInterimAuthority, {isLoading}] = useCreateIntrimAuthorityMutation();
-  const stepBInitialValues = {
-        has_title_deed: false,
-        title_deed: "",
-        names_of_promoters: "",
-       
-       infrastructure: "",
+  //fetch initial values if id is provided
+  const { data: initialValues } = useRetrieveIntrimAuthorityQuery(id ?? skipToken);
+  console.log(initialValues?.infrastructure, "initial values")
+
+  const stepBInitialValues: FormValues = {
+        has_title_deed: String(initialValues?.has_title_deed ?? "false"),
+        title_deed: initialValues?.title_deed ?? "",
+        names_of_promoters: initialValues?.names_of_promoters || "",
+       infrastructure: initialValues?.infrastructure || "",
       }
+      
   const stepBValidation = Yup.object({
-        has_title_deed: Yup.boolean().required("This field is required"),
+        has_title_deed: Yup.string().required("This field is required"),
         names_of_promoters: Yup.string().required("This field is required"),
        infrastructure: Yup.string().required("This field is required"),
+       title_deed: Yup.mixed().when('has_title_deed', (has_title_deed: any, schema: any) => {
+        return has_title_deed === "true"
+          ? schema.required('Please attach the title deed')
+          : schema.notRequired();
+       }),
 
   });
   const onSubmit = async (values: FormValues) => {
         const formData = new FormData();
-        formData.append('has_title_deed', values.has_title_deed ? 'true' : 'false');
+        // values.has_title_deed is "true" or "false" string coming from the radio options
+        formData.append('has_title_deed', values.has_title_deed);
         if (values.title_deed) {
           formData.append('title_deed', values.title_deed);
         }
@@ -54,7 +66,6 @@ function StepB({ onNext, onBack }: StepBProps) {
           console.log(err);
           toast.error("Error submitting details, please try again later");
          });
-        // Proceed to the next step
        
   };
       const handlePreviousStep = () => {
@@ -73,7 +84,7 @@ function StepB({ onNext, onBack }: StepBProps) {
           <FileField name="title_deed" label="Please attach a photocopy of the land title" required />
         </div>
         <div className="sm:col-span-full">
-          <RichEditorField name="infrastructure" label="Describe the existing infrastructure to be used" required />
+          <TextAreaField name="infrastructure" label="Describe the existing infrastructure to be used" required />
         </div>
        
         <div className="sm:col-span-full">

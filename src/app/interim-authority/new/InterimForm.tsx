@@ -4,6 +4,7 @@ import { useState } from "react";
 import { StepA, StepB, StepC, StepD } from "./steps";
 type props ={
   showStepNumber:boolean
+  application_id?:number
 }
 
 const stepsArray = ['A','B','C','D']
@@ -57,7 +58,7 @@ const stepsArray = ['A','B','C','D']
         <div >
 
           {step === 'A' && <StepA onNext={handleNext} />}
-          {step === 'B' && <StepB onNext={handleNext} onBack={handleBack}  />}
+          {step === 'B' && <StepB onNext={handleNext} onBack={handleBack} id={props.application_id} />}
           {step === 'C' && <StepC  onBack={handleBack} onNext={handleNext} data={formData} />}
           {step === 'D' && <StepD onBack={handleBack}  data={formData} />}
 

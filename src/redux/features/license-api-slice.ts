@@ -2,8 +2,19 @@ import { apiSlice } from "../services/apiSlice";
 
 const LicenseApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getIntrimAuthorities: builder.query<IntrimAuthority[], void>({
-      query: () => "/licenses/intrim-authority/",
+    getIntrimAuthorities: builder.query<ListRespornse<IntrimAuthority>, ListParams>({
+    query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined) search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/licenses/intrim-authority/${qs ? `?${qs}` : ""}`;
+      },
     }),
     retrieveIntrimAuthority: builder.query<IntrimAuthority, number>({
         query: (id) => `/licenses/intrim-authority/${id}/`,

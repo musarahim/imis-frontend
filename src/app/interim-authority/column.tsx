@@ -12,6 +12,7 @@ import {
 import { LinkAsBadge } from "@/components/ui/link-as-badge"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
+import { useRouter } from "next/navigation"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -70,6 +71,7 @@ export const columns: ColumnDef<IntrimAuthority>[] = [
     header: () => <div className="text-center">Action</div>,
     cell: ({ row }) => {
       const application = row.original
+      const router = useRouter()
  
       return (
         <div className="flex justify-center">
@@ -87,10 +89,14 @@ export const columns: ColumnDef<IntrimAuthority>[] = [
             >
               View
             </DropdownMenuItem>
+            
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-             <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => router.push(`/interim-authority/${application.id}/resume`)}
+            >
+              Resume
+            </DropdownMenuItem>
+
           </DropdownMenuContent>
         </DropdownMenu>
         </div>

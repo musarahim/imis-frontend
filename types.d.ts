@@ -100,6 +100,13 @@ type InstitutionRegForm = {
   
 }
 
+interface ListParams {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+  ordering?: string;
+}
+
 interface ListRespornse<T> {
   count: number;
   next: string | null;
