@@ -1,4 +1,4 @@
-import { AppForm, SubmitButton, TextAreaField } from "@/components/forms";
+import { AppForm, RichEditorField, SubmitButton, TextAreaField } from "@/components/forms";
 import { usePatchIntrimAuthorityMutation } from "@/redux/features/license-api-slice";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -18,7 +18,7 @@ type FormValues = {
     human_resources: string,
     source_of_finance: string,
     action_plan: string,
-    programmes: string | File,
+    programmes: string ,
   
 }
 function StepC({ onBack, onNext, data }: StepCProps) {
@@ -95,19 +95,19 @@ function StepC({ onBack, onNext, data }: StepCProps) {
               <TextAreaField name="philosophy" label="State the philosophy of the University to be established" required />
             </div>
             <div className="sm:col-span-full">
-              <TextAreaField name="governance_structure" label="State the proposed Governance Structures of the University"  required />
+              <RichEditorField name="governance_structure" label="State the proposed Governance Structures of the University"  required />
             </div>  
             <div className="sm:col-span-full">
-              <TextAreaField name="human_resources" label="State the Proposed human resources that will be required to operate the University"  required />
+              <RichEditorField name="human_resources" label="State the Proposed human resources that will be required to operate the University"  required />
             </div>            
             <div className="sm:col-span-full">
               <TextAreaField name="source_of_finance" label="State the expected sources of financial resources"  required />
             </div>
             <div className="sm:col-span-full">
-              <TextAreaField name="action_plan" label="State the action plan towards the realization of the objectives of the project"  required />
+              <RichEditorField name="action_plan" label="State the action plan towards the realization of the objectives of the project"  required />
             </div>
           <div className="sm:col-span-full">
-          <TextAreaField name="programmes" label="What programmes of study are planned in the setting up of the University" required />
+          <RichEditorField name="programmes" label="What programmes of study are planned in the setting up of the University" required />
         </div>
        
                 </div>

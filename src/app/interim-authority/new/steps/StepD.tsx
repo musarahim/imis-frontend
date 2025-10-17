@@ -81,7 +81,7 @@ function StepD({ onBack,data, onNext }: StepDProps) {
      <div className="mt-3 grid grid-cols-1 gap-x-3 gap-y-6 sm:grid-cols-6">
        
             <div className="sm:col-span-full">
-              <FileField name="promoters" label="State the Vision of the University to be established"  required />
+              <FileField name="promoters" label="Names and Signatures of the promoters"  required />
             </div>
             <div className="sm:col-span-full">
              <label>Please attach a detailed project proposal containing the following:</label>

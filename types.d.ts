@@ -141,7 +141,7 @@ interface IntrimAuthority {
   source_of_finance: string,
   action_plan: string,
   infrastructure: string,
-  programmes: string | File,
+  programmes: string,
   status?: "pending" | "approved" | "rejected" | "draft" | "submitted" | "pending",
   institution?: string,
   application_date?:string
