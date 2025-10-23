@@ -2,6 +2,7 @@ export { default as AppForm } from './AppForm';
 export { default as FileField } from './FileField';
 export { default as ImageField } from './ImageInputField';
 export { default as InputField } from './InputField';
+export { default as MultiSelectField } from './MultiSelectField';
 export { default as PasswordInput } from './PasswordInput';
 export { default as PhoneNumberInput } from './PhoneNumberInput';
 export { default as RadioInputField } from './RadioInputField';

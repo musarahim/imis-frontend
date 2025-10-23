@@ -9,6 +9,7 @@ interface Props {
     label: string,
     type?: string,
     required?: boolean,
+    placeholder?:string,
     id?: string,
     value?: string,
     children?: React.ReactNode,

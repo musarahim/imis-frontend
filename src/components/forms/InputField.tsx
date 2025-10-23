@@ -7,6 +7,7 @@ import React from 'react';
 interface Props {
 	name: string,
     label: string,
+    placeholder?: string,
     type?: string,
     required?: boolean,
     link?: {

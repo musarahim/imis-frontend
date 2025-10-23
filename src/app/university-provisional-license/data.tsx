@@ -1,12 +1,12 @@
 "use client"
 import { DataTable } from "@/components/common/data-table";
-import { useGetIntrimAuthoritiesQuery } from '@/redux/features/license-api-slice';
+import { useGetProvisionalLicensesQuery } from '@/redux/features/license-api-slice';
 import { ColumnFiltersState, PaginationState, SortingState, VisibilityState } from "@tanstack/react-table";
 import React from 'react';
 import { columns } from "./column";
 // ...existing code...
 
-function IntrimAuthorityData() {
+function ProvisionalLicenseData() {
   const [pagination, setPagination] = React.useState<PaginationState>({
         pageIndex: 0,
         pageSize: 10,
@@ -33,13 +33,13 @@ function IntrimAuthorityData() {
         };
     }, [pagination, sorting, globalFilter]);
 
-    const {data,isLoading,isError}=useGetIntrimAuthoritiesQuery(queryParams)
+    const {data,isLoading,isError}=useGetProvisionalLicensesQuery(queryParams)
     if(isLoading) return <div>Loading...</div>
     if(isError) return <div>Error...</div>
     console.log(data)
   return (
     <>
-     <DataTable<IntrimAuthority, unknown> 
+     <DataTable<UnivesersityProvisionalLicense, unknown> 
       rowCount={data?.count ?? 0} 
       isFetching={isLoading} 
       columns={columns} 
@@ -54,10 +54,10 @@ function IntrimAuthorityData() {
       setColumnFilters={setColumnFilters}
       columnVisibility={columnVisibility}
       setColumnVisibility={setColumnVisibility}
-      addHref="/interim-authority/new" 
+      addHref="/university-provisional-license/new" 
       addText="New Application" />
     </>
   )
 }
 
-export default IntrimAuthorityData
+export default ProvisionalLicenseData
