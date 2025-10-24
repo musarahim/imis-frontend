@@ -1,3 +1,4 @@
+export { default as Preview } from "./Preview";
 export { default as StepB } from "./StepB";
 export { default as StepC } from "./StepC";
 export { default as StepD } from "./StepD";
@@ -7,4 +8,3 @@ export { default as StepG } from "./StepG";
 export { default as StepH } from "./StepH";
 export { default as StepI } from "./StepI";
 export { default as StepJ } from "./StepJ";
-// export { default as Preview } from "./Preview";

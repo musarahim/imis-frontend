@@ -188,7 +188,7 @@ function StepG({ onBack, onNext, data }: StepCProps) {
             type="number"
           />
           </div>
-          <div className="sm:col-span-3">
+          <div className="sm:col-span-full">
           <InputField
             name="staff_salaries"
             label="What percentage of the budget is given to staff salaries"

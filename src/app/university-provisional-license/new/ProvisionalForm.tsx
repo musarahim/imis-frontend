@@ -1,6 +1,6 @@
 "use client"
 import { StepA } from "@/app/interim-authority/new/steps"
-import { StepB, StepC, StepD, StepE, StepF, StepG } from "@/app/university-provisional-license/new/steps"
+import { Preview, StepB, StepC, StepD, StepE, StepF, StepG, StepH, StepI, StepJ } from "@/app/university-provisional-license/new/steps"
 import { useState } from "react"
 
 
@@ -8,7 +8,7 @@ type props ={
   showStepNumber:boolean
   application_id?:number
 }
-const stepsArray = ['A','B','C','D','E','F','G'];
+const stepsArray = ['A','B','C','D','E','F','G','H','I','J','K'];
 function ProvisionalForm({...props}:props) {
     const [step, setStep] = useState('A');
   const [formData, setFormData] = useState<any>({});
@@ -31,11 +31,26 @@ function ProvisionalForm({...props}:props) {
     }
     else if (step === 'F') {
       setStep('G');
+    } else if (step === 'G') {
+      setStep('H');
+    } else if (step === 'H') {
+      setStep('I');
+    } else if (step === 'I') {
+      setStep('J');
+    }
+    else if (step === 'J') {
+      setStep('K');
     }
   };
   
   const handleBack = () => {
-    if (step === 'G') {
+    if (step === 'J') {
+      setStep('I');
+    } else if (step === 'I') {
+      setStep('H');
+    } else if (step === 'H') {
+      setStep('G');
+    } else if (step === 'G') {
       setStep('F');
     } else if (step === 'F') {
       setStep('E');
@@ -56,7 +71,7 @@ function ProvisionalForm({...props}:props) {
   }
 
     const renderTopStepNumber = () => {
-    if (!props.showStepNumber || step==='G') return null
+    if (!props.showStepNumber || step==='J') return null
         return (
            <section className="mt-2 mb-4 flex justify-between">
             {stepsArray.map((item, index) => (
@@ -78,12 +93,16 @@ function ProvisionalForm({...props}:props) {
             <div >
 
           {step === 'A' && <StepA onNext={handleNext} />}
-        {step === 'B' && <StepB onNext={handleNext} onBack={handleBack} id={props.application_id} />}
+          {step === 'B' && <StepB onNext={handleNext} onBack={handleBack} id={props.application_id} />}
            {step === 'C' && <StepC  onBack={handleBack} onNext={handleNext} data={formData} />} 
           {step === 'D' && <StepD onBack={handleBack}  data={formData} onNext={handleNext} />} 
           {step === 'E' && <StepE onBack={handleBack}  data={formData} onNext={handleNext} />} 
           {step === 'F' && <StepF onBack={handleBack}  data={formData} onNext={handleNext} />}  
           {step === 'G' && <StepG onBack={handleBack}  data={formData} onNext={handleNext} />}  
+          {step === 'H' && <StepH onBack={handleBack}  data={formData} onNext={handleNext} />}  
+          {step === 'I' && <StepI onBack={handleBack}  data={formData} onNext={handleNext} />}  
+          {step === 'J' && <StepJ onBack={handleBack}  data={formData} onNext={handleNext} />}
+          {step === 'K' && <Preview onStepClick={handleStepClick} data={formData} />}
          
 
         </div>

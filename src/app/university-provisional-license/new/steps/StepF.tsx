@@ -30,7 +30,7 @@ function StepF({ onBack, onNext, data }: StepCProps) {
           if (value !== undefined && value !== null && value !== "") {
             formdata.append(
               key,
-              typeof value === "number" || typeof value === "boolean" ? value.toString() : value
+              typeof value === "number" || typeof value === "boolean" ? String(value) : value
             );
           }
         });
@@ -60,7 +60,6 @@ function StepF({ onBack, onNext, data }: StepCProps) {
           initialValues={initialValues}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
-          onError={() => toast.error("Please fix the errors in the form")}
         >
              <div className="border-t  border-gray-900/10  dark:border-gray-400">
             <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">

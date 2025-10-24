@@ -255,7 +255,7 @@ interface UniversityProvisionalLicense {
 
     signatures: File | null;
     member_cvs: File | null;
-    finance_control: string | null;
+    finance_control: File | null;
     detailed_programmes: File | null;
     physical_education_facilities: File | null;
     status: string | null;
