@@ -36,15 +36,19 @@ function StepJ({ onBack, onNext, data }: StepCProps) {
   });
   const onSubmit = async (values: FormValues) => {
     const formdata = new FormData();
+
+    // Handle all file fields
     Object.entries(values).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        formdata.append(
-          key,
-          typeof value === "number" || typeof value === "boolean"
-            ? String(value)
-            : value
-        );
+      const fieldKey = key as keyof FormValues;
+      
+      if (value instanceof File) {
+        // User selected/replaced a file -> send it
+        formdata.append(key, value);
+      } else if (value === null && initialValues[fieldKey]) {
+        // User removed an existing file -> signal backend to delete
+        formdata.append(`${key}_remove`, "1");
       }
+      // If value is a string (existing URL/name) -> do nothing (keep existing file)
     });
 
     console.log("Form data:", formdata);
@@ -82,13 +86,6 @@ function StepJ({ onBack, onNext, data }: StepCProps) {
                     <FileField
                         name="signatures"
                         label="Signatures of the Officers of the University"
-                        required
-                    />
-                </div>
-                <div className="sm:col-span-full">
-                    <FileField
-                        name="member_cvs"
-                        label="CVs of the members of the university (governance, administration and academic)"
                         required
                     />
                 </div>

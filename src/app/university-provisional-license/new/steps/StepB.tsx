@@ -1,6 +1,6 @@
 "use client"
-import { AppForm, FileField, InputField, SelectField, SubmitButton, TextAreaField } from "@/components/forms";
-import { useCreateProvisionalLicenseMutation, usePatchIntrimAuthorityMutation, useRetrieveProvisionalLicenseQuery } from "@/redux/features/license-api-slice";
+import { AppForm, FileField, InputField, SelectField, SubmitButton } from "@/components/forms";
+import { useCreateProvisionalLicenseMutation, usePatchProvisionalLicenseMutation, useRetrieveProvisionalLicenseQuery } from "@/redux/features/license-api-slice";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -10,7 +10,6 @@ type StepBProps = {
   id?:number
 }
 type FormValues = { 
-    location:string,
     amount_of_land :number
     land_title :string | File,
     land_in_use :number,
@@ -29,13 +28,12 @@ const rent_lease_options = [
 ]
 function StepB({ onNext, onBack, id }: StepBProps) {
   const [createProvisionalLicense, { isLoading: isCreating }] = useCreateProvisionalLicenseMutation();
-  const [patchIntrimAuthority, { isLoading: isPatching }] = usePatchIntrimAuthorityMutation();
+  const [patchIntrimAuthority, { isLoading: isPatching }] = usePatchProvisionalLicenseMutation();
   //fetch initial values if id is provided
   const { data: initialValues } = useRetrieveProvisionalLicenseQuery(id ?? skipToken);
   const isLoading = isCreating || isPatching;
 
   const stepBInitialValues: FormValues = {
-        location: initialValues?.location || "",
         amount_of_land: initialValues?.amount_of_land || 0,
         land_title: initialValues?.land_title ?? "",
         land_in_use: initialValues?.land_in_use || 0,
@@ -45,7 +43,6 @@ function StepB({ onNext, onBack, id }: StepBProps) {
         lease_or_rent_agreement: initialValues?.lease_or_rent_agreement ?? "",
       }
   const stepBValidation = Yup.object({
-        location: Yup.string().required("This field is required"),
         amount_of_land: Yup.number().required("This field is required").min(0, "Amount of land cannot be negative"),
         land_title: Yup.mixed().required("Please attach the land title deed"),
         land_in_use: Yup.number().required("This field is required").min(0, "Land in use cannot be negative"),
@@ -60,7 +57,6 @@ function StepB({ onNext, onBack, id }: StepBProps) {
   });
   const onSubmit = async (values: FormValues) => {
         const formData = new FormData();
-        formData.append('location', values.location);
         formData.append('amount_of_land', String(values.amount_of_land));
         if (values.land_title instanceof File) {
           formData.append('land_title', values.land_title);
@@ -106,14 +102,7 @@ function StepB({ onNext, onBack, id }: StepBProps) {
       <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">LOCATION AND LAND</h2>
     </div>
     <div className="mt-3 grid grid-cols-1 gap-x-3 gap-y-6 sm:grid-cols-6">
-    <div className="sm:col-span-full">
-        <TextAreaField
-            name="location"
-            label="State the location of the proposed university"
-            placeholder="Enter location"
-            required
-        />
-    </div>
+   
      <div className="sm:col-span-full">
       <InputField name="amount_of_land" label="The amount of land owned by the proposed university (in acres)" type="number" required />
      </div>

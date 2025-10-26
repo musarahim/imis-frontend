@@ -71,7 +71,7 @@ function ProvisionalForm({...props}:props) {
   }
 
     const renderTopStepNumber = () => {
-    if (!props.showStepNumber || step==='J') return null
+    if (!props.showStepNumber || step==='K') return null
         return (
            <section className="mt-2 mb-4 flex justify-between">
             {stepsArray.map((item, index) => (

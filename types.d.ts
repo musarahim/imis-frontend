@@ -154,7 +154,6 @@ interface UniversityProvisionalLicense {
   id?: string,
   application_code ?: string,
     institution : string,
-    location: string;
     amount_of_land: number;
     land_title: string | File;
     land_in_use: number;
@@ -187,7 +186,7 @@ interface UniversityProvisionalLicense {
 
     library_books: number | null;
     text_books: number | null;
-    publication_years: PublicationYear[] | null;
+    publication_years: string[] | null;
     computers_in_use: number | null;
     computers_in_library: number | null;
     academic_staff_computers: number | null;
@@ -218,7 +217,7 @@ interface UniversityProvisionalLicense {
     university_promoters: string | null;
 
     other_assets: string | null;
-    anual_budget: number | null;
+    annual_budget: number | null;
     fee_structure: File | null;
     fees_percent_budget: number | null;
     other_income_sources: string | null;

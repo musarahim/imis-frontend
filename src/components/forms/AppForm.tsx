@@ -23,9 +23,10 @@ export default function FormikWrapper<T extends FormikValues>({
       validationSchema={validationSchema}
       onSubmit={onSubmit}
       enableReinitialize={true}
+      
     >
       {({ handleSubmit }) => (
-        <Form onSubmit={handleSubmit} className="space-y-4" onError={onError} encType="multipart/form-data">
+        <Form onSubmit={handleSubmit}  className="space-y-4"  encType="multipart/form-data">
           {children}
         </Form>
       )}

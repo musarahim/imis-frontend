@@ -3,11 +3,11 @@ import { DataTableColumnHeader } from "@/components/common/data-table-column-hea
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { LinkAsBadge } from "@/components/ui/link-as-badge"
 import { ColumnDef } from "@tanstack/react-table"
@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<UnivesersityProvisionalLicense>[] = [
+export const columns: ColumnDef<UniversityProvisionalLicense>[] = [
     
   {
     id: "select",
@@ -92,7 +92,7 @@ export const columns: ColumnDef<UnivesersityProvisionalLicense>[] = [
             
             <DropdownMenuSeparator />
             <DropdownMenuItem 
-              onClick={() => router.push(`/interim-authority/${application.id}/resume`)}
+              onClick={() => router.push(`/university-provisional-license/${application.id}/resume`)}
             >
               Resume
             </DropdownMenuItem>

@@ -44,15 +44,32 @@ function StepH({ onBack, onNext, data }: StepCProps) {
 
     const onSubmit = async (values: FormValues) => {
         const formdata = new FormData();
-         Object.entries(values).forEach(([key, value]) => {
-          if (value !== undefined && value !== null && value !== "") {
-            formdata.append(
-              key,
-              typeof value === "number" || typeof value === "boolean" ? String(value) : value
-            );
-          }
-        });
-    
+         const fileFields: (keyof FormValues)[] = ["stractegic_plan", "programmes"];
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (fileFields.includes(key as keyof FormValues)) {
+        // Handle file field
+        if (value instanceof File) {
+          // User selected/replaced a file -> send it
+          formdata.append(key, value);
+        } else if (value === null && initialValues[key as keyof FormValues]) {
+          // User removed an existing file -> signal backend to delete
+          formdata.append(`${key}_remove`, "1");
+        }
+        // If value is a string (existing URL/name) -> do nothing (keep existing file)
+      } else {
+        // Handle non-file fields
+        if (value !== undefined && value !== null && value !== "") {
+          formdata.append(
+            key,
+            typeof value === "number" || typeof value === "boolean"
+              ? (value as number | boolean).toString()
+              : value as string
+          );
+        }
+      }
+    });
+
     
         console.log("Form data:", formdata);
         await patchProvisionalLicense({

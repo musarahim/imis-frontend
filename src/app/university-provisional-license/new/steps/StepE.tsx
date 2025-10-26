@@ -106,7 +106,7 @@ function StepE({ onBack, onNext, data }: StepCProps) {
             </div>
              <div className="sm:col-span-full">
                       <InputField
-                        name="full_time_academic_staff"
+                        name="intended_full_time_academic_staff"
                         label="How many full time academic staff does the university intend to have?"
                         required
                         type="number"

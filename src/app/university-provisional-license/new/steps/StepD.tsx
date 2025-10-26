@@ -44,7 +44,7 @@ function StepD({ onBack, onNext, data }: StepCProps) {
     library_books: data?.library_books || 0,
     text_books: data?.text_books || 0,
     publication_years: data?.publication_years
-      ? data.publication_years.map((item) => item.year)
+      ? data.publication_years.map((item) => item?.year).filter(year => year !== undefined && year !== null)
       : [],
     computers_in_use: data?.computers_in_use || 0,
     computers_in_library: data?.computers_in_library || 0,
@@ -115,7 +115,9 @@ function StepD({ onBack, onNext, data }: StepCProps) {
       if (Array.isArray(value)) {
         // For arrays, append each item individually
         value.forEach((item) => {
-          formdata.append(key, item.toString());
+          if (item !== null && item !== undefined) {
+            formdata.append(key, item.toString());
+          }
         });
       } else {
         formdata.append(key, value.toString());
@@ -148,7 +150,6 @@ function StepD({ onBack, onNext, data }: StepCProps) {
       initialValues={stepDInitialValues}
       onSubmit={onSubmit}
       validationSchema={stepDValidation}
-      onError={() => toast.error("Please fix the errors in the form")}
     >
       <div className="border-t  border-gray-900/10  dark:border-gray-400">
         <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">
