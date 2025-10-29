@@ -12,7 +12,7 @@ type StepCProps = {
 type FormValues = {
     library_books: number | 0;
     text_books: number | 0;
-    publication_years: number[] | [];
+    publication_years: string[] | [];
     computers_in_use: number | 0;
     computers_in_library: number | 0;
     academic_staff_computers: number | 0;
@@ -43,9 +43,7 @@ function StepD({ onBack, onNext, data }: StepCProps) {
   const stepDInitialValues = {
     library_books: data?.library_books || 0,
     text_books: data?.text_books || 0,
-    publication_years: data?.publication_years
-      ? data.publication_years.map((item) => item?.year).filter(year => year !== undefined && year !== null)
-      : [],
+    publication_years: data?.publication_years ? data.publication_years.map(year => typeof year === 'string' ? parseInt(year, 10) : year) : [],
     computers_in_use: data?.computers_in_use || 0,
     computers_in_library: data?.computers_in_library || 0,
     academic_staff_computers: data?.academic_staff_computers || 0,

@@ -39,7 +39,7 @@ function ProvisionalLicenseData() {
     console.log(data)
   return (
     <>
-     <DataTable<UnivesersityProvisionalLicense, unknown> 
+     <DataTable<UniversityProvisionalLicense, unknown> 
       rowCount={data?.count ?? 0} 
       isFetching={isLoading} 
       columns={columns} 

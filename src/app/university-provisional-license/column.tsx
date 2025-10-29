@@ -92,7 +92,7 @@ export const columns: ColumnDef<UniversityProvisionalLicense>[] = [
             
             <DropdownMenuSeparator />
             <DropdownMenuItem 
-              onClick={() => router.push(`/university-provisional-license/${application.id}/resume`)}
+              onClick={() => router.replace(`/university-provisional-license/${application.id}/resume`)}
             >
               Resume
             </DropdownMenuItem>

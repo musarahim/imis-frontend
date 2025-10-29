@@ -67,11 +67,7 @@ function StepF({ onBack, onNext, data }: StepCProps) {
             </h2>
           </div>
            <div className="mt-3 grid grid-cols-1 gap-x-3 gap-y-6 sm:grid-cols-6">
-          <div className="sm:col-span-full">
-              <h3 className="text-base/4  text-gray-800 dark:text-gray-200">
-              Academic Staff
-            </h3>
-            </div>
+         
              <div className="sm:col-span-full">
                       <RichEditorField
                         name="institution_ownership"

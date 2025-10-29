@@ -34,7 +34,7 @@ function Preview({ data, onStepClick }: StepDProps) {
           <Table className="table-fixed rounded-2xl">
             <TableBody>
               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
-                <TableCell className="font-medium w-[100px]">
+                <TableCell className="font-medium w-[300px]">
                   Institution Name
                 </TableCell>
 
@@ -447,7 +447,57 @@ function Preview({ data, onStepClick }: StepDProps) {
                 <TableCell className="text-right text-gray-800 dark:text-gray-100">
                   {data?.library_computer_software}
                 </TableCell>
+              </TableRow>                
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Students will have access to computers</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.students_have_access ? "Yes" : "No"}
+                </TableCell>
               </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">University has internet access</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.has_internet_access ? "Yes" : "No"}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Number of library seats</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.library_seats}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Number of classroom seats</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.classroom_seats}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Number of laboratories seats</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.laboratories_seats}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Administration block seats</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.administration_block_seats}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Student Accommodation Facilities</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.student_facilities}
+                </TableCell>
+              </TableRow>
+
             </TableBody>
           </Table>
          
@@ -458,6 +508,507 @@ function Preview({ data, onStepClick }: StepDProps) {
           </Button>
         </CardFooter>
          <Separator />
+          <CardHeader>
+          <CardTitle>STAFF INFORMATION</CardTitle>
+        </CardHeader>
+        <CardContent>
+      <Table className="table-fixed rounded-2xl">
+            <TableBody>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-semibold w-[100px]">
+                Academic Staff
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Full time academic staff</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.intended_full_time_academic_staff}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">
+                  Part time academic staff
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.intended_part_time_academic_staff}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-semibold w-[100px]">
+                  Administrative And Support Staff
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">
+                  Full time administrative staff
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.intended_full_time_admin_staff}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Academic staff support</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.intended_support_staff}
+                </TableCell>
+              </TableRow>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Proposed Council Members</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  
+                  <div dangerouslySetInnerHTML={{ __html: data?.council_members || '' }}/>
+                </TableCell>
+              </TableRow>
+                <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Proposed Chancellor</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.proposed_chancellor}
+                </TableCell>
+              </TableRow>                
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]"> Proposed Vice Chancellor/Rector</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.proposed_vice_chancellor}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Proposed University Secretary</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.proposed_university_secretary}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Proposed Academic Registrar</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.proposed_academic_registrar}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[100px]">Deans of each of the faculties</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                
+                   <div dangerouslySetInnerHTML={{ __html: data?.heads_of_faculties || '' }}/>
+                </TableCell>
+              </TableRow>
+             
+             
+         
+
+            </TableBody>
+          </Table>
+         
+        </CardContent>
+        <CardFooter className="flex items-center justify-end gap-2">
+          <Button variant="default" onClick={() => onStepClick("E")}>
+            Edit
+          </Button>
+        </CardFooter>
+         <Separator />
+           
+          <CardHeader>
+          <CardTitle> OWNERSHIP OF THE UNIVERSITY</CardTitle>
+        </CardHeader>
+        <CardContent>
+      <Table className="table-fixed rounded-2xl">
+            <TableBody>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Owners of the proposed university</TableCell>
+
+                <TableCell className="text-left text-gray-800 dark:text-gray-100 p-3 flex-1">
+                  
+                  <div dangerouslySetInnerHTML={{ __html: data?.institution_ownership || '' }}/>
+                </TableCell>
+              </TableRow>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Promoters of the university</TableCell>
+
+                <TableCell className="text-left text-gray-800 dark:text-gray-100 p-3 flex-1">
+                  
+                  <div dangerouslySetInnerHTML={{ __html: data?.university_promoters || '' }}/>
+                </TableCell>
+              </TableRow>
+
+            </TableBody>
+          </Table>
+         
+        </CardContent>
+        <CardFooter className="flex items-center justify-end gap-2">
+          <Button variant="default" onClick={() => onStepClick("F")}>
+            Edit
+          </Button>
+        </CardFooter>
+         <Separator />
+          <CardHeader>
+          <CardTitle> FINANCES AND THEIR MANAGEMENT</CardTitle>
+        </CardHeader>
+        <CardContent>
+      <Table className="table-fixed rounded-2xl">
+            <TableBody>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Other Assets</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.other_assets || ''}
+                </TableCell>
+              </TableRow>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Proposed Annual Budget</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.annual_budget || ''}
+                </TableCell>
+              </TableRow> 
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Fee Structure</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  <FileDisplay file={data?.fee_structure}  />
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">% Budget Derived from fees</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.fees_percent_budget}
+                </TableCell>
+              </TableRow> 
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">Other Sources of Revenue</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.other_income_sources}
+                </TableCell>
+              </TableRow>              
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">Infrastructure Development Allocation</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.infrastructure_development}
+                </TableCell>
+              </TableRow>
+            <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">Research Development Allocation</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.research_development}
+                </TableCell>
+              </TableRow> 
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">Computer Hardware and Software Allocation</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.computer_hardware_software}
+                </TableCell>
+              </TableRow>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">Science Lab Equipment Allocation</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.science_lab_equipment}
+                </TableCell>
+              </TableRow>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">Library Equipment Allocation</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.library_equipment}
+                </TableCell>
+              </TableRow>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">Staff Development Allocation</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.staff_development}
+                </TableCell>
+              </TableRow> 
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">% Budget for Staff Salaries</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.staff_salaries}
+                </TableCell>
+              </TableRow> 
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[200px]">Current Bankers</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.current_bankers}
+                </TableCell>
+              </TableRow>
+
+            </TableBody>
+          </Table>
+         
+        </CardContent>
+        <CardFooter className="flex items-center justify-end gap-2">
+          <Button variant="default" onClick={() => onStepClick("G")}>
+            Edit
+          </Button>
+        </CardFooter>
+         <Separator />
+         <CardHeader>
+          <CardTitle>VISION AND MISSION OF THE UNIVERSITY</CardTitle>
+        </CardHeader>
+        <CardContent>
+      <Table className="table-fixed rounded-2xl">
+            <TableBody>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Vision</TableCell>
+
+                <TableCell className="text-left text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  {data?.vision || ''}
+                </TableCell>
+              </TableRow>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Mission</TableCell>
+
+                <TableCell className="text-left text-gray-800 dark:text-gray-100 p-3 flex-1">
+                  
+                  {data?.mission || '' }
+                </TableCell>
+              </TableRow>  
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Objectives</TableCell>
+
+                <TableCell className="text-left text-gray-800 dark:text-gray-100 p-3 flex-1">
+                  
+                  {data?.specific_objectives || '' }
+                </TableCell>
+              </TableRow>
+               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Strategic Plan</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  <FileDisplay file={data?.stractegic_plan}  />
+                </TableCell>
+              </TableRow> 
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">University Programmes</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100 p-3 flex-1">
+
+                  <FileDisplay file={data?.programmes}  />
+                </TableCell>
+              </TableRow> 
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Area of Competence</TableCell>
+
+                <TableCell className="text-left text-gray-800 dark:text-gray-100 p-3 flex-1">
+                  
+                  <div dangerouslySetInnerHTML={{ __html: data?.area_of_competence || '' }}/>
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Future Planned Programmes</TableCell>
+
+                <TableCell className="text-left text-gray-800 dark:text-gray-100 p-3 flex-1">
+                  
+                  <div dangerouslySetInnerHTML={{ __html: data?.feature_programmes || '' }}/>
+                </TableCell>
+              </TableRow>
+
+            </TableBody>
+          </Table>
+         
+        </CardContent>
+        <CardFooter className="flex items-center justify-end gap-2">
+          <Button variant="default" onClick={() => onStepClick("H")}>
+            Edit
+          </Button>
+        </CardFooter>
+         <Separator />
+          <CardHeader>
+          <CardTitle> STUDENT POPULATION DISTRIBUTION</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table className="table-fixed rounded-2xl">
+            <TableBody>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Total number of students
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.total_number_of_students}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-semibold w-[100px]">Programme Distribution of Students</TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Arts (%)
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.arts_percentage}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Social Sciences (%)
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.social_sciences_percentage}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Basic Sciences (%)
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.basic_sciences_percentage}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Arts Education (Teaching) (%) </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.arts_education_percentage}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Agriculture (%) </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.agriculture_percentage}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                 Engineering/ Technology (%)
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.engineering_percentage}
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Medicine (Medicine Pharmacy, dentistry) (%)
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.medicine_percentage}
+                </TableCell>
+              </TableRow> 
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Veterinary medicine (%)
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  {data?.veterinary_percentage}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </CardContent>
+        <CardFooter className="flex items-center justify-end gap-2">
+          <Button variant="default" onClick={() => onStepClick("I")}>
+            Edit
+          </Button>
+        </CardFooter>
+        <Separator />
+          <CardHeader>
+          <CardTitle> Required Attachments</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table className="table-fixed rounded-2xl">
+            <TableBody>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Signatures of the Officers
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  <FileDisplay file={data?.signatures}  />
+                </TableCell>
+              </TableRow>
+        
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  CVs of the Members
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  <FileDisplay file={data?.member_cvs}  />
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Financial Control Mechanism
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  <FileDisplay file={data?.finance_control}  />
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">
+                  Programmes Details
+                </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  <FileDisplay file={data?.detailed_programmes}  />
+                </TableCell>
+              </TableRow>
+              <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+                <TableCell className="font-medium w-[300px]">Physical and Educational Facilities </TableCell>
+
+                <TableCell className="text-right text-gray-800 dark:text-gray-100">
+                  <FileDisplay file={data?.physical_education_facilities}  />
+                </TableCell>
+              </TableRow>
+           
+            </TableBody>
+          </Table>
+        </CardContent>
+        <CardFooter className="flex items-center justify-end gap-2">
+          <Button variant="default" onClick={() => onStepClick("J")}>
+            Edit
+          </Button>
+        </CardFooter>
+        <Separator />
                <CardContent>
         
           <FieldSet>
