@@ -68,6 +68,39 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
         }),
     }),
 
+    //university charter application endpoints
+    getCharterApplications: builder.query<ListRespornse<CharterApplication>, ListParams>({
+      query: (params) => {
+          const p = params ?? {};
+          const search = new URLSearchParams();
+  
+          if (p.page !== undefined) search.set("page", String(p.page));
+          if (p.pageSize !== undefined) search.set("page_size", String(p.pageSize));
+          if (p.search) search.set("search", p.search);
+          if (p.ordering) search.set("ordering", p.ordering);
+  
+          const qs = search.toString();
+          return `/licenses/charter-application/${qs ? `?${qs}` : ""}`;
+        },
+    }),
+    retrieveCharterApplication: builder.query<CharterApplication, number>({
+        query: (id) => `/licenses/charter-application/${id}/`,
+    }),
+    patchCharterApplication: builder.mutation<CharterApplication, {id: number, data: Partial<FormData>}>({
+        query: ({id, data}) => ({
+            url: `/licenses/charter-application/${id}/`,
+            method: 'PATCH',
+            body: data,
+        }),
+    }),
+    createCharterApplication: builder.mutation<CharterApplication, Partial<FormData>>({
+        query: (data) => ({
+            url: `/licenses/charter-application/`,
+            method: 'POST',
+            body: data,
+        }),
+    }), 
+
   }),
 });
 
@@ -81,4 +114,8 @@ export const {
   useRetrieveProvisionalLicenseQuery,
   usePatchProvisionalLicenseMutation,
   useCreateProvisionalLicenseMutation,
+  useCreateCharterApplicationMutation,
+  useGetCharterApplicationsQuery,
+  useRetrieveCharterApplicationQuery,
+  usePatchCharterApplicationMutation,
  } = LicenseApiSlice;
