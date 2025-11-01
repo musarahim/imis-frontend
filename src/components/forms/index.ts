@@ -1,4 +1,5 @@
 export { default as AppForm } from './AppForm';
+export { default as DatePicker } from './DatePicker';
 export { default as FileField } from './FileField';
 export { default as ImageField } from './ImageInputField';
 export { default as InputField } from './InputField';

@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from '@/utils';
+import ChartApplicationForm from "./ChartApplicationForm";
 
 function page() {
   return (
@@ -21,7 +22,7 @@ function page() {
                 <CardTitle>New Grant a Charter Application</CardTitle>
               </CardHeader>
               <CardContent>
-                <div>Form goes here</div>
+                <ChartApplicationForm />
               </CardContent>
             </Card>
           </div>

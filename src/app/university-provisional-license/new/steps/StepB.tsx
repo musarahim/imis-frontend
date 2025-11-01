@@ -18,10 +18,7 @@ type FormValues = {
     leased_or_rented :string,
     lease_or_rent_agreement :string | File,
 }
-const options = [
-    { label: "Yes", value: "true" },
-    { label: "No", value: "false" },
-]
+
 const rent_lease_options = [
     { label: "Rent", value: "rent" },
     { label: "Lease", value: "lease" },

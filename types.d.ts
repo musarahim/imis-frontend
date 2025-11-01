@@ -265,12 +265,18 @@ interface UniversityProvisionalLicense {
 }
 
 interface CharterApplication {
+  id?: string,
+  application_code ?: string,
   has_provisional_license: boolean,
+  land_title: File | null;
+  provisional_license: string | File,
+  lease_or_rent_agreement: File | null;
+  provisional_license_issue_date?: string,
   amount_of_land_owned: string,
   land_in_use: string,
   land_for_future_use: string,
   year_obtained: string,
-  leased_or_rented: string,
+  leased_or_rented: boolean,
   classrooms: number,
   libraries: number,
   science_labs: number,

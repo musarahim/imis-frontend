@@ -8,9 +8,10 @@ interface Props {
   options: { label: string; value: string }[];
   required?: boolean;
   id?: string;
+  orientation?:"horizontal" | "vertical" | undefined
 }
 
-function RadioInputField({ name, label, options, required, id }: Props) {
+function RadioInputField({ name, label, options, required, id, orientation }: Props) {
   const [field, meta, helpers] = useField<string>(name);
 
   return (
@@ -24,13 +25,14 @@ function RadioInputField({ name, label, options, required, id }: Props) {
         id={id || name}
         name={field.name}
         className="mt-2"
+        orientation={orientation}
         value={field.value ?? ""}                 // controlled value
         onValueChange={(val) => helpers.setValue(val)} // tell Formik
         onBlur={() => helpers.setTouched(true)}   // mark touched
       >
         {options.map((option) => (
           <div key={option.value} className="flex items-center space-x-2">
-            <RadioGroupItem value={option.value} id={`${name}-${option.value}`} />
+            <RadioGroupItem value={option.value} id={`${name}-${option.value}`}  />
             <Label htmlFor={`${name}-${option.value}`} className="text-sm/6 text-gray-900 dark:text-gray-50">
               {option.label}
             </Label>
