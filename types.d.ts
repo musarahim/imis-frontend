@@ -362,3 +362,18 @@ interface CharterApplication {
   institution: string,
   publication_years: string[],
 }
+
+interface ProgrammeAccreditation {
+    id?: number,
+    application_number?: string,
+    application_type: string,
+    programme_level: string,
+    programme_name: string,
+    duration_semester: number,
+    campus: string,
+    date_submitted?: string,
+    status?: string,
+    programme_structure: File | string,
+    letter_of_submission: File | string,
+    institution?: string
+}
