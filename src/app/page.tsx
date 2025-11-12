@@ -13,21 +13,21 @@ const dashboardCards = [
     title: 'Staff Portal',
     description: 'ILA, Staff Records, Payroll, Leave Management',
     icon: BuildingOfficeIcon,
-    href: '/institutions',
+    href: '/auth/login',
     color: 'bg-primary'
   },
   {
     title: 'Statistics & Reports',
     description: 'Login to Open Statistics and Reports Dashboard',
     icon: ChartBarSquareIcon,
-    href: '/licenses',
+    href: '/apps/statistics',
     color: 'bg-blue-700'
   },
   {
     title: 'Journal Administration',
     description: 'Access NCHE Open Journal System (OJS) for journal management',
     icon: BookOpenIcon,
-    href: '/programs',
+    href: '/apps/ojs',
     color: 'bg-secondary'
   },
   {
