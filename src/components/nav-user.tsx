@@ -89,7 +89,7 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => router.push('/profile')}>
                 <BadgeCheck />
-                Account
+                My Profile
               </DropdownMenuItem>
               <DropdownMenuItem >
                 <Bell />

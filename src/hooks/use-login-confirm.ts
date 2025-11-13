@@ -33,7 +33,7 @@ function UseLoginConfirm(ephemeral_token:string) {
      twofactor({ephemeral_token,code}).unwrap().then(() => {
        dispatch(setAuth())
         toast.success("Login Successful")
-        router.push("/")
+        router.push("/dashboard")
       }
       ).catch(() => {
         toast.error("Token is invalid or expired!")

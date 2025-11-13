@@ -13,7 +13,7 @@ const dashboardCards = [
     title: 'Staff Portal',
     description: 'ILA, Staff Records, Payroll, Leave Management',
     icon: BuildingOfficeIcon,
-    href: '/auth/login',
+    href: '/dashboard',
     color: 'bg-primary'
   },
   {
