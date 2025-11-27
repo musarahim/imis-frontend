@@ -16,10 +16,16 @@ type User =
         email:string,
         first_name:string,
         last_name:string,
+        other_names?:string,
         username:string,
         profile_pic?:string,
+          phone:string,
+          alternative_phone_number?:string,
+        is_active?:boolean,
+        is_staff?:boolean,
          password:string,
-         re_password:string
+         re_password:string,
+         employee?:number,
 
 }
 
@@ -376,4 +382,122 @@ interface ProgrammeAccreditation {
     programme_structure: File | string,
     letter_of_submission: File | string,
     institution?: string
+    employee?: number
+}
+
+
+
+interface Employee {
+    id?: number,
+    employee_number: string,
+    date_of_birth: string,
+    gender: "male"|"female",
+    joining_date: string,
+    distance_from_work: number,
+    address: string,
+    directorate: string,
+    address_of_origin: string,
+    marital_status: string,
+    spouse_name: string,
+    next_of_kin_name: string,
+    next_of_kin_relationship: string,
+    next_of_kin_date_of_birth: string,
+    occupation: string,
+    work_place: string,
+    next_of_kin_phone_number: string,
+    next_of_kin_address: string,
+    next_of_kin_email: string,
+    contact_person_name: string,
+    contact_person_relationship: string,
+    contact_person_telephone: string,
+    contact_person_email: string,
+    contact_person_address: string,
+    blood_group: string,
+    allergies: string,
+    father_name: string,
+    father_status: string,
+    father_contact: string,
+    mother_name: string,
+    mother_status: string,
+    mother_contact: string,
+    nin: string,
+    national_id_document: string,
+    passport_photo: string,
+    license_number: string | null,
+    class_of_license: string | null,
+    date_of_issue: string | null,
+    date_of_expiry: string | null,
+    license_document: string,
+    passport_number: string,
+    passport_type: string,
+    issue_date: string,
+    expiry_date: string,
+    place_of_issue: string,
+    nssf_number: string,
+    tin_number: string,
+    bank_name: string,
+    branch: string,
+    account_name: string,
+    account_number: string,
+    account_type: string | null,
+    signature: string | null,
+    system_account: string,
+    department: string,
+    designation: string,
+    title: string,
+    nationality: string,
+    religion: string,
+    tribe: string,
+    supervisor: string,
+    district: string,
+    county: string,
+    sub_county: string,
+    parish: string,
+    village: string,
+    district_of_origin: string,
+    county_of_origin: string,
+    sub_county_of_origin: string,
+    parish_of_origin: string,
+    village_of_origin: string,
+    education_histories: EducationHistory[],
+    work_histories: WorkHistory[],
+    referees: Referee[],
+    dependents: Dependent[]
+}
+
+interface WorkHistory {
+    id?: number,
+    employer: string,
+    position: string,
+    from_date: string,
+    to_date: string,
+    responsibilities: string,
+    employee?: number
+}
+interface EducationHistory {
+    id?: number,
+    institution: string,
+    qualification: string,
+    from_year: number,
+    to_year: number,
+    award_date: string,
+    employee?: number
+    certificate_document?: string
+}
+
+interface Referee {
+    id?: number,
+    name: string,
+    place_of_work: string,
+    position: string,
+    telephone: string,
+    email: string,
+    employee?: number
+}
+interface Dependent {
+    id?:number,
+    name:string,
+    relationship:string,
+    date_of_birth:string,
+    employee?:number
 }

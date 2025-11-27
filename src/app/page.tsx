@@ -48,7 +48,7 @@ export default function Home() {
   return (
    
 
-             <>
+             <div className="bg-gray-100">
      <header className="bg-secondary dark:bg-gray-900 sticky top-0 z-50 flex w-full items-center border-b">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <span className="text-left ms-4 text-gray-50 font-bold">NCHE Integrated Information Management System</span>
@@ -65,7 +65,7 @@ export default function Home() {
              
               <SidebarInset>
      
-    <div className="py-4 sm:py-16 lg:py-16">
+    <div className="py-4 sm:py-16 lg:py-16 ">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-5">
           <div className="col-span-2">
@@ -114,7 +114,7 @@ export default function Home() {
             </div>
             
               
-             </>
+             </div>
   );
 }
 
