@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useEmployeeData } from "@/hooks";
 function PersonalDetails() {
   const { employee, user, isLoading } = useEmployeeData();
+  console.log(user?.groups, "user in personal details");
 
   if (isLoading) {
     return <div>Loading...</div>;

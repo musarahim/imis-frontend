@@ -1,14 +1,21 @@
+type Permission = {
+    name:string
+    codename:string
+}
 
 type Group = {
     name:string
+    permissions?:Permission[]
 }
 
+
 type NavItem = {
-  name: string
-  href: string
-  icon: ElementType
-  current?: boolean,
-  children?: { name: string; href: string, current:boolean }[]
+  title: string
+  url: string
+  icon: LucideIcon
+  isActive?: boolean
+  requiredGroups?:Group[]
+  items?: NavItem[]
 }
 
 type User = 
@@ -26,6 +33,7 @@ type User =
          password:string,
          re_password:string,
          employee?:number,
+          groups?:Group[],
 
 }
 
@@ -499,5 +507,6 @@ interface Dependent {
     name:string,
     relationship:string,
     date_of_birth:string,
-    employee?:number
+    employee?:number,
+    gender?:string
 }

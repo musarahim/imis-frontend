@@ -11,8 +11,8 @@ export default function Page() {
   return (
      <RequireAuth>
     <SiteHeader items={[    { label: "Home", href: "/" },
-    { label: "Lincenses", href: "/" },
-    { label: "Interim Authority (University)" }, // current page
+    { label: "Main Menu", href: "/" },
+    { label: "Dashboard" }, // current page
 ]} />
           <AppSidebar />
          <div className="flex flex-1">

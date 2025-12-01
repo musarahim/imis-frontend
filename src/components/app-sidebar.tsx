@@ -11,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuItem
 } from "@/components/ui/sidebar"
+import { useEmployeeData } from "@/hooks"
 import {
   Building,
   HomeIcon,
@@ -22,9 +23,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
+import { SidebarSkeleton } from "./sidebar-skeleton"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
+  const { user, isLoading } = useEmployeeData();
 
   // Function to check if a menu item is active
   const isActiveRoute = (url: string, items?: any[]) => {
@@ -34,171 +37,139 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
     return false
   }
+// --- Build permission & group sets from user ---
 
-  const data = {
-    user: {
-      name: "shadcn",
-      email: "m@example.com",
-      avatar: "/avatars/shadcn.jpg",
-    },
-    navMain: [
-      {
-        title: "Dashboard",
-        url: "/",
-        icon: HomeIcon,
-        isActive: pathname === "/"
-      },
-      {
-        title: "Leave",
-        url: "#",
-        icon: Building,
-        isActive: isActiveRoute("#", [
-          { title: "Leave Applications", url: "/leave-applications" },
-          { title: "My Leave Schedule", url: "/my-leave-schedule" },
-          { title: "My Leave", url: "/my-leave" },
-        ]),
-        items: [
-          {
-            title: "Leave Applications",
-            url: "/leave-applications",
-            isActive: pathname.startsWith("/leave-applications")
-          },
-          {
-            title: "My Leave Schedule",
-            url: "/my-leave-schedule",
-            isActive: pathname.startsWith("/my-leave-schedule")
-          },
-          {
-            title: "My Leave",
-            url: "/my-leave",
-            isActive: pathname.startsWith("/my-leave")
-          },
-        ],
-      },
-      // {
-      //   title: "License Applications",
-      //   url: "#",
-      //   icon: BookOpen,
-      //   isActive: isActiveRoute("#", [
-      //     { title: "Classification & Registration", url: "/classification-registration" },
-      //     { title: "Provisional License (OTI)", url: "/provisional-license-oti" },
-      //     { title: "Provisional License (ODAI)", url: "/provisional-license-odai" },
-      //     { title: "Interim Authority (ODAI)", url: "/odai-interim-authority" },
-      //     { title: "Grant of a charter (ODAI)", url: "/grant-charter-odai" },
-      //     { title: "Interim Authority (University)", url: "/interim-authority" },
-      //     { title: "Provisional License (University)", url: "/provisional-license-university" },
-      //     { title: "Grant of a charter (University)", url: "/grant-charter-university" },
-      //   ]),
-      //   items: [
-      //     {
-      //       title: "Classification & Registration",
-      //       url: "/classification-registration",
-      //       isActive: pathname.startsWith("/classification-registration")
-      //     },
-      //     {
-      //       title: "Provisional License (OTI)",
-      //       url: "/provisional-license-oti",
-      //       isActive: pathname.startsWith("/provisional-license-oti")
-      //     },
-      //     {
-      //       title: "Provisional License (ODAI)",
-      //       url: "/provisional-license-odai",
-      //       isActive: pathname.startsWith("/provisional-license-odai")
-      //     },
-      //     {
-      //       title: "Interim Authority (ODAI)",
-      //       url: "/odai-interim-authority",
-      //       isActive: pathname.startsWith("/odai-interim-authority")
-      //     },
-      //     {
-      //       title: "Grant of a charter (ODAI)",
-      //       url: "/grant-charter-odai",
-      //       isActive: pathname.startsWith("/grant-charter-odai")
-      //     },
-      //     {
-      //       title: "Interim Authority (University)",
-      //       url: "/interim-authority",
-      //       isActive: pathname.startsWith("/interim-authority")
-      //     },
-      //     {
-      //       title: "Provisional License (University)",
-      //       url: "/university-provisional-license",
-      //       isActive: pathname.startsWith("/university-provisional-license")
-      //     },
-      //     {
-      //       title: "Grant of a charter (University)",
-      //       url: "/university-grant-charter",
-      //       isActive: pathname.startsWith("/university-grant-charter")
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: "Programmes Accreditation",
-      //   url: "#",
-      //   icon: GraduationCap,
-      //   isActive: isActiveRoute("#", [
-      //     { title: "Accreditation Applications", url: "/accreditation-applications" }
-      //   ]),
-      //   items: [
-      //     {
-      //       title: "Accreditation Applications",
-      //       url: "/accreditation-applications",
-      //       isActive: pathname.startsWith("/accreditation-applications")
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: "Institution Affiliation",
-      //   url: "#",
-      //   icon: GraduationCap,
-      //   isActive: isActiveRoute("#", [
-      //     { title: "Affiliation Applications", url: "/affiliation-applications" }
-      //   ]),
-      //   items: [
-      //     {
-      //       title: "Affiliation Applications",
-      //       url: "/affiliation-applications",
-      //       isActive: pathname.startsWith("/affiliation-applications")
-      //     },
-      //   ],
-      // },
-      {
-        title: "Settings",
-        url: "#",
-        icon: Settings2,
-        isActive: isActiveRoute("#", [
-          { title: "Change Password", url: "/settings/password" },
-          { title: "Manage Notifications", url: "/settings/notifications" },
-        
-        ]),
-        items: [
-          {
-            title: "Change Password",
-            url: "/settings/password",
-            isActive: pathname.startsWith("/settings/password")
-          },
-          {
-            title: "Manage Notifications",
-            url: "/settings/notifications",
-            isActive: pathname.startsWith("/settings/notifications")
-          },
+  const userPermissions = React.useMemo(() => {
+    if (!user || !user.groups) return new Set<string>()
+    return new Set(
+      user.groups.flatMap((g) => g.permissions?.map((p) => p.codename) || [])
+    )
+  }, [user])
 
-        ],
-      },
-    ],
-    navSecondary: [
-      {
-        title: "Support",
-        url: "#",
-        icon: LifeBuoy,
-      },
-      {
-        title: "Feedback",
-        url: "#",
-        icon: Send,
-      },
-    ],
+  const userGroups = React.useMemo(() => {
+    if (!user || !user.groups) return new Set<string>()
+    return new Set(user.groups.map((g) => g.name))
+  }, [user])
+
+  const canSeeItem = (item: any): boolean => {
+    // If no requirements, everyone can see
+    const requiredPerms: string[] = item.requiredPermissions ?? []
+    const requiredGroups: string[] = item.requiredGroups ?? []
+
+    // Check groups
+    if (requiredGroups.length > 0) {
+      const hasGroup = requiredGroups.some((g) => userGroups.has(g))
+      if (!hasGroup) return false
+    }
+
+    // Check permissions
+    if (requiredPerms.length > 0) {
+      const hasPerm = requiredPerms.some((p) => userPermissions.has(p))
+      if (!hasPerm) return false
+    }
+
+    return true
   }
+
+  const data = React.useMemo(
+    () => ({
+      navMain: [
+        {
+          title: "Dashboard",
+          url: "/",
+          icon: HomeIcon,
+          isActive: pathname === "/",
+        },
+        {
+          title: "Leave",
+          url: "#",
+          icon: Building,
+          isActive: isActiveRoute("#", [
+            { title: "Leave Applications", url: "/leave/leave-applications" },
+            { title: "My Leave Schedule", url: "/leave/my-leave-schedule" },
+            { title: "My Leave", url: "/leave/my-leave" },
+          ]),
+          requiredGroups: ["Staff"],
+          items: [
+            {
+              title: "Leave Applications",
+              url: "/leave/leave-applications",
+              isActive: pathname.startsWith("/leave/leave-applications"),
+              requiredPermissions: ["view_leaveapplication"],
+            },
+            {
+              title: "My Leave Schedule",
+              url: "/leave/my-leave-schedule",
+              isActive: pathname.startsWith("/leave/my-leave-schedule"),
+              requiredPermissions: ["view_leaveapplication"],
+            },
+            {
+              title: "My Leave",
+              url: "/leave/my-leave",
+              isActive: pathname.startsWith("/leave/my-leave"),
+              requiredPermissions: ["view_leaveapplication"],
+            },
+          ],
+        },
+        {
+          title: "Settings",
+          url: "#",
+          icon: Settings2,
+          isActive: isActiveRoute("#", [
+            { title: "Change Password", url: "/settings/password" },
+            { title: "Manage Notifications", url: "/settings/notifications" },
+          ]),
+          items: [
+            {
+              title: "Change Password",
+              url: "/settings/password",
+              isActive: pathname.startsWith("/settings/password"),
+            },
+            {
+              title: "Manage Notifications",
+              url: "/settings/notifications",
+              isActive: pathname.startsWith("/settings/notifications"),
+            },
+          ],
+        },
+      ],
+      navSecondary: [
+        {
+          title: "Support",
+          url: "#",
+          icon: LifeBuoy,
+        },
+        {
+          title: "Feedback",
+          url: "#",
+          icon: Send,
+        },
+      ],
+    }),
+    [pathname]
+  )
+
+  // --- Filter menu based on permissions/groups ---
+  const filteredNavMain = React.useMemo(() => {
+    return data.navMain
+      .map((item) => {
+        // If it has children, filter them too
+        const childItems = item.items?.filter(canSeeItem) ?? []
+
+        // Decide if parent is visible:
+        // - if parent passes canSeeItem
+        // - OR if it has any visible children (so parent can be used as group header)
+        const parentVisible = canSeeItem(item) || childItems.length > 0
+
+        if (!parentVisible) return null
+
+        return {
+          ...item,
+          items: childItems,
+        }
+      })
+      .filter(Boolean)
+  }, [data.navMain, userPermissions, userGroups])
 
   return (
     <Sidebar
@@ -221,8 +192,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+       {isLoading ? <SidebarSkeleton /> : ( 
+        <>
+          <NavMain items={filteredNavMain as NavItem[]} />
+          <NavSecondary items={data.navSecondary} className="mt-auto" />
+        </>
+        )} 
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
