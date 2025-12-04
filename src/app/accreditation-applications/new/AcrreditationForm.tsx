@@ -55,12 +55,13 @@ function AccreditationForm() {
 
     await createProgrammeAccreditation(formData)
       .unwrap()
-      .then((res) => {
+      .then(() => {
         toast.success("Programme Accreditation Application created successfully");
         
         router.push("/accreditation-applications");
       })
       .catch((err) => {
+        console.error("Error creating Programme Accreditation Application:", err);
         toast.error("Error creating Programme Accreditation Application");
       });
   };

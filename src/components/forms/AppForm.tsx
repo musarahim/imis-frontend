@@ -6,7 +6,6 @@ interface FormikWrapperProps<T extends FormikValues = FormikValues> {
   initialValues: T;
   validationSchema: Yup.ObjectSchema<Record<string, unknown>>; // Replaced `any` with `Record<string, unknown>`
   onSubmit: (values: T, formikHelpers: FormikHelpers<T>) => void | Promise<void>;
-  onError?: () => void;
   children: ReactNode;
 }
 
@@ -15,7 +14,6 @@ export default function FormikWrapper<T extends FormikValues>({
   validationSchema,
   onSubmit,
   children,
-  onError,
 }: FormikWrapperProps<T>) {
   return (
     <Formik<T>

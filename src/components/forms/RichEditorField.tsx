@@ -20,7 +20,7 @@ export default function RichEditorField({
   const [field, meta, helpers] = useField<string>(name);
   const { setValue, setTouched } = helpers;
 
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<{ getContent: () => string; setContent: (content: string) => void } | null>(null);
 
   // Only compute once on mount so the editor can manage its own state afterward.
   const initial = useMemo(() => (field.value ?? "") as string, []); // eslint-disable-line react-hooks/exhaustive-deps

@@ -4,9 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import { useField, useFormikContext } from "formik";
 import { ChevronDown, X } from "lucide-react";
@@ -28,7 +28,7 @@ interface Props {
 
 function MultiSelectField({ name, label, required = false, options, id, placeholder }: Props) {
   const [field, meta] = useField<string[]>(name);
-  const { setFieldValue, setFieldTouched } = useFormikContext<any>();
+  const { setFieldValue, setFieldTouched } = useFormikContext<Record<string, unknown>>();
   const [open, setOpen] = useState(false);
 
   const selectedValues = Array.isArray(field.value) ? field.value : [];

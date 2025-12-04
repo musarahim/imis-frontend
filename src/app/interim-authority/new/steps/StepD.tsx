@@ -73,7 +73,7 @@ function StepD({ onBack,data, onNext }: StepDProps) {
           onBack();
       };
   return (
- <AppForm initialValues={stepDInitialValues} onSubmit={onSubmit} validationSchema={stepDValidation} onError={() => toast.error("Please fix the errors in the form")}>
+ <AppForm initialValues={stepDInitialValues} onSubmit={onSubmit} validationSchema={stepDValidation}>
             
     <div className="border-t  border-gray-900/10  dark:border-gray-400">
       <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">OTHER DOCUMENTS</h2>

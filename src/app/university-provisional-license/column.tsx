@@ -1,23 +1,68 @@
-"use client"
-import { DataTableColumnHeader } from "@/components/common/data-table-column-header"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+"use client";
+
+import { DataTableColumnHeader } from "@/components/common/data-table-column-header";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
-import { LinkAsBadge } from "@/components/ui/link-as-badge"
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
-import { useRouter } from "next/navigation"
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LinkAsBadge } from "@/components/ui/link-as-badge";
+import type { ColumnDef, Row } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+// If not already imported elsewhere, make sure UniversityProvisionalLicense is in scope
+// type UniversityProvisionalLicense = { ... };
+
+type ActionsCellProps = {
+  row: Row<UniversityProvisionalLicense>;
+};
+
+function ActionsCell({ row }: ActionsCellProps) {
+  const router = useRouter();
+  const application = row.original;
+
+  return (
+    <div className="flex justify-center">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onClick={() =>
+              navigator.clipboard.writeText(String(application.id))
+            }
+          >
+            View
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            onClick={() =>
+              router.replace(
+                `/university-provisional-license/${application.id}/resume`
+              )
+            }
+          >
+            Resume
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
 
 export const columns: ColumnDef<UniversityProvisionalLicense>[] = [
-    
   {
     id: "select",
     header: ({ table }) => (
@@ -40,7 +85,7 @@ export const columns: ColumnDef<UniversityProvisionalLicense>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-    {
+  {
     accessorKey: "application_code",
     header: "Application Code",
   },
@@ -48,7 +93,6 @@ export const columns: ColumnDef<UniversityProvisionalLicense>[] = [
     accessorKey: "institution",
     header: "Institution",
   },
- 
   {
     accessorKey: "application_date",
     header: ({ column }) => (
@@ -58,49 +102,19 @@ export const columns: ColumnDef<UniversityProvisionalLicense>[] = [
   {
     accessorKey: "status",
     header: () => <div className="text-center">Status</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="flex justify-center">
-      <LinkAsBadge href="#" text={row.original.status ?? ""} className="bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600" />
-        </div>
-    )
-    },
+    cell: ({ row }) => (
+      <div className="flex justify-center">
+        <LinkAsBadge
+          href="#"
+          text={row.original.status ?? ""}
+          className="bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600"
+        />
+      </div>
+    ),
   },
   {
     id: "actions",
     header: () => <div className="text-center">Action</div>,
-    cell: ({ row }) => {
-      const application = row.original
-      const router = useRouter()
- 
-      return (
-        <div className="flex justify-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0 ">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(String(application.id))}
-            >
-              View
-            </DropdownMenuItem>
-            
-            <DropdownMenuSeparator />
-            <DropdownMenuItem 
-              onClick={() => router.replace(`/university-provisional-license/${application.id}/resume`)}
-            >
-              Resume
-            </DropdownMenuItem>
-
-          </DropdownMenuContent>
-        </DropdownMenu>
-        </div>
-      )
-    },
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
-]
+];

@@ -25,12 +25,25 @@ import { usePathname } from "next/navigation"
 import * as React from "react"
 import { SidebarSkeleton } from "./sidebar-skeleton"
 
+
+type Item = {
+  title: string
+  url: string
+  icon?: React.ComponentType<Record<string, never>>
+  isActive?: boolean
+  requiredPermissions?: string[]
+  requiredGroups?: string[]
+  items?: Item[]
+}
+
+
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
   const { user, isLoading } = useEmployeeData();
 
   // Function to check if a menu item is active
-  const isActiveRoute = (url: string, items?: any[]) => {
+  const isActiveRoute = (url: string, items?: Item[]) => {
     if (url !== "#" && pathname === url) return true
     if (items) {
       return items.some(item => item.url !== "#" && pathname.startsWith(item.url))
@@ -51,7 +64,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return new Set(user.groups.map((g) => g.name))
   }, [user])
 
-  const canSeeItem = (item: any): boolean => {
+  const canSeeItem = (item: Item): boolean => {
     // If no requirements, everyone can see
     const requiredPerms: string[] = item.requiredPermissions ?? []
     const requiredGroups: string[] = item.requiredGroups ?? []
@@ -146,7 +159,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
       ],
     }),
-    [pathname]
+    [pathname, isActiveRoute]
   )
 
   // --- Filter menu based on permissions/groups ---
@@ -169,7 +182,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         }
       })
       .filter(Boolean)
-  }, [data.navMain, userPermissions, userGroups])
+  }, [data.navMain, userPermissions, userGroups, canSeeItem])
 
   return (
     <Sidebar

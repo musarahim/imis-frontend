@@ -3,7 +3,7 @@ import { DataTable } from "@/components/common/data-table";
 import { useGetCharterApplicationsQuery } from '@/redux/features/license-api-slice';
 import { ColumnFiltersState, PaginationState, SortingState, VisibilityState } from "@tanstack/react-table";
 import React from 'react';
-import { columns } from "./columns";
+import columns from "./columns";
 
 function CharterApplicationData() {
     const [pagination, setPagination] = React.useState<PaginationState>({
@@ -39,7 +39,6 @@ function CharterApplicationData() {
   return (
      <>
          <DataTable<CharterApplication, unknown> 
-          rowCount={data?.count ?? 0} 
           isFetching={isLoading} 
           columns={columns} 
           data={data?.results ?? []} 

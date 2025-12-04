@@ -142,7 +142,7 @@ interface District {
 
 
 interface IntrimAuthority {
-  id?: string,
+  id?: number,
   application_code?: string,
   has_title_deed: boolean,
   title_deed?: string | File,
@@ -166,7 +166,7 @@ interface IntrimAuthority {
 
 
 interface UniversityProvisionalLicense {
-  id?: string,
+  id?: number,
   application_code ?: string,
     institution : string,
     amount_of_land: number;
@@ -375,6 +375,7 @@ interface CharterApplication {
   other_regions: number,
   institution: string,
   publication_years: string[],
+  status: string | null,
 }
 
 interface ProgrammeAccreditation {

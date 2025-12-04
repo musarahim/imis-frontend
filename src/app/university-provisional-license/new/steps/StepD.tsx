@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 type StepCProps = {
   onBack: () => void;
-  onNext: (data?: any) => void;
+  onNext: (data?: UniversityProvisionalLicense) => void;
   data?: UniversityProvisionalLicense;
 };
 
@@ -43,7 +43,7 @@ function StepD({ onBack, onNext, data }: StepCProps) {
   const stepDInitialValues = {
     library_books: data?.library_books || 0,
     text_books: data?.text_books || 0,
-    publication_years: data?.publication_years ? data.publication_years.map(year => typeof year === 'string' ? parseInt(year, 10) : year) : [],
+    publication_years: data?.publication_years ? data.publication_years.map((year: string | number) => typeof year === 'number' ? year.toString() : year) : [],
     computers_in_use: data?.computers_in_use || 0,
     computers_in_library: data?.computers_in_library || 0,
     academic_staff_computers: data?.academic_staff_computers || 0,
@@ -66,7 +66,7 @@ function StepD({ onBack, onNext, data }: StepCProps) {
       .min(0, "Must be at least 0")
       .required("Total number of textbooks is required"),
     publication_years: Yup.array()
-      .of(Yup.number())
+      .of(Yup.string())
       .min(1, "Select at least one publication year")
       .required("Publication years are required"),
     computers_in_use: Yup.number()

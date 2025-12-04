@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 type StepCProps = {
   onBack: () => void;
-  onNext: (data?: any) => void;
+  onNext: (data?: UniversityProvisionalLicense) => void;
   data?: UniversityProvisionalLicense;
 };
 type FormValues = {

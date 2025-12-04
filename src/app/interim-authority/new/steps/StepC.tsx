@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 type StepCProps = {
   onBack: () => void;
-  onNext: (data?: any) => void;
+  onNext: (data?: IntrimAuthority) => void;
   data?: IntrimAuthority;
 }
 
@@ -74,7 +74,7 @@ function StepC({ onBack, onNext, data }: StepCProps) {
           onBack();
       };
   return (
-     <AppForm initialValues={stepCInitialValues} onSubmit={onSubmit} validationSchema={stepCValidation} onError={() => toast.error("Please fix the errors in the form")}>
+     <AppForm initialValues={stepCInitialValues} onSubmit={onSubmit} validationSchema={stepCValidation}>
             
     <div className="border-t  border-gray-900/10  dark:border-gray-400">
       <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">VISION, MISSION, OBJECTIVES AND PHILOSOPHY</h2>

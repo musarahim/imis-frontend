@@ -30,7 +30,6 @@ import { DataTableViewOptions } from "./data-table-view-options ";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  rowCount: number,
   isFetching: boolean,
   addHref?: string,
   addText?: string
@@ -58,16 +57,14 @@ export function DataTable<TData extends object, TValue>({
   setGlobalFilter,
   pagination,
   setPagination,
-  ...props
+  sorting,
+  setSorting,
+  columnFilters,
+  setColumnFilters,
+  columnVisibility,
+  setColumnVisibility,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
   const [searchValue, setSearchValue] = React.useState(globalFilter);
-   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
 
   React.useEffect(() => {
     // Set an initial value when component mounts

@@ -5,7 +5,7 @@ import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from '@/utils';
 import ProvisionalForm from '../../new/ProvisionalForm';
 
-type Props = { params: { id: string } }
+type Props = { params: Promise<{ id: string }> }
 
 // make the page async and await params before using its properties
 export default async function page({ params }: Props) {

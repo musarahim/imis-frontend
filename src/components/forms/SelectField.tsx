@@ -25,7 +25,7 @@ interface Props {
 
 function SelectField({ name, label, required = false, options, id, placeholder }: Props) {
   const [field, meta] = useField<string>(name);
-  const { setFieldValue, setFieldTouched } = useFormikContext<any>();
+  const { setFieldValue, setFieldTouched } = useFormikContext<Record<string, unknown>>();
 
   // Convert "" to undefined so Select shows the placeholder
   const selectedValue = field.value ? String(field.value) : undefined;

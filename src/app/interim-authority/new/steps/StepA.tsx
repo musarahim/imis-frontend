@@ -90,7 +90,7 @@ function StepA({ onNext }: StepAProps) {
          });
     };  
   return (
-    <AppForm initialValues={stepAInitialValues} onSubmit={onSubmit} validationSchema={stepAValidation} onError={() => toast.error("Please fix the errors in the form")}>
+    <AppForm initialValues={stepAInitialValues} onSubmit={onSubmit} validationSchema={stepAValidation} >
      <div className="border-t  border-gray-900/10  dark:border-gray-400">
       <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">Institute Details</h2>
       </div>

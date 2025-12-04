@@ -40,7 +40,6 @@ function ProvisionalLicenseData() {
   return (
     <>
      <DataTable<UniversityProvisionalLicense, unknown> 
-      rowCount={data?.count ?? 0} 
       isFetching={isLoading} 
       columns={columns} 
       data={data?.results ?? []} 

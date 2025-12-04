@@ -5,7 +5,7 @@ import { skipToken } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 type StepBProps = {
-  onNext: (data?: any) => void;
+  onNext: (data?: UniversityProvisionalLicense) => void;
   onBack: () => void;
   id?:number
 }
@@ -46,11 +46,12 @@ function StepB({ onNext, onBack, id }: StepBProps) {
         land_for_future_use: Yup.number().required("This field is required").min(0, "Land for future use cannot be negative"),
         year_obtained: Yup.string().required("This field is required"),
         leased_or_rented: Yup.string().required("This field is required"),
-       lease_or_rent_agreement: Yup.mixed().when('leased_or_rented', (leased_or_rented: any, schema: any) => {
-        return (leased_or_rented === "rent" || leased_or_rented === "lease")
-          ? schema.required('Please attach the lease or rent agreement')
-          : schema.notRequired();
-       }),
+       lease_or_rent_agreement: Yup.mixed<File | string>().when("leased_or_rented", (val, schema) => {
+    const value = Array.isArray(val) ? val[0] : val;
+    return value === "rent" || value === "lease"
+      ? schema.required("Please attach the lease or rent agreement")
+      : schema.notRequired();
+  }),
   });
   const onSubmit = async (values: FormValues) => {
         const formData = new FormData();
@@ -94,7 +95,7 @@ function StepB({ onNext, onBack, id }: StepBProps) {
           onBack();
       };
   return (
-     <AppForm initialValues={stepBInitialValues} onSubmit={onSubmit} validationSchema={stepBValidation} onError={() => toast.error("Please fix the errors in the form")}>
+     <AppForm initialValues={stepBInitialValues} onSubmit={onSubmit} validationSchema={stepBValidation}>
         <div className="border-t  border-gray-900/10  dark:border-gray-400">
       <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">LOCATION AND LAND</h2>
     </div>

@@ -10,7 +10,7 @@ type props ={
 const stepsArray = ['A','B','C','D','F'];
  function InterimForm({...props}:props) {
   const [step, setStep] = useState('A');
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<Partial<IntrimAuthority>>({});
 
   const handleNext = (data?:IntrimAuthority) => {
     if (data) setFormData(data);
@@ -68,9 +68,9 @@ const stepsArray = ['A','B','C','D','F'];
 
           {step === 'A' && <StepA onNext={handleNext} />}
           {step === 'B' && <StepB onNext={handleNext} onBack={handleBack} id={props.application_id} />}
-          {step === 'C' && <StepC  onBack={handleBack} onNext={handleNext} data={formData} />}
-          {step === 'D' && <StepD onBack={handleBack}  data={formData} onNext={handleNext} />}
-          {step === 'F' && <Preview onStepClick={handleStepClick} data={formData} />}
+          {step === 'C' && <StepC  onBack={handleBack} onNext={handleNext} data={formData as IntrimAuthority} />}
+          {step === 'D' && <StepD onBack={handleBack}  data={formData as IntrimAuthority} onNext={handleNext} />}
+          {step === 'F' && <Preview onStepClick={handleStepClick} data={formData as IntrimAuthority} />}
 
         </div>
         

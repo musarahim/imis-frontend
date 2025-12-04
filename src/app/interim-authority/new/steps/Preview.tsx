@@ -17,7 +17,7 @@ type StepDProps = {
   onStepClick: (step: string) => void;
 };
 function Preview({ data, onStepClick }: StepDProps) {
-  const { data: institutions, isLoading: isLoadingInstitutions } =
+  const { data: institutions } =
     useGetInstitutionsQuery(undefined, { refetchOnMountOrArgChange: true });
   const institution = institutions?.results[0];
   return (
@@ -251,7 +251,7 @@ function Preview({ data, onStepClick }: StepDProps) {
             <FieldDescription>
   <div className="space-y-4 text-sm leading-relaxed">
     <p className="text-gray-700 dark:text-gray-300">
-      Please review all the information provided above. If everything is correct, click "Submit" to finalize your application for the Interim Authority to operate a University. If you need to make any changes, use the "Edit" buttons next to each section.
+      Please review all the information provided above. If everything is correct, click &quot;Submit&quot; to finalize your application for the Interim Authority to operate a University. If you need to make any changes, use the &quot;Edit&quot; buttons next to each section.
     </p>
     
     <div className="space-y-2">

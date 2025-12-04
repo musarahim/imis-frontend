@@ -11,7 +11,7 @@ type props ={
 const stepsArray = ['A','B','C','D','E','F','G','H','I','J','K'];
 function ProvisionalForm({...props}:props) {
     const [step, setStep] = useState('A');
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<UniversityProvisionalLicense>({} as UniversityProvisionalLicense);
 
   const handleNext = (data?:UniversityProvisionalLicense) => {
     if (data) setFormData(data);

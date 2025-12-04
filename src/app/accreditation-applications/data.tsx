@@ -3,7 +3,7 @@ import { DataTable } from "@/components/common/data-table";
 import { useGetProgrammeAccreditationsQuery } from '@/redux/features/programme-api-slice';
 import { ColumnFiltersState, PaginationState, SortingState, VisibilityState } from "@tanstack/react-table";
 import React from 'react';
-import { columns } from "./columns";
+import columns from "./columns";
 // ...existing code...
 
 function ProgrammeAccreditationData() {
@@ -40,7 +40,6 @@ function ProgrammeAccreditationData() {
   return (
     <>
      <DataTable<ProgrammeAccreditation, unknown> 
-      rowCount={data?.count ?? 0} 
       isFetching={isLoading} 
       columns={columns} 
       data={data?.results ?? []} 

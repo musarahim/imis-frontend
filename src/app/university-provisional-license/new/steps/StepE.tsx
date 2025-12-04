@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 type StepCProps = {
   onBack: () => void;
-  onNext: (data?: any) => void;
+  onNext: (data?: UniversityProvisionalLicense) => void;
   data?: UniversityProvisionalLicense;
 };
 type FormValues = {
@@ -91,7 +91,6 @@ function StepE({ onBack, onNext, data }: StepCProps) {
           initialValues={initialValues}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
-          onError={() => toast.error("Please fix the errors in the form")}
         >
           <div className="border-t  border-gray-900/10  dark:border-gray-400">
             <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">

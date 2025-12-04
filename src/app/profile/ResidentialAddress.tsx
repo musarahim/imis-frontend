@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useEmployeeData } from "@/hooks";
 
 function ResidentialAddress() {
-     const { employee, user, isLoading } = useEmployeeData();
+     const { employee, isLoading } = useEmployeeData();
     
       if (isLoading) {
         return <div>Loading...</div>;

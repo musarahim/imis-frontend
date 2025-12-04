@@ -5,6 +5,33 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
+interface IntrimAuthority {
+  name: string;
+  acroynm: string;
+  postal_address: string;
+  website: string;
+  landline: string;
+  phone: string;
+  region: string;
+  district: string;
+  location: string;
+  has_title_deed: boolean;
+  title_deed: string;
+  names_of_promoters: string;
+  vision: string;
+  mission: string;
+  objectives: string;
+  philosophy: string;
+  governance_structure: string;
+  human_resources: string;
+  source_of_finance: string;
+  action_plan: string;
+  infrastructure: string;
+  programmes: string | File;
+  promoters: string;
+  project_proposal: string;
+}
+
 function usePostIntrimAuthority() {
     const [create, {isLoading}] = useCreateIntrimAuthorityMutation();
     const router = useRouter();
@@ -123,8 +150,15 @@ function usePostIntrimAuthority() {
         ...values,
         programmes: logoBase64
       }
+      
+      // Convert object to FormData
+      const formData = new FormData();
+      Object.entries(destructured_object).forEach(([key, value]) => {
+        formData.append(key, value as string);
+      });
+      
       try {
-    await create(destructured_object).unwrap();
+    await create(formData).unwrap();
     toast.success("Application submitted successful");
     router.push("/intrim-authority");
   } catch (err) {

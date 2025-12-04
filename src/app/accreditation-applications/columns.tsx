@@ -3,19 +3,18 @@ import { DataTableColumnHeader } from "@/components/common/data-table-column-hea
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { LinkAsBadge } from "@/components/ui/link-as-badge"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
-import { useRouter } from "next/navigation"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<ProgrammeAccreditation>[] = [
+const columns: ColumnDef<ProgrammeAccreditation>[] = [
     
   {
     id: "select",
@@ -86,7 +85,7 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
     header: () => <div className="text-center">Action</div>,
     cell: ({ row }) => {
       const application = row.original
-      const router = useRouter()
+     
  
       return (
         <div className="flex justify-center">
@@ -105,12 +104,7 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
               View
             </DropdownMenuItem>
             
-            {/* <DropdownMenuSeparator /> */}
-            {/* <DropdownMenuItem 
-              onClick={() => router.push(`#`)}
-            >
-              Resume
-            </DropdownMenuItem> */}
+           
 
           </DropdownMenuContent>
         </DropdownMenu>
@@ -119,3 +113,5 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
     },
   },
 ]
+
+export default columns;

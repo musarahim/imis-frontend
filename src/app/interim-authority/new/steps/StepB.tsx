@@ -5,7 +5,7 @@ import { skipToken } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 type StepBProps = {
-  onNext: (data?: any) => void;
+  onNext: (data?: IntrimAuthority) => void;
   onBack: () => void;
   id?:number
 }
@@ -39,13 +39,15 @@ function StepB({ onNext, onBack, id }: StepBProps) {
         has_title_deed: Yup.string().required("This field is required"),
         names_of_promoters: Yup.string().required("This field is required"),
        infrastructure: Yup.string().required("This field is required"),
-       title_deed: Yup.mixed().when('has_title_deed', (has_title_deed: any, schema: any) => {
-        return has_title_deed === "true"
+       title_deed: Yup.mixed().when('has_title_deed', (has_title_deed: string[] , schema: Yup.MixedSchema) => {
+        return has_title_deed[0] === "true"
           ? schema.required('Please attach the title deed')
           : schema.notRequired();
        }),
 
   });
+
+  
   const onSubmit = async (values: FormValues) => {
         const formData = new FormData();
         // values.has_title_deed is "true" or "false" string coming from the radio options
@@ -89,7 +91,7 @@ function StepB({ onNext, onBack, id }: StepBProps) {
           onBack();
       };
   return (
-     <AppForm initialValues={stepBInitialValues} onSubmit={onSubmit} validationSchema={stepBValidation} onError={() => toast.error("Please fix the errors in the form")}>
+     <AppForm initialValues={stepBInitialValues} onSubmit={onSubmit} validationSchema={stepBValidation}>
         <div className="border-t  border-gray-900/10  dark:border-gray-400">
       <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">LOCATION AND LAND</h2>
     </div>

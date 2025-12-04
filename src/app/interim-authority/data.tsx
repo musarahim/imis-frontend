@@ -3,7 +3,7 @@ import { DataTable } from "@/components/common/data-table";
 import { useGetIntrimAuthoritiesQuery } from '@/redux/features/license-api-slice';
 import { ColumnFiltersState, PaginationState, SortingState, VisibilityState } from "@tanstack/react-table";
 import React from 'react';
-import { columns } from "./column";
+import column from "./column";
 // ...existing code...
 
 function IntrimAuthorityData() {
@@ -40,9 +40,8 @@ function IntrimAuthorityData() {
   return (
     <>
      <DataTable<IntrimAuthority, unknown> 
-      rowCount={data?.count ?? 0} 
       isFetching={isLoading} 
-      columns={columns} 
+      columns={column} 
       data={data?.results ?? []} 
       pagination={pagination}
       setPagination={setPagination}
