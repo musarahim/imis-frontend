@@ -89,33 +89,34 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       navMain: [
         {
           title: "Dashboard",
-          url: "/",
+          url: "/dashboard",
           icon: HomeIcon,
-          isActive: pathname === "/",
+          isActive: pathname === "/dashboard",
         },
         {
           title: "Leave",
           url: "#",
           icon: Building,
           isActive: isActiveRoute("#", [
+            { title: "My Leave Schedule", url: "/leave/leave-schedule" },
             { title: "Leave Applications", url: "/leave/leave-applications" },
-            { title: "My Leave Schedule", url: "/leave/my-leave-schedule" },
             { title: "My Leave", url: "/leave/my-leave" },
           ]),
           requiredGroups: ["Staff"],
           items: [
+            {
+              title: "My Leave Schedule",
+              url: "/leave/leave-schedule",
+              isActive: pathname.startsWith("/leave/leave-schedule"),
+              requiredPermissions: ["view_leaveapplication"],
+            },
             {
               title: "Leave Applications",
               url: "/leave/leave-applications",
               isActive: pathname.startsWith("/leave/leave-applications"),
               requiredPermissions: ["view_leaveapplication"],
             },
-            {
-              title: "My Leave Schedule",
-              url: "/leave/my-leave-schedule",
-              isActive: pathname.startsWith("/leave/my-leave-schedule"),
-              requiredPermissions: ["view_leaveapplication"],
-            },
+            
             {
               title: "My Leave",
               url: "/leave/my-leave",
