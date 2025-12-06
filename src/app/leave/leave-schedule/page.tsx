@@ -2,6 +2,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from '@/utils';
+import Calendar from "./Calendar";
 
 function page() {
   return (
@@ -14,7 +15,7 @@ function page() {
         <AppSidebar />
         <SidebarInset>
           <div className="flex flex-1 flex-col gap-4 p-4">
-            <div>Leave Calendar</div>
+            <Calendar />
             </div>
         </SidebarInset>
       </div>
