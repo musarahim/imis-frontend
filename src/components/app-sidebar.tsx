@@ -118,9 +118,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             },
             
             {
-              title: "My Leave",
-              url: "/leave/my-leave",
-              isActive: pathname.startsWith("/leave/my-leave"),
+              title: "Leave Delegations",
+              url: "/leave/delegations",
+              isActive: pathname.startsWith("/leave/delegations"),
               requiredPermissions: ["view_leaveapplication"],
             },
           ],

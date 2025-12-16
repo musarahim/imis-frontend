@@ -8,7 +8,10 @@ const commonApiSlice = apiSlice.injectEndpoints({
     getRegions: builder.query<Region[], void>({
       query: () => "/common/regions/",
     }),
+    getEmployeeDropdown: builder.query<EmployeeDropdown[], void>({
+      query: () => "/hr/employees/employee-dropdown/",
+    }),
   }),
 });
 
-export const { useGetDistrictsQuery, useGetRegionsQuery } = commonApiSlice;
+export const { useGetDistrictsQuery, useGetRegionsQuery, useGetEmployeeDropdownQuery } = commonApiSlice;

@@ -8,7 +8,7 @@ function LoginForm() {
       <Form initialValues={intialValues} onSubmit={onSubmit} validationSchema={validationSchema} >
                 <InputField
                     name="username"
-                    label="Email"
+                    label="Username"
                     required
                     type="email"
                     autoComplete="username"

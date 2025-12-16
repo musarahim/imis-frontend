@@ -18,6 +18,7 @@ interface Props {
     value?: string,
     children?: React.ReactNode,
      autoComplete?: string,
+     disabled?: boolean
 
 }
 function InputField({...props}: Props) {

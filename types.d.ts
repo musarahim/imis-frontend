@@ -511,3 +511,39 @@ interface Dependent {
     employee?:number,
     gender?:string
 }
+
+interface LeaveType {
+       id?: number,
+      code: string,
+    name: string,
+    max_days: number,
+    exclude_weekends: boolean,
+    gender_restriction: "both" | "male" | "female",
+    is_paid: boolean
+}
+
+interface LeaveSchedule {
+    id?: number,
+    leave_type: string,
+    leave_days: number,
+    start_date: string,
+    end_date: string
+}
+
+interface LeaveApplication {
+    id?: number,
+    leave_type: string,
+    leave_days: number,
+    start_date: string,
+    end_date: string,
+    return_date?: string,
+    reason?: string,
+    delegated_to?: string,
+    supervisor?: string,
+    status?: string
+}
+
+interface EmployeeDropdown {
+    id: number,
+    full_name: string
+}
