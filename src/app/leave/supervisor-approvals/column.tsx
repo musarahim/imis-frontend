@@ -4,11 +4,11 @@ import { DataTableColumnHeader } from "@/components/common/data-table-column-hea
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LinkAsBadge } from "@/components/ui/link-as-badge";
 import type { ColumnDef, Row } from "@tanstack/react-table";
@@ -24,11 +24,11 @@ type ActionsCellProps = {
 
 function getStatusBadgeClass(status: string): string {
   switch (status.toLowerCase()) {
-    case 'planned':
+    case 'Planned':
       return "bg-gray-500 text-white dark:bg-gray-600 hover:bg-gray-600";
     case 'submitted':
       return "bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600";
-    case 'delegation_accepted':
+    case 'Delegation Accepted':
       return "bg-indigo-500 text-white dark:bg-indigo-600 hover:bg-indigo-600";
     case 'delegation_rejected':
       return "bg-red-500 text-white dark:bg-red-600 hover:bg-red-600";
@@ -66,7 +66,7 @@ function ActionsCell({ row }: ActionsCellProps) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/leave/delegations/${application.id}/approve`)
+              router.push(`/leave/supervisor-approvals/${application.id}/approve`)
             }
           >
             Approve

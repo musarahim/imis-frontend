@@ -532,6 +532,7 @@ interface LeaveSchedule {
 
 interface LeaveApplication {
     id?: number,
+    employee?: string,
     leave_type: string,
     leave_days: number,
     start_date: string,
@@ -540,7 +541,12 @@ interface LeaveApplication {
     reason?: string,
     delegated_to?: string,
     supervisor?: string,
-    status?: string
+    status?: string,
+    delegation_accepted?: boolean,
+    delegation_acceptance_date?: string,
+    delegatee_remarks?: string
+    supervisor_approved?: boolean,
+    supervisor_comments?: string
 }
 
 interface EmployeeDropdown {

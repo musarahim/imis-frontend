@@ -15,7 +15,7 @@ function Uselogin() {
     
     }
     const validationSchema = Yup.object({
-      username: Yup.string().email().required('Username is required'),
+      username: Yup.string().min(3, 'Username must be at least 3 characters').required('Username is required'),
       password: Yup.string().required('Password is required'),
     })
   

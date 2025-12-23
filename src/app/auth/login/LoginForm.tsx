@@ -10,7 +10,6 @@ function LoginForm() {
                     name="username"
                     label="Username"
                     required
-                    type="email"
                     autoComplete="username"
                 />
 

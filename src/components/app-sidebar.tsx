@@ -101,6 +101,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             { title: "My Leave Schedule", url: "/leave/leave-schedule" },
             { title: "Leave Applications", url: "/leave/leave-applications" },
             { title: "My Leave", url: "/leave/my-leave" },
+            { title: "Leave Delegations", url: "/leave/delegations" },
+            {title: "Supervisor Leave Approvals", url: "/leave/approve-leave" },
           ]),
           requiredGroups: ["Staff"],
           items: [
@@ -123,6 +125,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               isActive: pathname.startsWith("/leave/delegations"),
               requiredPermissions: ["view_leaveapplication"],
             },
+            {
+              title: "Supervisor Leave Approvals",
+              url: "/leave/supervisor-approvals",
+              isActive: pathname.startsWith("/leave/supervisor-approvals"),
+              requiredPermissions: ["can_approve_leave"],
+            }
           ],
         },
         {
