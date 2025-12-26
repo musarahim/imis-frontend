@@ -51,6 +51,13 @@ const leaveApiSlice = apiSlice.injectEndpoints({
         body: patch,
       }),
     }),
+  approveLeaveHr: builder.mutation({
+      query: ({id, ...patch}: {id: number} & Partial<LeaveApplication>) => ({
+        url: `/leave/leave-applications/${id}/approve_hr/`,
+        method: "POST",
+        body: patch,
+      }),
+    }),
     getLeaveApplications: builder.query<ListRespornse<LeaveApplication>, ListParams>({
        query: (params) => {
         const p = params ?? {};
@@ -114,10 +121,22 @@ const leaveApiSlice = apiSlice.injectEndpoints({
         },
       }),
 
+    getHrApprovals: builder.query<ListRespornse<LeaveApplication>, ListParams>({
+        query: (params) => {
+          const p = params ?? {};
+          const search = new URLSearchParams();
 
-  }),
+          if (p.page !== undefined) search.set("page", String(p.page));
+          if (p.pageSize !== undefined) search.set("page_size", String(p.pageSize));
+          if (p.search) search.set("search", p.search);
+          if (p.ordering) search.set("ordering", p.ordering);
+
+          const qs = search.toString();
+          return `/leave/leave-applications/hr-approvals/${qs ? `?${qs}` : ""}`;
+        },
+      }),
    
-  
+    }),
 });
 
 export const { 
@@ -134,4 +153,6 @@ export const {
   useApproveLeaveSupervisorMutation,
   useGetDirectorApprovalsQuery,
   useApproveLeaveDirectorMutation,
+  useGetHrApprovalsQuery,
+  useApproveLeaveHrMutation,
 } = leaveApiSlice;

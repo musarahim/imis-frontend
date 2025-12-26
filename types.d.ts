@@ -549,7 +549,9 @@ interface LeaveApplication {
     supervisor_comments?: string
     director_comments?: string
     director_approved?: boolean,
-    application_date?: string
+    application_date?: string,
+    hr_approved?: boolean,
+    hr_comments?: string
 }
 
 interface EmployeeDropdown {
