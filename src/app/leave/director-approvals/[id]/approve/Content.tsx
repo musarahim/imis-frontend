@@ -15,7 +15,7 @@ function Content( {id}: {id: string}) {
     if(isError) return <div>Error...</div>
     
   return (
-    <div className="flex w-full max-w-md flex-col gap-4">
+    <div className="flex w-full max-w-md flex-col gap-1">
       <Item variant="muted" asChild>
         <div rel="noopener noreferrer">
              <ItemActions>

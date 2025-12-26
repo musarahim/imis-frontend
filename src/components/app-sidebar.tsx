@@ -130,7 +130,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               url: "/leave/supervisor-approvals",
               isActive: pathname.startsWith("/leave/supervisor-approvals"),
               requiredPermissions: ["can_approve_leave"],
-            }
+            },
+            {
+              title: "Director Leave Approvals",
+              url: "/leave/director-approvals",
+              isActive: pathname.startsWith("/leave/director-approvals"),
+              requiredPermissions: ["director_approve_leave"],
+            },
           ],
         },
         {

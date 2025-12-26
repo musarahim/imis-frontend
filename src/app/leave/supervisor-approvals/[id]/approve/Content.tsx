@@ -1,11 +1,11 @@
 
 "use client";
 import {
-    Item,
-    ItemActions,
-    ItemContent,
-    ItemDescription,
-    ItemTitle
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle
 } from "@/components/ui/item";
 import { useRetrieveLeaveApplicationQuery } from '@/redux/features/leave-api-slice';
 import { Calendar1Icon, User2Icon } from "lucide-react";
@@ -16,7 +16,7 @@ function Content( {id}: {id: string}) {
     
   return (
     <div className="flex w-full max-w-md flex-col gap-4">
-      <Item variant="outline" asChild>
+      <Item variant="muted" asChild>
         <div rel="noopener noreferrer">
              <ItemActions>
             <User2Icon className="size-4" />
@@ -31,7 +31,7 @@ function Content( {id}: {id: string}) {
         </div>
         
       </Item>
-      <Item variant="outline" asChild>
+      <Item variant="muted" asChild>
         <div rel="noopener noreferrer">
            
           <ItemContent>
@@ -44,7 +44,7 @@ function Content( {id}: {id: string}) {
         </div>
         
       </Item>
-          <Item variant="outline" asChild>
+          <Item variant="muted" asChild>
         <div rel="noopener noreferrer">
              <ItemActions>
             <Calendar1Icon className="size-4" />
@@ -59,7 +59,7 @@ function Content( {id}: {id: string}) {
         </div>
         
       </Item>
-       <Item variant="outline" asChild>
+       <Item variant="muted" asChild>
         <div rel="noopener noreferrer">
              <ItemActions>
             <Calendar1Icon className="size-4" />
@@ -74,7 +74,7 @@ function Content( {id}: {id: string}) {
         </div>
         
       </Item>
-      <Item variant="outline" asChild>
+      <Item variant="muted" asChild>
         <div rel="noopener noreferrer">
              <ItemActions>
             <Calendar1Icon className="size-4" />
@@ -89,7 +89,7 @@ function Content( {id}: {id: string}) {
         </div>
         
       </Item>
-         <Item variant="outline" asChild>
+         <Item variant="muted" asChild>
         <div rel="noopener noreferrer">
              <ItemActions>
             <User2Icon className="size-4" />

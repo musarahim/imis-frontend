@@ -43,6 +43,14 @@ const leaveApiSlice = apiSlice.injectEndpoints({
         body: patch,
       }),
     }),
+    
+  approveLeaveDirector: builder.mutation({
+      query: ({id, ...patch}: {id: number} & Partial<LeaveApplication>) => ({
+        url: `/leave/leave-applications/${id}/approve_director/`,
+        method: "POST",
+        body: patch,
+      }),
+    }),
     getLeaveApplications: builder.query<ListRespornse<LeaveApplication>, ListParams>({
        query: (params) => {
         const p = params ?? {};
@@ -91,6 +99,20 @@ const leaveApiSlice = apiSlice.injectEndpoints({
           return `/leave/leave-applications/supervisor-approvals/${qs ? `?${qs}` : ""}`;
         },
       }),
+  getDirectorApprovals: builder.query<ListRespornse<LeaveApplication>, ListParams>({
+        query: (params) => {
+          const p = params ?? {};
+          const search = new URLSearchParams();
+
+          if (p.page !== undefined) search.set("page", String(p.page));
+          if (p.pageSize !== undefined) search.set("page_size", String(p.pageSize));
+          if (p.search) search.set("search", p.search);
+          if (p.ordering) search.set("ordering", p.ordering);
+
+          const qs = search.toString();
+          return `/leave/leave-applications/director-approvals/${qs ? `?${qs}` : ""}`;
+        },
+      }),
 
 
   }),
@@ -110,4 +132,6 @@ export const {
   useApproveLeaveDelegationMutation,
   useGetSupervisorApprovalsQuery,
   useApproveLeaveSupervisorMutation,
+  useGetDirectorApprovalsQuery,
+  useApproveLeaveDirectorMutation,
 } = leaveApiSlice;
