@@ -18,11 +18,16 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com/',
-        port: '',
-        pathname: '/**',
-      },
+      protocol: "https",
+      hostname: "images.unsplash.com",
+      pathname: "/**",
+    },
+    {
+      protocol: "https",
+      hostname: "app.unche.or.ug",
+      pathname: "/**",
+    }
+
     ]
   },
    async rewrites() {
