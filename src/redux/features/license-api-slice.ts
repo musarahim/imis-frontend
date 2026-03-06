@@ -2,13 +2,17 @@ import { apiSlice } from "../services/apiSlice";
 
 const LicenseApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getIntrimAuthorities: builder.query<ListRespornse<IntrimAuthority>, ListParams>({
-    query: (params) => {
+    getIntrimAuthorities: builder.query<
+      ListRespornse<IntrimAuthority>,
+      ListParams
+    >({
+      query: (params) => {
         const p = params ?? {};
         const search = new URLSearchParams();
 
         if (p.page !== undefined) search.set("page", String(p.page));
-        if (p.pageSize !== undefined) search.set("page_size", String(p.pageSize));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
         if (p.search) search.set("search", p.search);
         if (p.ordering) search.set("ordering", p.ordering);
 
@@ -17,93 +21,121 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
       },
     }),
     retrieveIntrimAuthority: builder.query<IntrimAuthority, number>({
-        query: (id) => `/licenses/intrim-authority/${id}/`,
+      query: (id) => `/licenses/intrim-authority/${id}/`,
     }),
-    patchIntrimAuthority: builder.mutation<IntrimAuthority, {id: number, data: Partial<FormData>}>({
-        query: ({id, data}) => ({
-            url: `/licenses/intrim-authority/${id}/`,
-            method: 'PATCH',
-            body: data,
-        }),
+    patchIntrimAuthority: builder.mutation<
+      IntrimAuthority,
+      { id: number; data: Partial<FormData> }
+    >({
+      query: ({ id, data }) => ({
+        url: `/licenses/intrim-authority/${id}/`,
+        method: "PATCH",
+        body: data,
+      }),
     }),
-    createIntrimAuthority: builder.mutation<IntrimAuthority, Partial<FormData>>({
+    createIntrimAuthority: builder.mutation<IntrimAuthority, Partial<FormData>>(
+      {
         query: (data) => ({
-            url: `/licenses/intrim-authority/`,
-            method: 'POST',
-            body: data,
+          url: `/licenses/intrim-authority/`,
+          method: "POST",
+          body: data,
         }),
-    }),
+      },
+    ),
 
     // University Provisional License Endpoints
-    getProvisionalLicenses: builder.query<ListRespornse<UniversityProvisionalLicense>, ListParams>({
-  query: (params) => {
-    const p = params ?? {};
-    const search = new URLSearchParams();
+    getProvisionalLicenses: builder.query<
+      ListRespornse<UniversityProvisionalLicense>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
 
-    if (p.page !== undefined) search.set("page", String(p.page));
-    if (p.pageSize !== undefined) search.set("page_size", String(p.pageSize));
-    if (p.search) search.set("search", p.search);
-    if (p.ordering) search.set("ordering", p.ordering);
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
 
-    const qs = search.toString();
-    return `/licenses/university-provisional-license/${qs ? `?${qs}` : ""}`;
-  },
-}),
-
-  retrieveProvisionalLicense: builder.query<UniversityProvisionalLicense, number>({
-        query: (id) => `/licenses/university-provisional-license/${id}/`,
+        const qs = search.toString();
+        return `/licenses/university-provisional-license/${qs ? `?${qs}` : ""}`;
+      },
     }),
-    patchProvisionalLicense: builder.mutation<UniversityProvisionalLicense, {id: number, data: Partial<FormData>}>({
-        query: ({id, data}) => ({
-            url: `/licenses/university-provisional-license/${id}/`,
-            method: 'PATCH',
-            body: data,
-        }),
+
+    retrieveProvisionalLicense: builder.query<
+      UniversityProvisionalLicense,
+      number
+    >({
+      query: (id) => `/licenses/university-provisional-license/${id}/`,
     }),
-    createProvisionalLicense: builder.mutation<UniversityProvisionalLicense, Partial<FormData>>({
-        query: (data) => ({
-            url: `/licenses/university-provisional-license/`,
-            method: 'POST',
-            body: data,
-        }),
+    patchProvisionalLicense: builder.mutation<
+      UniversityProvisionalLicense,
+      { id: number; data: Partial<FormData> }
+    >({
+      query: ({ id, data }) => ({
+        url: `/licenses/university-provisional-license/${id}/`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    createProvisionalLicense: builder.mutation<
+      UniversityProvisionalLicense,
+      Partial<FormData>
+    >({
+      query: (data) => ({
+        url: `/licenses/university-provisional-license/`,
+        method: "POST",
+        body: data,
+      }),
     }),
 
     //university charter application endpoints
-    getCharterApplications: builder.query<ListRespornse<CharterApplication>, ListParams>({
+    getCharterApplications: builder.query<
+      ListRespornse<CharterApplication>,
+      ListParams
+    >({
       query: (params) => {
-          const p = params ?? {};
-          const search = new URLSearchParams();
-  
-          if (p.page !== undefined) search.set("page", String(p.page));
-          if (p.pageSize !== undefined) search.set("page_size", String(p.pageSize));
-          if (p.search) search.set("search", p.search);
-          if (p.ordering) search.set("ordering", p.ordering);
-  
-          const qs = search.toString();
-          return `/licenses/charter-application/${qs ? `?${qs}` : ""}`;
-        },
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/licenses/charter-application/${qs ? `?${qs}` : ""}`;
+      },
     }),
     retrieveCharterApplication: builder.query<CharterApplication, number>({
-        query: (id) => `/licenses/charter-application/${id}/`,
+      query: (id) => `/licenses/charter-application/${id}/`,
     }),
-    patchCharterApplication: builder.mutation<CharterApplication, {id: number, data: Partial<FormData>}>({
-        query: ({id, data}) => ({
-            url: `/licenses/charter-application/${id}/`,
-            method: 'PATCH',
-            body: data,
-        }),
+    patchCharterApplication: builder.mutation<
+      CharterApplication,
+      { id: number; data: Partial<FormData> }
+    >({
+      query: ({ id, data }) => ({
+        url: `/licenses/charter-application/${id}/`,
+        method: "PATCH",
+        body: data,
+      }),
     }),
-    createCharterApplication: builder.mutation<CharterApplication, Partial<FormData>>({
-        query: (data) => ({
-            url: `/licenses/charter-application/`,
-            method: 'POST',
-            body: data,
-        }),
-    }), 
+    createCharterApplication: builder.mutation<
+      CharterApplication,
+      Partial<FormData>
+    >({
+      query: (data) => ({
+        url: `/licenses/charter-application/`,
+        method: "POST",
+        body: data,
+      }),
+    }),
 
+    // ODAI Charter Application Endpoints
   }),
 });
-
 
 export const {
   useGetIntrimAuthoritiesQuery,
@@ -118,4 +150,4 @@ export const {
   useGetCharterApplicationsQuery,
   useRetrieveCharterApplicationQuery,
   usePatchCharterApplicationMutation,
- } = LicenseApiSlice;
+} = LicenseApiSlice;

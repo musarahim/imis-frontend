@@ -1,88 +1,88 @@
-"use client"
+"use client";
 
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem
-} from "@/components/ui/sidebar"
-import { useEmployeeData } from "@/hooks"
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { useEmployeeData } from "@/hooks";
 import {
+  BookA,
   Building,
   HomeIcon,
   LifeBuoy,
   Send,
-  Settings2
-} from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import * as React from "react"
-import { SidebarSkeleton } from "./sidebar-skeleton"
-
+  Settings2,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import * as React from "react";
+import { SidebarSkeleton } from "./sidebar-skeleton";
 
 type Item = {
-  title: string
-  url: string
-  icon?: React.ComponentType<Record<string, never>>
-  isActive?: boolean
-  requiredPermissions?: string[]
-  requiredGroups?: string[]
-  items?: Item[]
-}
-
-
+  title: string;
+  url: string;
+  icon?: React.ComponentType<Record<string, never>>;
+  isActive?: boolean;
+  requiredPermissions?: string[];
+  requiredGroups?: string[];
+  items?: Item[];
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const pathname = usePathname()
+  const pathname = usePathname();
   const { user, isLoading } = useEmployeeData();
 
   // Function to check if a menu item is active
   const isActiveRoute = (url: string, items?: Item[]) => {
-    if (url !== "#" && pathname === url) return true
+    if (url !== "#" && pathname === url) return true;
     if (items) {
-      return items.some(item => item.url !== "#" && pathname.startsWith(item.url))
+      return items.some(
+        (item) => item.url !== "#" && pathname.startsWith(item.url),
+      );
     }
-    return false
-  }
-// --- Build permission & group sets from user ---
+    return false;
+  };
+  // --- Build permission & group sets from user ---
 
   const userPermissions = React.useMemo(() => {
-    if (!user || !user.groups) return new Set<string>()
+    if (!user || !user.groups) return new Set<string>();
     return new Set(
-      user.groups.flatMap((g) => g.permissions?.map((p) => p.codename) || [])
-    )
-  }, [user])
+      user.groups.flatMap((g) => g.permissions?.map((p) => p.codename) || []),
+    );
+  }, [user]);
 
   const userGroups = React.useMemo(() => {
-    if (!user || !user.groups) return new Set<string>()
-    return new Set(user.groups.map((g) => g.name))
-  }, [user])
+    if (!user || !user.groups) return new Set<string>();
+    return new Set(user.groups.map((g) => g.name));
+  }, [user]);
 
   const canSeeItem = (item: Item): boolean => {
     // If no requirements, everyone can see
-    const requiredPerms: string[] = item.requiredPermissions ?? []
-    const requiredGroups: string[] = item.requiredGroups ?? []
+    const requiredPerms: string[] = item.requiredPermissions ?? [];
+    const requiredGroups: string[] = item.requiredGroups ?? [];
 
     // Check groups
     if (requiredGroups.length > 0) {
-      const hasGroup = requiredGroups.some((g) => userGroups.has(g))
-      if (!hasGroup) return false
+      const hasGroup = requiredGroups.some((g) => userGroups.has(g));
+      if (!hasGroup) return false;
     }
 
     // Check permissions
     if (requiredPerms.length > 0) {
-      const hasPerm = requiredPerms.some((p) => userPermissions.has(p))
-      if (!hasPerm) return false
+      const hasPerm = requiredPerms.some((p) => userPermissions.has(p));
+      if (!hasPerm) return false;
     }
 
-    return true
-  }
+    return true;
+  };
 
   const data = React.useMemo(
     () => ({
@@ -102,7 +102,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             { title: "Leave Applications", url: "/leave/leave-applications" },
             { title: "My Leave", url: "/leave/my-leave" },
             { title: "Leave Delegations", url: "/leave/delegations" },
-            {title: "Supervisor Leave Approvals", url: "/leave/approve-leave" },
+            {
+              title: "Supervisor Leave Approvals",
+              url: "/leave/approve-leave",
+            },
           ]),
           requiredGroups: ["Staff"],
           items: [
@@ -118,7 +121,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               isActive: pathname.startsWith("/leave/leave-applications"),
               requiredPermissions: ["view_leaveapplication"],
             },
-            
+
             {
               title: "Leave Delegations",
               url: "/leave/delegations",
@@ -142,6 +145,28 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               url: "/leave/hr-approvals",
               isActive: pathname.startsWith("/leave/hr-approvals"),
               requiredPermissions: ["hr_approve_leave"],
+            },
+          ],
+        },
+        {
+          title: "Programme Accreditation",
+          url: "#",
+          icon: BookA,
+          isActive: isActiveRoute("#", [
+            {
+              title: "Programme Accreditation",
+              url: "/programmes/programme-accreditation",
+            },
+          ]),
+          requiredGroups: ["Head Programme Accreditation"],
+          items: [
+            {
+              title: "Programme Accreditation",
+              url: "/programmes/programme-accreditation",
+              isActive: pathname.startsWith(
+                "/programmes/programme-accreditation",
+              ),
+              requiredPermissions: ["view_programaccreditation"],
             },
           ],
         },
@@ -180,30 +205,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
       ],
     }),
-    [pathname, isActiveRoute]
-  )
+    [pathname, isActiveRoute],
+  );
 
   // --- Filter menu based on permissions/groups ---
   const filteredNavMain = React.useMemo(() => {
     return data.navMain
       .map((item) => {
         // If it has children, filter them too
-        const childItems = item.items?.filter(canSeeItem) ?? []
+        const childItems = item.items?.filter(canSeeItem) ?? [];
 
         // Decide if parent is visible:
         // - if parent passes canSeeItem
         // - OR if it has any visible children (so parent can be used as group header)
-        const parentVisible = canSeeItem(item) || childItems.length > 0
+        const parentVisible = canSeeItem(item) || childItems.length > 0;
 
-        if (!parentVisible) return null
+        if (!parentVisible) return null;
 
         return {
           ...item,
           items: childItems,
-        }
+        };
       })
-      .filter(Boolean)
-  }, [data.navMain, userPermissions, userGroups, canSeeItem])
+      .filter(Boolean);
+  }, [data.navMain, userPermissions, userGroups, canSeeItem]);
 
   return (
     <Sidebar
@@ -213,7 +238,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="px-0 py-0">
-             <Link href="/">
+            <Link href="/">
               <Image
                 height={500}
                 width={500}
@@ -221,21 +246,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 src="/images/logo2.png"
                 className="object-cover bg-white rounded-lg w-full"
               />
-             </Link>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-       {isLoading ? <SidebarSkeleton /> : ( 
-        <>
-          <NavMain items={filteredNavMain as NavItem[]} />
-          <NavSecondary items={data.navSecondary} className="mt-auto" />
-        </>
-        )} 
+        {isLoading ? (
+          <SidebarSkeleton />
+        ) : (
+          <>
+            <NavMain items={filteredNavMain as NavItem[]} />
+            <NavSecondary items={data.navSecondary} className="mt-auto" />
+          </>
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
