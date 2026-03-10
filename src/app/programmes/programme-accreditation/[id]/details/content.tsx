@@ -1,6 +1,8 @@
 "use client";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { useRetrieveProgrammeAccreditationQuery } from "@/redux/features/programme-api-slice";
+import {
+    useRetrieveProgrammeAccreditationQuery
+} from "@/redux/features/programme-api-slice";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 const PdfViewer = dynamic(() => import("@/components/PdfViewer"), {

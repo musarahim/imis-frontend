@@ -2,6 +2,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from "@/utils";
+import AssignReviewers from "./AssignReviewers";
 import Content from "./content";
 
 type Props = { params: Promise<{ id: string }> };
@@ -37,13 +38,7 @@ export default async function page({ params }: Props) {
               </div>
               <div className="lg:w-1/4 w-full">
                 <div className="bg-white dark:bg-gray-950 rounded-lg border p-2 h-full">
-                  <h3 className="text-md font-semibold mb-4 text-gray-900 dark:text-white">
-                    Assign Accessors
-                  </h3>
-                  {/* Chart component will go here */}
-                  <div className="max-h-[48rem] bg-gray-50 dark:bg-gray-950  rounded flex items-center justify-center p-2">
-                    <p>Action</p>
-                  </div>
+                  <AssignReviewers id={id} />
                 </div>
               </div>
             </div>

@@ -8,6 +8,17 @@ type Group = {
   permissions?: Permission[];
 };
 
+type Reviewer = {
+  id: number;
+  name: string;
+};
+
+type ReviewerAssignment = {
+  id?: number;
+  user: string;
+  application: string;
+};
+
 type NavItem = {
   title: string;
   url: string;
