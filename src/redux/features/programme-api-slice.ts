@@ -16,7 +16,25 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         if (p.ordering) search.set("ordering", p.ordering);
 
         const qs = search.toString();
-        return `/programmes/programme-accreditation/${qs ? `?${qs}` : ""}`;
+        return `/programmes/programme-accreditation/submitted-applications/${qs ? `?${qs}` : ""}`;
+      },
+    }),
+    getProgrammeAccreditationsUnderReview: builder.query<
+      ListRespornse<ProgrammeAccreditation>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-accreditation/under-review/${qs ? `?${qs}` : ""}`;
       },
     }),
     retrieveProgrammeAccreditation: builder.query<
@@ -50,12 +68,12 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     }),
     assignReviewers: builder.mutation<
       ReviewerAssignment,
-      { userId: number; applicationId: number }
+      { userId: number; applications: number[] }
     >({
-      query: ({ userId, applicationId }) => ({
-        url: `/programmes/assign-reviewers/`,
+      query: ({ userId, applications }) => ({
+        url: `/programmes/programme-accreditation/assign-reviewer/`,
         method: "POST",
-        body: { user: userId, application: applicationId },
+        body: { userId, applications },
       }),
     }),
   }),
@@ -68,4 +86,5 @@ export const {
   useCreateProgrammeAccreditationMutation,
   useGetProgrammeReviewersQuery,
   useAssignReviewersMutation,
+  useGetProgrammeAccreditationsUnderReviewQuery,
 } = ProgrammeApiSlice;

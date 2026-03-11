@@ -1,11 +1,11 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useGetProgrammeAccreditationsQuery } from "@/redux/features/programme-api-slice";
+import { useGetProgrammeAccreditationsUnderReviewQuery } from "@/redux/features/programme-api-slice";
 import {
-  ColumnFiltersState,
-  PaginationState,
-  SortingState,
-  VisibilityState,
+    ColumnFiltersState,
+    PaginationState,
+    SortingState,
+    VisibilityState,
 } from "@tanstack/react-table";
 import React from "react";
 import { columns } from "./columns";
@@ -42,13 +42,11 @@ function ProgrammeAccreditationData() {
     };
   }, [pagination, sorting, globalFilter]);
 
-  const { data, isLoading, isError } = useGetProgrammeAccreditationsQuery(
-    queryParams,
-    {
+  const { data, isLoading, isError } =
+    useGetProgrammeAccreditationsUnderReviewQuery(queryParams, {
       // 3. Refetch data when pagination, sorting, or filtering changes
       refetchOnMountOrArgChange: true,
-    },
-  );
+    });
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
   console.log(data);
@@ -68,8 +66,6 @@ function ProgrammeAccreditationData() {
         setColumnFilters={setColumnFilters}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
-        addHref="/programmes/assign-reviewers"
-        addText="Assign Reviewer"
       />
     </>
   );

@@ -2,7 +2,6 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from "@/utils";
-import AssignReviewers from "./AssignReviewers";
 import Content from "./content";
 
 type Props = { params: Promise<{ id: string }> };
@@ -33,13 +32,8 @@ export default async function page({ params }: Props) {
               </h2>
             </div>
             <div className="flex flex-col lg:flex-row gap-4 h-full">
-              <div className="flex-1 lg:w-3/4">
+              <div className="flex-1">
                 <Content id={id} />
-              </div>
-              <div className="lg:w-1/4 w-full">
-                <div className="bg-white dark:bg-gray-950 rounded-lg border p-2 h-full">
-                  <AssignReviewers id={id} />
-                </div>
               </div>
             </div>
           </div>

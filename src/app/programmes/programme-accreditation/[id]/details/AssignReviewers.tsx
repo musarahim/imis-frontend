@@ -2,11 +2,10 @@
 import { AppForm, CheckboxInput, SubmitButton } from "@/components/forms";
 import { Separator } from "@/components/ui/separator";
 import {
-    useAssignReviewersMutation,
-    useGetProgrammeReviewersQuery,
+  useAssignReviewersMutation,
+  useGetProgrammeReviewersQuery,
 } from "@/redux/features/programme-api-slice";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 function AssignReviewers({ id }: { id: string }) {
@@ -35,21 +34,21 @@ function AssignReviewers({ id }: { id: string }) {
       (reviewer) => values[`reviewer_${reviewer.id}`],
     );
 
-    if (selectedReviewers) {
-      selectedReviewers.forEach((reviewer) => {
-        assignReviewers({ userId: reviewer.id, applicationId: Number(id) })
-          .unwrap()
-          .then(() => {
-            toast.success(`Reviewer ${reviewer.name} assigned successfully`);
-            router.push(`/programmes/programme-accreditation`);
-          })
-          .catch((error) => {
-            // Handle error, e.g., show an error message
-            console.error("Error assigning reviewer:", error);
-            toast.error(`Error assigning reviewer ${reviewer.name}`);
-          });
-      });
-    }
+    // if (selectedReviewers) {
+    //   selectedReviewers.forEach((reviewer) => {
+    //     assignReviewers({ userId: reviewer.id, applicationId: Number(id) })
+    //       .unwrap()
+    //       .then(() => {
+    //         toast.success(`Reviewer ${reviewer.name} assigned successfully`);
+    //         router.push(`/programmes/programme-accreditation`);
+    //       })
+    //       .catch((error) => {
+    //         // Handle error, e.g., show an error message
+    //         console.error("Error assigning reviewer:", error);
+    //         toast.error(`Error assigning reviewer ${reviewer.name}`);
+    //       });
+    //   });
+    // }
   };
 
   const validationSchema = Yup.object().shape(
