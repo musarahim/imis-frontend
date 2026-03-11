@@ -76,6 +76,36 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         body: { userId, applications },
       }),
     }),
+
+    createPreliminaryReview: builder.mutation({
+      query: (args: PreliminaryReview) => ({
+        url: "/programmes/preliminary-reviews/",
+        method: "POST",
+        body: args,
+      }),
+    }),
+
+    getPreliminaryReviews: builder.query<
+      ListRespornse<PreliminaryReview>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/preliminary-reviews/${qs ? `?${qs}` : ""}`;
+      },
+    }),
+    retrievePreliminaryReview: builder.query<PreliminaryReview, number>({
+      query: (id) => `/programmes/preliminary-reviews/${id}/`,
+    }),
   }),
 });
 
@@ -87,4 +117,7 @@ export const {
   useGetProgrammeReviewersQuery,
   useAssignReviewersMutation,
   useGetProgrammeAccreditationsUnderReviewQuery,
+  useCreatePreliminaryReviewMutation,
+  useGetPreliminaryReviewsQuery,
+  useRetrievePreliminaryReviewQuery,
 } = ProgrammeApiSlice;

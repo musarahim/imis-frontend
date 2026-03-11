@@ -29,7 +29,7 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
           <DropdownMenuItem
             onClick={() =>
               router.push(
-                `/programmes/programme-accreditation/${application.id}/details`,
+                `/programmes/programme-accreditation/${application.id}/review`,
               )
             }
           >
@@ -82,7 +82,7 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
       return (
         <div className="flex justify-center">
           <LinkAsBadge
-            href={`/programmes/programme-accreditation/${row.original.id}/details`}
+            href={`/programmes/programme-accreditation/${row.original.id}/review`}
             text={row.original.status ?? ""}
             className="bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600"
           />

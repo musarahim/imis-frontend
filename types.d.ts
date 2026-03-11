@@ -404,6 +404,30 @@ interface ProgrammeAccreditation {
   employee?: number;
 }
 
+interface PreliminaryReview {
+  id?: number;
+  reviewer?: string;
+  application?: string;
+  type_of_entry_summary?: string;
+  type_of_entry_comments?: string;
+  entry_requirements_summary?: string;
+  entry_requirements_comments?: string;
+  human_resource_summary?: string;
+  human_resource_comments?: string;
+  facilities_summary?: string;
+  facilities_comments?: string;
+  programme_duration_summary?: string;
+  programme_duration_comments?: string;
+  minimum_graduation_load_summary?: string;
+  minimum_graduation_load_comments?: string;
+  day_students?: number;
+  evening_students?: number;
+  weekend_students?: number;
+  student_comment?: string;
+  expert_progression?: boolean;
+  reviewed_at?: string;
+}
+
 interface Employee {
   id?: number;
   employee_number: string;
