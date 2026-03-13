@@ -4,17 +4,17 @@ import { AppForm, SelectField, SubmitButton } from "@/components/forms";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import {
-    useAssignReviewersMutation,
-    useGetProgrammeAccreditationsQuery,
-    useGetProgrammeReviewersQuery,
+  useAssignReviewersMutation,
+  useGetProgrammeAccreditationsQuery,
+  useGetProgrammeReviewersQuery,
 } from "@/redux/features/programme-api-slice";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -206,7 +206,7 @@ function AssignmentForm() {
             />
             <div className="mt-6">
               <SubmitButton
-                isLoading={false}
+                isLoading={isAssigning}
                 title="Assign Reviewer"
                 className="w-full"
               />

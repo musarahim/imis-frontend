@@ -1,8 +1,7 @@
 "use client";
+import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import {
-    useRetrieveProgrammeAccreditationQuery
-} from "@/redux/features/programme-api-slice";
+import { useRetrieveProgrammeAccreditationQuery } from "@/redux/features/programme-api-slice";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 const PdfViewer = dynamic(() => import("@/components/PdfViewer"), {
@@ -19,10 +18,11 @@ function Content({ id }: { id: string }) {
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
-
+  console.log("Programme Accreditation Data:", data);
   return (
     <div className="bg-white dark:bg-gray-950 rounded-lg border p-2 h-full">
       <h3 className="text-xl font-semibold">{data?.program_name}</h3>
+      <Separator className="my-4" />
       <Table className="w-full mt-1">
         <TableBody>
           <TableRow>

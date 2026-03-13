@@ -1,10 +1,13 @@
 "use client";
 import {
-    AppForm as Form,
-    RichEditorField,
-    SubmitButton,
-    TextAreaField,
+  AppForm as Form,
+  InputField,
+  RichEditorField,
+  SubmitButton,
+  TextAreaField,
 } from "@/components/forms";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { useCreatePreliminaryReviewMutation } from "@/redux/features/programme-api-slice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -96,6 +99,7 @@ function ReviewForm({ id }: ReviewFormProps) {
         router.push(`/programmes/programme-accreditation/${id}`);
       })
       .catch((error) => {
+        console.error("Failed to submit preliminary review:", error);
         toast.error("Failed to submit preliminary review");
       });
   };
@@ -107,6 +111,7 @@ function ReviewForm({ id }: ReviewFormProps) {
         validationSchema={validationSchema}
       >
         {/* Form fields go here */}
+        <Separator className="my-4" />
         <RichEditorField
           name="type_of_entry_summary"
           label="1. Type of Entry (Summary of Content in Proposed Curriculum)"
@@ -114,6 +119,69 @@ function ReviewForm({ id }: ReviewFormProps) {
         <TextAreaField
           name="type_of_entry_comments"
           label="Comments on Type of Entry"
+        />
+        <RichEditorField
+          name="entry_requirements_summary"
+          label="2. Entry Requirements (Summary of Content in Proposed Curriculum)"
+        />
+        <TextAreaField
+          name="entry_requirements_comments"
+          label="Comments on Entry Requirements"
+        />
+        <RichEditorField
+          name="human_resource_summary"
+          label="3. Human Resource (Summary of Content in Proposed Curriculum)"
+        />
+        <TextAreaField
+          name="human_resource_comments"
+          label="Comments on Human Resource"
+        />
+        <RichEditorField
+          name="facilities_summary"
+          label="4. Facilities (Summary of Content in Proposed Curriculum)"
+        />
+        <TextAreaField
+          name="facilities_comments"
+          label="Comments on Facilities"
+        />
+        <RichEditorField
+          name="programme_duration_summary"
+          label="5. Programme Duration (Summary of Content in Proposed Curriculum)"
+        />
+        <TextAreaField
+          name="programme_duration_comments"
+          label="Comments on Programme Duration"
+        />
+        <RichEditorField
+          name="minimum_graduation_load_summary"
+          label="6. Minimum Graduation Load (Summary of Content in Proposed Curriculum)"
+        />
+        <TextAreaField
+          name="minimum_graduation_load_comments"
+          label="Comments on Minimum Graduation Load"
+        />
+        <Label className="mt-4">
+          7.Proposed Maximum Number of Students to be Registered Per Year Based
+          on the Available Resources
+        </Label>
+        <InputField
+          name="day_students"
+          label="Number of Day Students"
+          type="number"
+        />
+        <InputField
+          name="evening_students"
+          label="Number of Evening Students"
+          type="number"
+        />
+        <InputField
+          name="weekend_students"
+          label="Number of Weekend Students"
+          type="number"
+        />
+        <TextAreaField
+          name="student_comment"
+          label="7. Student Comments (Summary of Content in Proposed Curriculum)"
         />
         <div className="text-right">
           <SubmitButton

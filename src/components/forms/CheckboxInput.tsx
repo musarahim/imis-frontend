@@ -13,7 +13,8 @@ interface CheckboxInputProps {
 
 function CheckboxInput({ name, label, id }: CheckboxInputProps) {
   const [field, meta] = useField<boolean>(name);
-  const { setFieldValue, setFieldTouched } = useFormikContext<any>();
+  const { setFieldValue, setFieldTouched } =
+    useFormikContext<Record<string, unknown>>();
   type CheckedState = boolean | "indeterminate";
   const checkboxId = id || name;
 
