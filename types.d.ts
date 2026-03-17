@@ -424,8 +424,14 @@ interface PreliminaryReview {
   evening_students?: number;
   weekend_students?: number;
   student_comment?: string;
-  expert_progression?: boolean;
+  expert_progression?: string;
   reviewed_at?: string;
+  reviewer_name?: string;
+  application_number?: string;
+  review_date?: string;
+  programme?: string;
+  institution?: string;
+  student_total?: number;
 }
 
 interface Employee {

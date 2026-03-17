@@ -161,6 +161,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: "Applications Under Review",
               url: "/programmes/under-review",
             },
+            {
+              title: "Applications Reviews",
+              url: "/programmes/reviewed-applications",
+            },
           ]),
           requiredGroups: [
             "Head Programme Accreditation",
@@ -179,6 +183,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: "Applications Under Review",
               url: "/programmes/under-review",
               isActive: pathname.startsWith("/programmes/under-review"),
+              requiredPermissions: [
+                "can_assign_reviewers",
+                "can_review_programme_accreditation",
+              ],
+            },
+            {
+              title: "Reviewed Applications",
+              url: "/programmes/reviewed-applications",
+              isActive: pathname.startsWith(
+                "/programmes/reviewed-applications",
+              ),
               requiredPermissions: [
                 "can_assign_reviewers",
                 "can_review_programme_accreditation",

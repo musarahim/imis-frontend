@@ -3,6 +3,7 @@ import {
   AppForm as Form,
   InputField,
   RichEditorField,
+  SelectField,
   SubmitButton,
   TextAreaField,
 } from "@/components/forms";
@@ -15,6 +16,10 @@ import * as Yup from "yup";
 type ReviewFormProps = {
   id: string;
 };
+const yes_no_options = [
+  { label: "Yes", value: "yes" },
+  { label: "No", value: "no" },
+];
 function ReviewForm({ id }: ReviewFormProps) {
   const [createPreliminaryReview, { isLoading }] =
     useCreatePreliminaryReviewMutation();
@@ -38,7 +43,7 @@ function ReviewForm({ id }: ReviewFormProps) {
     evening_students: 0,
     weekend_students: 0,
     student_comment: "",
-    expert_progression: false,
+    expert_progression: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -86,7 +91,7 @@ function ReviewForm({ id }: ReviewFormProps) {
       .required("Number of weekend students is required")
       .min(0, "Number of weekend students cannot be negative"),
     student_comment: Yup.string().required("Student comment is required"),
-    expert_progression: Yup.boolean().required(
+    expert_progression: Yup.string().required(
       "Expert progression recommendation is required",
     ),
   });
@@ -182,6 +187,11 @@ function ReviewForm({ id }: ReviewFormProps) {
         <TextAreaField
           name="student_comment"
           label="7. Student Comments (Summary of Content in Proposed Curriculum)"
+        />
+        <SelectField
+          name="expert_progression"
+          label="8. Do you recommend progression to experts?"
+          options={yes_no_options}
         />
         <div className="text-right">
           <SubmitButton
