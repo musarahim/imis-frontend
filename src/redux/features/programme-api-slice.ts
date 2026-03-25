@@ -106,6 +106,9 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     retrievePreliminaryReview: builder.query<PreliminaryReview, number>({
       query: (id) => `/programmes/preliminary-reviews/${id}/`,
     }),
+    getProgrammeAssessors: builder.query<Reviewer[], void>({
+      query: () => `/programmes/programme-accessors/`,
+    }),
   }),
 });
 
@@ -120,4 +123,5 @@ export const {
   useCreatePreliminaryReviewMutation,
   useGetPreliminaryReviewsQuery,
   useRetrievePreliminaryReviewQuery,
+  useGetProgrammeAssessorsQuery,
 } = ProgrammeApiSlice;

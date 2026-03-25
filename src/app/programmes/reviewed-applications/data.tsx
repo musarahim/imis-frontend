@@ -2,10 +2,10 @@
 import { DataTable } from "@/components/common/data-table";
 import { useGetPreliminaryReviewsQuery } from "@/redux/features/programme-api-slice";
 import {
-    ColumnFiltersState,
-    PaginationState,
-    SortingState,
-    VisibilityState,
+  ColumnFiltersState,
+  PaginationState,
+  SortingState,
+  VisibilityState,
 } from "@tanstack/react-table";
 import React from "react";
 import { columns } from "./columns";
@@ -68,8 +68,8 @@ function ProgrammeAccreditationData() {
         setColumnFilters={setColumnFilters}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
-        //addHref="/programmes/assign-reviewers"
-        //addText="Assign Reviewer"
+        addHref="/programmes/assign-assessor"
+        addText="Assign Assessor"
       />
     </>
   );
