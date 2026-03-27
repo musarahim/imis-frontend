@@ -155,7 +155,7 @@ function AssignmentForm() {
                 </TableHead>
                 <TableHead>Institution</TableHead>
                 <TableHead>Programme</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead>Level</TableHead>
               </TableRow>
             </TableHeader>
 

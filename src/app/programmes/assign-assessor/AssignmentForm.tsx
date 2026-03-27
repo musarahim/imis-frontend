@@ -12,9 +12,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  useAssignReviewersMutation,
-  useGetProgrammeAccreditationsQuery,
+  useAssignAssessorsMutation,
   useGetProgrammeAssessorsQuery,
+  useGetProgrammesReadyForAccessmentQuery,
 } from "@/redux/features/programme-api-slice";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -22,18 +22,20 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 type FormValues = {
-  reviewer: string;
+  assessor: string;
   applications: string[];
 };
 
 function AssignmentForm() {
   const router = useRouter();
-  const { data, isLoading, isError } = useGetProgrammeAccreditationsQuery({});
+  const { data, isLoading, isError } = useGetProgrammesReadyForAccessmentQuery(
+    {},
+  );
   const { data: assessors } = useGetProgrammeAssessorsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  const [assignReviewers, { isLoading: isAssigning }] =
-    useAssignReviewersMutation();
+  const [assignAssessors, { isLoading: isAssigning }] =
+    useAssignAssessorsMutation();
 
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(
     new Set(),
@@ -75,12 +77,12 @@ function AssignmentForm() {
   };
 
   const initialValues: FormValues = {
-    reviewer: "",
+    assessor: "",
     applications: [],
   };
 
   const validationSchema = Yup.object().shape({
-    reviewer: Yup.string().required("Reviewer is required"),
+    assessor: Yup.string().required("Please select at least one Assessor"),
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -98,7 +100,7 @@ function AssignmentForm() {
       data?.results?.filter((row) => selectedRows.has(String(row.id))) ?? [];
 
     const selectedAssessor = assessors?.find(
-      (assessor) => String(assessor.id) === values.reviewer,
+      (assessor) => String(assessor.id) === values.assessor,
     );
 
     const selectedApplicationIds = selectedApplications
@@ -107,7 +109,7 @@ function AssignmentForm() {
     const selectedAssessorId = selectedAssessor?.id ?? null;
 
     if (selectedAssessorId) {
-      assignReviewers({
+      assignAssessors({
         userId: selectedAssessorId,
         applications: selectedApplicationIds,
       })
@@ -155,7 +157,7 @@ function AssignmentForm() {
                 </TableHead>
                 <TableHead>Institution</TableHead>
                 <TableHead>Programme</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead>Level</TableHead>
               </TableRow>
             </TableHeader>
 

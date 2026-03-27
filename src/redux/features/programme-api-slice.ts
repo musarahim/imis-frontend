@@ -76,6 +76,16 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         body: { userId, applications },
       }),
     }),
+    assignAssessors: builder.mutation<
+      ReviewerAssignment,
+      { userId: number; applications: number[] }
+    >({
+      query: ({ userId, applications }) => ({
+        url: `/programmes/programme-accreditation/assign-assessor/`,
+        method: "POST",
+        body: { userId, applications },
+      }),
+    }),
 
     createPreliminaryReview: builder.mutation({
       query: (args: PreliminaryReview) => ({
@@ -109,6 +119,24 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     getProgrammeAssessors: builder.query<Reviewer[], void>({
       query: () => `/programmes/programme-accessors/`,
     }),
+    getProgrammesReadyForAccessment: builder.query<
+      ListRespornse<ProgrammeAccreditation>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-accreditation/ready-for-assessment/${qs ? `?${qs}` : ""}`;
+      },
+    }),
   }),
 });
 
@@ -124,4 +152,6 @@ export const {
   useGetPreliminaryReviewsQuery,
   useRetrievePreliminaryReviewQuery,
   useGetProgrammeAssessorsQuery,
+  useGetProgrammesReadyForAccessmentQuery,
+  useAssignAssessorsMutation,
 } = ProgrammeApiSlice;
