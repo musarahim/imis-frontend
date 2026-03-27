@@ -37,6 +37,24 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         return `/programmes/programme-accreditation/under-review/${qs ? `?${qs}` : ""}`;
       },
     }),
+    getProgrammeAccreditationsUnderAssessment: builder.query<
+      ListRespornse<ProgrammeAccreditation>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-accreditation/under-assessment/${qs ? `?${qs}` : ""}`;
+      },
+    }),
     retrieveProgrammeAccreditation: builder.query<
       ProgrammeAccreditation,
       number
@@ -154,4 +172,5 @@ export const {
   useGetProgrammeAssessorsQuery,
   useGetProgrammesReadyForAccessmentQuery,
   useAssignAssessorsMutation,
+  useGetProgrammeAccreditationsUnderAssessmentQuery,
 } = ProgrammeApiSlice;
