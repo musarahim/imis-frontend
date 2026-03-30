@@ -134,9 +134,40 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     retrievePreliminaryReview: builder.query<PreliminaryReview, number>({
       query: (id) => `/programmes/preliminary-reviews/${id}/`,
     }),
-    getProgrammeAssessors: builder.query<Reviewer[], void>({
-      query: () => `/programmes/programme-accessors/`,
+    //programme assessment
+    createProgrammeAssessment: builder.mutation({
+      query: (args: ProgrammeAssessment) => ({
+        url: "/programmes/programme-assessments/",
+        method: "POST",
+        body: args,
+      }),
     }),
+
+    getProgrammeAssessments: builder.query<
+      ListRespornse<ProgrammeAssessment>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-assessments/${qs ? `?${qs}` : ""}`;
+      },
+    }),
+    retrieveProgrammeAssessment: builder.query<ProgrammeAssessment, number>({
+      query: (id) => `/programmes/programme-assessments/${id}/`,
+    }),
+    getProgrammeAssessors: builder.query<Reviewer[], void>({
+      query: () => `/programmes/programme-assessors/`,
+    }),
+
     getProgrammesReadyForAccessment: builder.query<
       ListRespornse<ProgrammeAccreditation>,
       ListParams
@@ -173,4 +204,7 @@ export const {
   useGetProgrammesReadyForAccessmentQuery,
   useAssignAssessorsMutation,
   useGetProgrammeAccreditationsUnderAssessmentQuery,
+  useCreateProgrammeAssessmentMutation,
+  useGetProgrammeAssessmentsQuery,
+  useRetrieveProgrammeAssessmentQuery,
 } = ProgrammeApiSlice;

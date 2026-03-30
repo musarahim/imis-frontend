@@ -433,6 +433,44 @@ interface PreliminaryReview {
   institution?: string;
   student_total?: number;
 }
+interface ProgrammeAssessment {
+  id?: number;
+  assessor?: string;
+  application?: string;
+  programme_development_process: string;
+  rationale: string;
+  programme_objectives: string;
+  competences: string;
+  learning_outcomes: string;
+  entry_requirements: string;
+  duration: string;
+  grading_system: string;
+  curriculum_structure: string;
+  staffing_levels: string;
+  infrastructure: string;
+  cbe_allignment: string;
+  other_comments: string;
+  course_name: string;
+  course_code: string;
+  course_level: string;
+  contact_hours: string;
+  credit_units: string;
+  course_description: string;
+  course_objectives: string;
+  course_learning_outcomes: string;
+  detailed_course_content: string;
+  instructional_materials: string;
+  delivery_modes: string;
+  assessment_modes: string;
+  reading_list: string;
+  writing_styles_and_grammar: string;
+  minimum_standards: string;
+  institution_comments: string;
+  nche_comments: string;
+  conclusions: string;
+  recommendation: string;
+  assessment_date?: string;
+}
 
 interface Employee {
   id?: number;
