@@ -470,6 +470,10 @@ interface ProgrammeAssessment {
   conclusions: string;
   recommendation: string;
   assessment_date?: string;
+  application_number?: string;
+  programme?: string;
+  institution?: string;
+  assessor_name?: string;
 }
 
 interface Employee {

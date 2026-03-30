@@ -2,6 +2,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from "@/utils";
+import ProgrammeAssessmentsData from "./data";
 
 function page() {
   return (
@@ -11,15 +12,17 @@ function page() {
           { label: "Home", href: "/" },
           { label: "Programmes", href: "/programmes" },
           {
-            label: "Assign Assessor",
-            href: "/programmes/assign-assessor",
+            label: "Programme Assessments",
+            href: "/programmes/programme-assessments",
           },
         ]}
       />
       <div className="flex flex-1">
         <AppSidebar />
         <SidebarInset>
-          <div className="flex flex-1 flex-col gap-4 p-4">Page</div>
+          <div className="flex flex-1 flex-col gap-4 p-4">
+            <ProgrammeAssessmentsData />
+          </div>
         </SidebarInset>
       </div>
     </RequireAuth>

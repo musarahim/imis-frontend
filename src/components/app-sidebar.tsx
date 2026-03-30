@@ -206,6 +206,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               isActive: pathname.startsWith("/programmes/under-assessment"),
               requiredPermissions: ["can_assess_programme"],
             },
+            {
+              title: "Programme Assessments",
+              url: "/programmes/programme-assessments",
+              isActive: pathname.startsWith(
+                "/programmes/programme-assessments",
+              ),
+              requiredPermissions: ["can_assess_programme"],
+            },
           ],
         },
         {

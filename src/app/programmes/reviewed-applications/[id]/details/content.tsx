@@ -40,7 +40,7 @@ function Content({ id }: { id: string }) {
               {data?.institution}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Application Number:
             </TableCell>
@@ -58,7 +58,7 @@ function Content({ id }: { id: string }) {
               {data?.programme}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Reviewer:
             </TableCell>
@@ -76,7 +76,7 @@ function Content({ id }: { id: string }) {
               {data?.review_date}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Progression for Expert Review:
             </TableCell>
@@ -94,7 +94,7 @@ function Content({ id }: { id: string }) {
               {data?.institution}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Type of Entry:
             </TableCell>
@@ -117,7 +117,7 @@ function Content({ id }: { id: string }) {
               {data?.type_of_entry_comments}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Entry Requirements:
             </TableCell>
@@ -140,7 +140,7 @@ function Content({ id }: { id: string }) {
               {data?.entry_requirements_comments}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Human Resources:
             </TableCell>
@@ -163,7 +163,7 @@ function Content({ id }: { id: string }) {
               {data?.human_resource_comments}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Facilities:
             </TableCell>
@@ -186,7 +186,7 @@ function Content({ id }: { id: string }) {
               {data?.facilities_comments}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Programme Duration:
             </TableCell>
@@ -209,7 +209,7 @@ function Content({ id }: { id: string }) {
               {data?.programme_duration_comments}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Minimum Graduation Load:
             </TableCell>
@@ -232,7 +232,7 @@ function Content({ id }: { id: string }) {
               {data?.minimum_graduation_load_comments}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Proposed Maximum Number of Students to be Registered Per Year
               Based on the Available Resources
@@ -250,7 +250,7 @@ function Content({ id }: { id: string }) {
             </TableCell>
           </TableRow>
 
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Evening Students:
             </TableCell>
@@ -268,7 +268,7 @@ function Content({ id }: { id: string }) {
               {data?.weekend_students}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Student Total:
             </TableCell>
