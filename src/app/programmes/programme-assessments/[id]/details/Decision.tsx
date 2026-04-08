@@ -44,7 +44,6 @@ function Decision({ applicationID }: DecisionProps) {
   });
 
   const handleSubmit = async (values: typeof intialValues) => {
-    console.log("Submitting decision with values:", values); // Debug log
     try {
       const formData = new FormData();
       formData.append("status", values.status);
@@ -57,6 +56,7 @@ function Decision({ applicationID }: DecisionProps) {
       toast.success("Decision submitted successfully");
       router.push("/programmes/programme-accreditation");
     } catch (error) {
+      console.log("Error submitting decision:", error); // Debug log
       toast.error("Failed to submit decision");
     }
   };
