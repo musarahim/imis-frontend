@@ -186,6 +186,31 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         return `/programmes/programme-accreditation/ready-for-assessment/${qs ? `?${qs}` : ""}`;
       },
     }),
+    getProgressedToDirectorateApplications: builder.query<
+      ListRespornse<ProgrammeAccreditation>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-accreditation/progressed-to-directorate/${qs ? `?${qs}` : ""}`;
+      },
+    }),
+    retrieveDirectorateApplication: builder.query<
+      ProgrammeAccreditation,
+      number
+    >({
+      query: (id) =>
+        `/programmes/programme-accreditation/${id}/progressed-to-directorate-details/`,
+    }),
   }),
 });
 
@@ -207,4 +232,6 @@ export const {
   useCreateProgrammeAssessmentMutation,
   useGetProgrammeAssessmentsQuery,
   useRetrieveProgrammeAssessmentQuery,
+  useGetProgressedToDirectorateApplicationsQuery,
+  useRetrieveDirectorateApplicationQuery,
 } = ProgrammeApiSlice;

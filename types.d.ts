@@ -402,6 +402,9 @@ interface ProgrammeAccreditation {
   letter_of_submission: File | string;
   institution?: string;
   employee?: number;
+  assessment?: ProgrammeAssessment;
+  preliminary_review?: PreliminaryReview;
+  pod_comment?: string;
 }
 
 interface PreliminaryReview {

@@ -167,6 +167,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               url: "/programmes/reviewed-applications",
             },
             { title: "Under Assessment", url: "/programmes/under-assessment" },
+            {
+              title: "Programme Assessments",
+              url: "/programmes/programme-assessments",
+            },
+            {
+              title: "Directorate Applications",
+              url: "/programmes/directorate-applications",
+            },
           ]),
           requiredGroups: [
             "Head Programme Accreditation",
@@ -215,8 +223,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               ),
               requiredPermissions: ["can_assess_programme"],
             },
+            {
+              title: "Directorate Decisions",
+              url: "/programmes/directorate-applications",
+              isActive: pathname.startsWith(
+                "/programmes/directorate-applications",
+              ),
+              requiredPermissions: ["can_make_directorate_decision"],
+            },
           ],
         },
+
         {
           title: "Institutional Licensing",
           url: "#",
