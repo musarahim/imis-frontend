@@ -17,7 +17,7 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
         if (p.ordering) search.set("ordering", p.ordering);
 
         const qs = search.toString();
-        return `/licenses/intrim-authority/${qs ? `?${qs}` : ""}`;
+        return `/licenses/interim-authority/submitted-applications/${qs ? `?${qs}` : ""}`;
       },
     }),
     retrieveIntrimAuthority: builder.query<IntrimAuthority, number>({
@@ -132,6 +132,20 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    createInterimChat: builder.mutation({
+      query: (args: ChatMessage) => ({
+        url: "/licenses/interim-discussion/",
+        method: "POST",
+        body: args,
+      }),
+    }),
+    getInterimChatMessages: builder.query<
+      ChatMessage[],
+      { application_id: number }
+    >({
+      query: ({ application_id }) =>
+        `/licenses/interim-discussion/?application_id=${application_id}`,
+    }),
 
     // ODAI Charter Application Endpoints
   }),
@@ -150,4 +164,6 @@ export const {
   useGetCharterApplicationsQuery,
   useRetrieveCharterApplicationQuery,
   usePatchCharterApplicationMutation,
+  useCreateInterimChatMutation,
+  useGetInterimChatMessagesQuery,
 } = LicenseApiSlice;

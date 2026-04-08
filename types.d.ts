@@ -474,6 +474,8 @@ interface ProgrammeAssessment {
   programme?: string;
   institution?: string;
   assessor_name?: string;
+  pod_comment?: string;
+  status?: string;
 }
 
 interface Employee {
@@ -637,4 +639,52 @@ interface LeaveApplication {
 interface EmployeeDropdown {
   id: number;
   full_name: string;
+}
+
+type Role = "reviewer" | "applicant";
+
+interface ChatMessage {
+  id?: number | string;
+  role: Role;
+  text: string;
+  application: number;
+  reviewer?: number;
+  reviewer_name?: string;
+  applicant_name?: string;
+  created_at?: string;
+}
+
+interface PaymentPRN {
+  id: number;
+  amount: number;
+  assessmentDate: string;
+  paymentType: string;
+  referenceNo: string;
+  tin: string;
+  srcSystem: string;
+  taxHead: string;
+  taxSubHead: string;
+  email: string;
+  taxPayerName: string;
+  plot: string;
+  buildingName: string;
+  street: string;
+  tradeCentre: string;
+  district: string;
+  county: string;
+  subCounty: string;
+  parish: string;
+  village: string;
+  localCouncil: string;
+  contactNo: string;
+  paymentPeriod: string;
+  expiryDays: string;
+  mobileMoneyNumber: string;
+  mobileNo: string;
+  expiryDate: string | null;
+  statusCode: string;
+  statusDesc: string;
+  searchCode: string;
+  prn: string;
+  prn_reconciled: string;
 }

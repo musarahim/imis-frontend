@@ -15,6 +15,7 @@ import { useEmployeeData } from "@/hooks";
 import {
   BookA,
   Building,
+  FileBadge2,
   HomeIcon,
   LifeBuoy,
   Send,
@@ -217,6 +218,121 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           ],
         },
         {
+          title: "Institutional Licensing",
+          url: "#",
+          icon: FileBadge2,
+          isActive: isActiveRoute("#", [
+            {
+              title: "Institutional Licensing",
+              url: "/license/institutional-licensing",
+            },
+            {
+              title: "Applications Under Review",
+              url: "/license/under-review",
+            },
+            {
+              title: "Applications Reviews",
+              url: "/license/reviewed-applications",
+            },
+            { title: "Under Assessment", url: "/license/under-assessment" },
+          ]),
+          requiredGroups: ["ILA"],
+          items: [
+            {
+              title: "Interim Authority (University)",
+              url: "#",
+              isActive: pathname.startsWith("/license/institutional-licensing"),
+              requiredPermissions: ["can_assign_reviewers"],
+              items: [
+                {
+                  title: "Submitted",
+                  url: "/license/university/interim-authority/submitted",
+                  isActive: pathname.startsWith(
+                    "/license/university/interim-authority/submitted",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+                {
+                  title: "Under Review",
+                  url: "/license/university/interim-authority/under-review",
+                  isActive: pathname.startsWith(
+                    "/license/university/interim-authority/under-review",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+              ],
+            },
+            {
+              title: "Provisional License (University)",
+              url: "#",
+              isActive: pathname.startsWith(
+                "/license/university/provisional-license",
+              ),
+              requiredPermissions: ["can_assign_reviewers"],
+              items: [
+                {
+                  title: "Submitted",
+                  url: "/license/university/provisional-license/submitted",
+                  isActive: pathname.startsWith(
+                    "/license/university/provisional-license/submitted",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+                {
+                  title: "Under Review",
+                  url: "/license/university/provisional-license/under-review",
+                  isActive: pathname.startsWith(
+                    "/license/university/provisional-license/under-review",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+              ],
+            },
+            {
+              title: "Charter (University)",
+              url: "#",
+              isActive: pathname.startsWith("/license/university/charter"),
+              requiredPermissions: ["can_assign_reviewers"],
+              items: [
+                {
+                  title: "Submitted",
+                  url: "/license/university/charter/submitted",
+                  isActive: pathname.startsWith(
+                    "/license/university/charter/submitted",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+                {
+                  title: "Under Review",
+                  url: "/license/university/charter/under-review",
+                  isActive: pathname.startsWith(
+                    "/license/university/charter/under-review",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
           title: "Settings",
           url: "#",
           icon: Settings2,
@@ -256,24 +372,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   // --- Filter menu based on permissions/groups ---
   const filteredNavMain = React.useMemo(() => {
-    return data.navMain
-      .map((item) => {
-        // If it has children, filter them too
-        const childItems = item.items?.filter(canSeeItem) ?? [];
+    const filterItems = (items: Item[]): Item[] => {
+      return items.reduce<Item[]>((acc, item) => {
+        const childItems = item.items ? filterItems(item.items) : [];
 
-        // Decide if parent is visible:
-        // - if parent passes canSeeItem
-        // - OR if it has any visible children (so parent can be used as group header)
-        const parentVisible = canSeeItem(item) || childItems.length > 0;
+        // Keep parent if it is visible itself or has visible descendants.
+        const isVisible = canSeeItem(item) || childItems.length > 0;
+        if (!isVisible) return acc;
 
-        if (!parentVisible) return null;
-
-        return {
+        acc.push({
           ...item,
           items: childItems,
-        };
-      })
-      .filter(Boolean);
+        });
+
+        return acc;
+      }, []);
+    };
+
+    return filterItems(data.navMain);
   }, [data.navMain, userPermissions, userGroups, canSeeItem]);
 
   return (

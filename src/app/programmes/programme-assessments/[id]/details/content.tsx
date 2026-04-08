@@ -1,8 +1,10 @@
 "use client";
+
 import { LinkAsBadge } from "@/components/ui/link-as-badge";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useRetrieveProgrammeAssessmentQuery } from "@/redux/features/programme-api-slice";
+import Decision from "./Decision";
 const labelCellClassName =
   "w-64 align-top whitespace-nowrap pr-4 font-semibold text-md";
 
@@ -476,6 +478,20 @@ function Content({ id }: { id: string }) {
           </TableRow>
         </TableBody>
       </Table>
+      <Separator className="my-2" />
+      <h2 className="text-base/8 font-semibold mt-2 ms-3 text-gray-900 dark:text-white">
+        Programme Head Decision
+      </h2>
+      {data?.pod_comment && (
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-md p-4 my-4 mx-3">
+          <h3 className="font-semibold mb-2">Programme Head Recommendation: {data.status}</h3>
+          <h3 className="font-semibold mb-2">Comments from Programme Head:</h3>
+          <p>{data.pod_comment}</p>
+        </div>
+      )}
+
+      <Separator className="my-4" />
+      <Decision applicationID={Number(data?.application)} />
     </div>
   );
 }
