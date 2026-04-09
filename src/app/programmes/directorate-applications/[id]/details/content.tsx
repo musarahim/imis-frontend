@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useRetrieveDirectorateApplicationQuery } from "@/redux/features/programme-api-slice";
 import { FileDisplay } from "@/utils/fileUtils";
+import Decision from "./Decision";
 
 const labelCellClassName =
   "w-64 align-top whitespace-nowrap pr-4 font-semibold text-md";
@@ -420,7 +421,7 @@ function Content({ id }: { id: string }) {
 
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={2}>
-              ASSESSOR’S COMMENTS
+              ASSESSOR&apos;S COMMENTS
             </TableCell>
           </TableRow>
           <TableRow className="bg-muted">
@@ -801,16 +802,18 @@ function Content({ id }: { id: string }) {
       </Table>
       <Separator className="my-2" />
       <h2 className="text-base/8 font-semibold mt-2 ms-3 text-gray-900 dark:text-white">
-        DIRECTOR'S Decision
+        DIRECTOR&apos;S Decision
       </h2>
-      {data?.assessment?.pod_comment && (
+      {data?.director_comment ? (
         <div className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-md p-4 my-4 mx-3">
           <h3 className="font-semibold mb-2">
-            Programme Head Recommendation: {data?.assessment?.status}
+            Director&apos;s Recommendation: {data?.status}
           </h3>
-          <h3 className="font-semibold mb-2">Comments from Programme Head:</h3>
-          <p>{data?.assessment?.pod_comment}</p>
+          <h3 className="font-semibold mb-2">Comment from Director:</h3>
+          <p>{data?.director_comment}</p>
         </div>
+      ) : (
+        <Decision applicationID={Number(id)} />
       )}
 
       <Separator className="my-4" />

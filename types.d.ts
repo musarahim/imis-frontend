@@ -405,6 +405,7 @@ interface ProgrammeAccreditation {
   assessment?: ProgrammeAssessment;
   preliminary_review?: PreliminaryReview;
   pod_comment?: string;
+  director_comment?: string;
 }
 
 interface PreliminaryReview {

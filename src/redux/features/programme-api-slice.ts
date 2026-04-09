@@ -211,6 +211,20 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       query: (id) =>
         `/programmes/programme-accreditation/${id}/progressed-to-directorate-details/`,
     }),
+
+    addDirectorateDecision: builder.mutation({
+      query: ({
+        id,
+        data,
+      }: {
+        id: number;
+        data: { status: string; comment: string };
+      }) => ({
+        url: `/programmes/programme-accreditation/${id}/add-director-comment/`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -234,4 +248,5 @@ export const {
   useRetrieveProgrammeAssessmentQuery,
   useGetProgressedToDirectorateApplicationsQuery,
   useRetrieveDirectorateApplicationQuery,
+  useAddDirectorateDecisionMutation,
 } = ProgrammeApiSlice;
