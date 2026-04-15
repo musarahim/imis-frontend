@@ -2,10 +2,10 @@
 import { DataTable } from "@/components/common/data-table";
 import { useGetIntrimAuthoritiesQuery } from "@/redux/features/license-api-slice";
 import {
-    ColumnFiltersState,
-    PaginationState,
-    SortingState,
-    VisibilityState,
+  ColumnFiltersState,
+  PaginationState,
+  SortingState,
+  VisibilityState,
 } from "@tanstack/react-table";
 import React from "react";
 import columns from "./columns";
@@ -63,7 +63,7 @@ function IntrimAuthorityData() {
         setColumnFilters={setColumnFilters}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
-        addHref="/interim-authority/assign-reviewer"
+        addHref="/license/university/interim-authority/assign-reviewer"
         addText="Assign Reviewer"
       />
     </>

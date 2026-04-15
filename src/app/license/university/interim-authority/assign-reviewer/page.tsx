@@ -2,7 +2,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from "@/utils";
-import Data from "./data";
+import AssignmentForm from "./AssignmentForm";
 
 function page() {
   return (
@@ -12,8 +12,8 @@ function page() {
           { label: "Home", href: "/" },
           { label: "License", href: "/license" },
           {
-            label: "Interim Authority (University)",
-            href: "/license/university/interim-authority/submitted",
+            label: "Assign Reviewer",
+            href: "/license/university/interim-authority/assign-reviewer",
           },
         ]}
       />
@@ -21,7 +21,7 @@ function page() {
         <AppSidebar />
         <SidebarInset>
           <div className="flex flex-1 flex-col gap-4 p-4">
-            <Data />
+            <AssignmentForm />
           </div>
         </SidebarInset>
       </div>
