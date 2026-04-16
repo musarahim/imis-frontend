@@ -175,6 +175,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: "Directorate Applications",
               url: "/programmes/directorate-applications",
             },
+            {
+              title: "Progressed to Management",
+              url: "/programmes/progressed-to-management",
+            },
           ]),
           requiredGroups: [
             "Head Programme Accreditation",
@@ -228,6 +232,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               url: "/programmes/directorate-applications",
               isActive: pathname.startsWith(
                 "/programmes/directorate-applications",
+              ),
+              requiredPermissions: ["can_make_directorate_decision"],
+            },
+            {
+              title: "Progressed to Management",
+              url: "/programmes/progressed-to-management",
+              isActive: pathname.startsWith(
+                "/programmes/progressed-to-management",
               ),
               requiredPermissions: ["can_make_directorate_decision"],
             },

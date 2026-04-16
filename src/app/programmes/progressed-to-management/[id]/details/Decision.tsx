@@ -1,15 +1,15 @@
 "use client";
 import {
-  AppForm as Form,
-  SelectField,
-  SubmitButton,
-  TextAreaField,
+    AppForm as Form,
+    SelectField,
+    SubmitButton,
+    TextAreaField,
 } from "@/components/forms";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAddDirectorateDecisionMutation } from "@/redux/features/programme-api-slice";
@@ -50,7 +50,7 @@ function Decision({ applicationID }: DecisionProps) {
         data: values,
       }).unwrap();
       toast.success("Decision submitted successfully");
-      router.push("/programmes/progressed-to-management");
+      router.push("/programmes/directorate-applications");
     } catch (error) {
       console.log("Error submitting decision:", error); // Debug log
       toast.error("Failed to submit decision");

@@ -204,12 +204,39 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         return `/programmes/programme-accreditation/progressed-to-directorate/${qs ? `?${qs}` : ""}`;
       },
     }),
+    getProgressedToManagementApplications: builder.query<
+      ListRespornse<ProgrammeAccreditation>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-accreditation/progressed-to-management/${qs ? `?${qs}` : ""}`;
+      },
+    }),
+
     retrieveDirectorateApplication: builder.query<
       ProgrammeAccreditation,
       number
     >({
       query: (id) =>
         `/programmes/programme-accreditation/${id}/progressed-to-directorate-details/`,
+    }),
+    //progressed to management details
+    retrieveManagementApplication: builder.query<
+      ProgrammeAccreditation,
+      number
+    >({
+      query: (id) =>
+        `/programmes/programme-accreditation/${id}/progressed-to-management-details/`,
     }),
 
     addDirectorateDecision: builder.mutation({
@@ -249,4 +276,6 @@ export const {
   useGetProgressedToDirectorateApplicationsQuery,
   useRetrieveDirectorateApplicationQuery,
   useAddDirectorateDecisionMutation,
+  useGetProgressedToManagementApplicationsQuery,
+  useRetrieveManagementApplicationQuery,
 } = ProgrammeApiSlice;
