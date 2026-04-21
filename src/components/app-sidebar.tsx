@@ -265,13 +265,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             },
             { title: "Under Assessment", url: "/license/under-assessment" },
           ]),
-          requiredGroups: ["ILA"],
+          requiredGroups: [
+            "Head of Department(ILA)",
+            "ILA Desk Review Officer",
+            "Director QA",
+          ],
           items: [
             {
               title: "Interim Authority (University)",
               url: "#",
               isActive: pathname.startsWith("/license/institutional-licensing"),
-              requiredPermissions: ["can_assign_reviewers"],
+              requiredGroups: [
+                "Head of Department(ILA)",
+                "ILA Desk Review Officer",
+                "Director QA",
+              ],
               items: [
                 {
                   title: "Submitted",
@@ -280,8 +288,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     "/license/university/interim-authority/submitted",
                   ),
                   requiredPermissions: [
-                    "can_assign_reviewers",
-                    "can_review_institutional_licensing",
+                    "can_assign_interim_authority_reviewer",
                   ],
                 },
                 {

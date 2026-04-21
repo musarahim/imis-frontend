@@ -146,7 +146,7 @@ interface District {
   code: string;
 }
 
-interface IntrimAuthority {
+interface InterimAuthority {
   id?: number;
   application_code?: string;
   has_title_deed: boolean;

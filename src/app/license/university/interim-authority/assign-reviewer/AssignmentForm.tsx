@@ -11,11 +11,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetIntrimAuthoritiesQuery } from "@/redux/features/license-api-slice";
 import {
-  useAssignReviewersMutation,
-  useGetProgrammeReviewersQuery,
-} from "@/redux/features/programme-api-slice";
+  useAssignInterimAuthorityReviewersMutation,
+  useGetDeskReviewersQuery,
+  useGetIntrimAuthoritiesQuery,
+} from "@/redux/features/license-api-slice";
+
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "react-toastify";
@@ -29,11 +30,11 @@ type FormValues = {
 function AssignmentForm() {
   const router = useRouter();
   const { data, isLoading, isError } = useGetIntrimAuthoritiesQuery({});
-  const { data: reviewers } = useGetProgrammeReviewersQuery(undefined, {
+  const { data: reviewers } = useGetDeskReviewersQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
   const [assignReviewers, { isLoading: isAssigning }] =
-    useAssignReviewersMutation();
+    useAssignInterimAuthorityReviewersMutation();
 
   const [selectedRows, setSelectedRows] = React.useState<Set<string>>(
     new Set(),
@@ -116,7 +117,7 @@ function AssignmentForm() {
           toast.success(
             `Reviewer ${selectedReviewer?.name} assigned successfully`,
           );
-          router.push(`/programmes/programme-accreditation`);
+          router.push(`/license/university/interim-authority/submitted`);
         })
         .catch((error) => {
           // Handle error, e.g., show an error message
@@ -124,9 +125,6 @@ function AssignmentForm() {
           toast.error(`Error assigning reviewer ${selectedReviewer?.name}`);
         });
     }
-
-    console.log("Selected Application IDs:", selectedApplicationIds);
-    console.log("Selected Reviewer ID:", selectedReviewerId);
   };
 
   return (
@@ -160,7 +158,7 @@ function AssignmentForm() {
             </TableHeader>
 
             <TableBody>
-              {data?.results?.map((row: IntrimAuthority) => (
+              {data?.results?.map((row: InterimAuthority) => (
                 <TableRow
                   key={row.id}
                   data-state={

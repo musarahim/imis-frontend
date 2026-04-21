@@ -3,9 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useGetInstitutionsQuery } from "@/redux/features/institution-api-slice";
-import { useRetrieveIntrimAuthorityQuery } from "@/redux/features/license-api-slice";
+import { useRetrieveInterimAuthorityQuery } from "@/redux/features/license-api-slice";
 import { useGetPaymentPRNsQuery } from "@/redux/features/payment-api-slice";
 import { FileDisplay } from "@/utils/fileUtils";
+import ExportPdfButton from "./ExportPdfButton";
 
 function Content({ id }: { id: string }) {
   const { data: institutions } = useGetInstitutionsQuery(undefined, {
@@ -13,7 +14,7 @@ function Content({ id }: { id: string }) {
   });
   const institution = institutions?.results[0];
 
-  const { data } = useRetrieveIntrimAuthorityQuery(Number(id), {
+  const { data } = useRetrieveInterimAuthorityQuery(Number(id), {
     refetchOnMountOrArgChange: true,
   });
   const { data: paymentPRNs } = useGetPaymentPRNsQuery(
@@ -26,8 +27,13 @@ function Content({ id }: { id: string }) {
 
   return (
     <Card className="w-full">
-      <CardHeader>
+      <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <CardTitle>Application Details</CardTitle>
+        <ExportPdfButton
+          licenseData={data}
+          institution={institution}
+          paymentPRN={paymentPRN}
+        />
       </CardHeader>
       <CardContent>
         <Table className="table-fixed rounded-2xl">
@@ -289,10 +295,10 @@ function Content({ id }: { id: string }) {
             </TableRow>
             <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
               <TableCell className="font-medium w-50">
-                Planned Programmes of Study
+                Planned Programmes
               </TableCell>
 
-              <TableCell className="text-gray-800 dark:text-gray-100 whitespace-pre-wrap break-words">
+              <TableCell className="text-gray-800 dark:text-gray-100 whitespace-pre-wrap wrap-break-word">
                 <div
                   dangerouslySetInnerHTML={{
                     __html: data?.programmes || "",

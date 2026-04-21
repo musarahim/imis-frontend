@@ -49,7 +49,7 @@ function IntrimAuthorityData() {
   console.log(data);
   return (
     <>
-      <DataTable<IntrimAuthority, unknown>
+      <DataTable<InterimAuthority, unknown>
         isFetching={isLoading}
         columns={columns}
         data={data?.results ?? []}

@@ -3,7 +3,7 @@ import { apiSlice } from "../services/apiSlice";
 const LicenseApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getIntrimAuthorities: builder.query<
-      ListRespornse<IntrimAuthority>,
+      ListRespornse<InterimAuthority>,
       ListParams
     >({
       query: (params) => {
@@ -20,28 +20,29 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
         return `/licenses/interim-authority/submitted-applications/${qs ? `?${qs}` : ""}`;
       },
     }),
-    retrieveIntrimAuthority: builder.query<IntrimAuthority, number>({
-      query: (id) => `/licenses/intrim-authority/${id}/`,
+    retrieveInterimAuthority: builder.query<InterimAuthority, number>({
+      query: (id) => `/licenses/interim-authority/${id}/`,
     }),
-    patchIntrimAuthority: builder.mutation<
-      IntrimAuthority,
+    patchInterimAuthority: builder.mutation<
+      InterimAuthority,
       { id: number; data: Partial<FormData> }
     >({
       query: ({ id, data }) => ({
-        url: `/licenses/intrim-authority/${id}/`,
+        url: `/licenses/interim-authority/${id}/`,
         method: "PATCH",
         body: data,
       }),
     }),
-    createIntrimAuthority: builder.mutation<IntrimAuthority, Partial<FormData>>(
-      {
-        query: (data) => ({
-          url: `/licenses/intrim-authority/`,
-          method: "POST",
-          body: data,
-        }),
-      },
-    ),
+    createInterimAuthority: builder.mutation<
+      InterimAuthority,
+      Partial<FormData>
+    >({
+      query: (data) => ({
+        url: `/licenses/interim-authority/`,
+        method: "POST",
+        body: data,
+      }),
+    }),
 
     // University Provisional License Endpoints
     getProvisionalLicenses: builder.query<
@@ -147,15 +148,28 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
         `/licenses/interim-discussion/?application_id=${application_id}`,
     }),
 
-    // ODAI Charter Application Endpoints
+    //license application reviewer
+    getDeskReviewers: builder.query<Reviewer[], void>({
+      query: () => `/licenses/desk-reviewers/`,
+    }),
+    assignInterimAuthorityReviewers: builder.mutation<
+      ReviewerAssignment,
+      { userId: number; applications: number[] }
+    >({
+      query: ({ userId, applications }) => ({
+        url: `/licenses/interim-authority/assign-desk-reviewer/`,
+        method: "POST",
+        body: { userId, applications },
+      }),
+    }),
   }),
 });
 
 export const {
   useGetIntrimAuthoritiesQuery,
-  useRetrieveIntrimAuthorityQuery,
-  usePatchIntrimAuthorityMutation,
-  useCreateIntrimAuthorityMutation,
+  useRetrieveInterimAuthorityQuery,
+  usePatchInterimAuthorityMutation,
+  useCreateInterimAuthorityMutation,
   useGetProvisionalLicensesQuery,
   useRetrieveProvisionalLicenseQuery,
   usePatchProvisionalLicenseMutation,
@@ -166,4 +180,6 @@ export const {
   usePatchCharterApplicationMutation,
   useCreateInterimChatMutation,
   useGetInterimChatMessagesQuery,
+  useGetDeskReviewersQuery,
+  useAssignInterimAuthorityReviewersMutation,
 } = LicenseApiSlice;

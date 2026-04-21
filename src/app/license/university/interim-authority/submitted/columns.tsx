@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 // type IntrimAuthority = { ... };
 
 type ActionsCellProps = {
-  row: Row<IntrimAuthority>;
+  row: Row<InterimAuthority>;
 };
 
 function ActionsCell({ row }: ActionsCellProps) {
@@ -54,7 +54,7 @@ function ActionsCell({ row }: ActionsCellProps) {
   );
 }
 
-const columns: ColumnDef<IntrimAuthority>[] = [
+const columns: ColumnDef<InterimAuthority>[] = [
   {
     id: "select",
     header: ({ table }) => (

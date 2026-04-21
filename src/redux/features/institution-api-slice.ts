@@ -6,23 +6,33 @@ const InstitutionApiSlice = apiSlice.injectEndpoints({
       query: () => "/institutions/institutions/",
     }),
     retrieveInstitution: builder.query<Institution, number>({
-        query: (id) => `/institutions/institutions/${id}/`,
+      query: (id) => `/institutions/institutions/${id}/`,
     }),
-    patchInstitution: builder.mutation<Institution, {id: number, data: Partial<Institution>}>({
-        query: ({id, data}) => ({
-            url: `/institutions/institutions/${id}/`,
-            method: 'PATCH',
-            body: data,
-        }),
+    patchInstitution: builder.mutation<
+      Institution,
+      { id: number; data: Partial<Institution> }
+    >({
+      query: ({ id, data }) => ({
+        url: `/institutions/institutions/${id}/`,
+        method: "PATCH",
+        body: data,
+      }),
     }),
-    createInstitution: builder.mutation<Institution, Partial<IntrimAuthority>>({
+    createInstitution: builder.mutation<Institution, Partial<InterimAuthority>>(
+      {
         query: (data) => ({
-            url: `/institutions/institutions/`,
-            method: 'POST',
-            body: data,
+          url: `/institutions/institutions/`,
+          method: "POST",
+          body: data,
         }),
-    }),
+      },
+    ),
   }),
 });
 
-export const {useCreateInstitutionMutation, useGetInstitutionsQuery, useRetrieveInstitutionQuery, usePatchInstitutionMutation  } = InstitutionApiSlice;
+export const {
+  useCreateInstitutionMutation,
+  useGetInstitutionsQuery,
+  useRetrieveInstitutionQuery,
+  usePatchInstitutionMutation,
+} = InstitutionApiSlice;
