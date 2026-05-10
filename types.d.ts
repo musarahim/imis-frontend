@@ -692,3 +692,13 @@ interface PaymentPRN {
   prn: string;
   prn_reconciled: string;
 }
+interface Invoice {
+  id: number;
+  application?: string;
+  invoice_number: string;
+  invoice_date?: string;
+  invoice_amount: number;
+  invoice_status?: string;
+  invoice_file: string | File;
+  invoice_payment_date?: string;
+}

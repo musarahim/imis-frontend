@@ -101,7 +101,7 @@ function ReviewForm({ id }: ReviewFormProps) {
       .unwrap()
       .then(() => {
         toast.success("Preliminary review submitted successfully");
-        router.push(`/programmes/programme-accreditation/${id}`);
+        router.push(`/programmes/reviewed-applications`);
       })
       .catch((error) => {
         console.error("Failed to submit preliminary review:", error);

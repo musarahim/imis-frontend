@@ -1,17 +1,17 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useGetPreliminaryReviewsQuery } from "@/redux/features/programme-api-slice";
+import { useGetProgrammesReadyForInvoiceQuery } from "@/redux/features/programme-api-slice";
 import {
-  ColumnFiltersState,
-  PaginationState,
-  SortingState,
-  VisibilityState,
+    ColumnFiltersState,
+    PaginationState,
+    SortingState,
+    VisibilityState,
 } from "@tanstack/react-table";
 import React from "react";
 import { columns } from "./columns";
 // ...existing code...
 
-function ProgrammeAccreditationData() {
+function ReadyForInvoice() {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -42,7 +42,7 @@ function ProgrammeAccreditationData() {
     };
   }, [pagination, sorting, globalFilter]);
 
-  const { data, isLoading, isError } = useGetPreliminaryReviewsQuery(
+  const { data, isLoading, isError } = useGetProgrammesReadyForInvoiceQuery(
     queryParams,
     {
       // 3. Refetch data when pagination, sorting, or filtering changes
@@ -54,7 +54,7 @@ function ProgrammeAccreditationData() {
   console.log(data);
   return (
     <>
-      <DataTable<PreliminaryReview, unknown>
+      <DataTable<ProgrammeAccreditation, unknown>
         isFetching={isLoading}
         columns={columns}
         data={data?.results ?? []}
@@ -68,12 +68,9 @@ function ProgrammeAccreditationData() {
         setColumnFilters={setColumnFilters}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
-        addHref="/programmes/assign-assessor"
-        addText="Assign Assessor"
-        addRequiredPermissions={["can_assign_assessors"]}
       />
     </>
   );
 }
 
-export default ProgrammeAccreditationData;
+export default ReadyForInvoice;

@@ -183,6 +183,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           requiredGroups: [
             "Head Programme Accreditation",
             "Programme Reviewers",
+            "Finance Officer",
           ],
           items: [
             {
@@ -212,6 +213,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 "can_assign_reviewers",
                 "can_review_programme_accreditation",
               ],
+            },
+            {
+              title: "Applications Ready for Invoicing",
+              url: "/programmes/applications-ready-for-invoicing",
+              isActive: pathname.startsWith(
+                "/programmes/applications-ready-for-invoicing",
+              ),
+              requiredPermissions: ["can_manage_invoices"],
             },
             {
               title: "Under Assessment",

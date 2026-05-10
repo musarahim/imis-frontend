@@ -37,6 +37,27 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         return `/programmes/programme-accreditation/under-review/${qs ? `?${qs}` : ""}`;
       },
     }),
+
+    //ready for invoicing
+    getProgrammesReadyForInvoice: builder.query<
+      ListRespornse<ProgrammeAccreditation>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-accreditation/ready-for-invoicing/${qs ? `?${qs}` : ""}`;
+      },
+    }),
+    // end of applications ready for invoicing
     getProgrammeAccreditationsUnderAssessment: builder.query<
       ListRespornse<ProgrammeAccreditation>,
       ListParams
@@ -252,6 +273,22 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    addInvoice: builder.mutation<
+      Invoice,
+      { id: number; data: Omit<Invoice, "id"> }
+    >({
+      query: ({ id, data }: { id: number; data: Omit<Invoice, "id"> }) => {
+        const formData = new FormData();
+        formData.append("invoice_file", data.invoice_file as File);
+        formData.append("invoice_number", data.invoice_number);
+        formData.append("invoice_amount", String(data.invoice_amount));
+        return {
+          url: `/programmes/programme-accreditation/${id}/post_invoice/`,
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
   }),
 });
 
@@ -278,4 +315,6 @@ export const {
   useAddDirectorateDecisionMutation,
   useGetProgressedToManagementApplicationsQuery,
   useRetrieveManagementApplicationQuery,
+  useGetProgrammesReadyForInvoiceQuery,
+  useAddInvoiceMutation,
 } = ProgrammeApiSlice;

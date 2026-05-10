@@ -126,9 +126,6 @@ function AssignmentForm() {
           toast.error(`Error assigning assessor ${selectedAssessor?.name}`);
         });
     }
-
-    console.log("Selected Application IDs:", selectedApplicationIds);
-    console.log("Selected Assessor ID:", selectedAssessorId);
   };
 
   return (
