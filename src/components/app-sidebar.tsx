@@ -179,6 +179,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: "Progressed to Management",
               url: "/programmes/progressed-to-management",
             },
+            { title: "Applications Ready for Invoicing", url: "/programmes/applications-ready-for-invoicing" },
+            { title: "Invoiced Applications", url: "/programmes/invoiced-applications" },
           ]),
           requiredGroups: [
             "Head Programme Accreditation",
@@ -251,6 +253,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 "/programmes/progressed-to-management",
               ),
               requiredPermissions: ["can_make_directorate_decision"],
+            },
+            {
+              title: "Invoiced Applications",
+              url: "/programmes/invoiced-applications",
+              isActive: pathname.startsWith("/programmes/invoiced-applications"),
+              requiredPermissions: ["can_manage_invoices"],
             },
           ],
         },

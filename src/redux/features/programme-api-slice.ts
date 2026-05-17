@@ -289,6 +289,24 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    invoicedApplications: builder.query<
+      ListRespornse<ProgrammeAccreditation>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-accreditation/invoiced-applications/${qs ? `?${qs}` : ""}`;
+      },
+    }),
   }),
 });
 
@@ -315,6 +333,7 @@ export const {
   useAddDirectorateDecisionMutation,
   useGetProgressedToManagementApplicationsQuery,
   useRetrieveManagementApplicationQuery,
-  useGetProgrammesReadyForInvoiceQuery,
   useAddInvoiceMutation,
+  useInvoicedApplicationsQuery,
+  useGetProgrammesReadyForInvoiceQuery,
 } = ProgrammeApiSlice;

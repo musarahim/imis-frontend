@@ -406,6 +406,23 @@ interface ProgrammeAccreditation {
   preliminary_review?: PreliminaryReview;
   pod_comment?: string;
   director_comment?: string;
+  reviewers?: ReviewerAssignment[];
+  invoice_file?: string;
+  invoice_status?: string;
+  invoice_number?: string;
+  invoice_date?: string | null;
+  invoice_amount?: string;
+  invoice_payment_date?: string | null;
+  invoice_cleared?: boolean;
+  pod_comment?: string | null;
+  pod_comment_date?: string | null;
+  director_comment?: string | null;
+  director_comment_date?: string | null;
+  is_paid?: boolean;
+  institution?: string;
+  program_to_renew?: string | null;
+  preliminary_reviewer?: number;
+  assessor?: number;
 }
 
 interface PreliminaryReview {
