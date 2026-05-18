@@ -17,11 +17,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LinkAsBadge } from "@/components/ui/link-as-badge";
+import { useReconcileInvoiceMutation } from "@/redux/features/programme-api-slice";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 // Helper function to get status colors
 function getStatusColor(status: string) {
   switch (status?.toLowerCase()) {
@@ -80,6 +80,21 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
     })
     .sort(([firstKey], [secondKey]) => firstKey.localeCompare(secondKey));
 
+  const [reconcileInvoice] = useReconcileInvoiceMutation();
+  const handleReconcile = async () => {
+    if (application.id === undefined) {
+      console.error("Cannot reconcile invoice: missing application id");
+      return;
+    }
+
+    try {
+      await reconcileInvoice({ id: application.id }).unwrap();
+      setIsReconcileDialogOpen(false);
+    } catch (error) {
+      console.error("Failed to reconcile invoice:", error);
+    }
+  };
+
   return (
     <>
       <div className="flex justify-center">
@@ -100,9 +115,11 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
             >
               View
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => setIsReconcileDialogOpen(true)}>
-              Reconcile Invoice
-            </DropdownMenuItem>
+            {application.invoice_status?.toLowerCase() === "pending" && (
+              <DropdownMenuItem onSelect={() => setIsReconcileDialogOpen(true)}>
+                Reconcile Invoice
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -141,7 +158,13 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Reconcile</Button>
+            <Button
+              type="button"
+              onClick={() => handleReconcile()} // Replace with handleReconcile when backend is ready
+              disabled={application.id === undefined}
+            >
+              Reconcile
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

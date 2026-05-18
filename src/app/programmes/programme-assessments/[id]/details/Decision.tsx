@@ -1,15 +1,16 @@
 "use client";
 import {
-  AppForm as Form,
-  SelectField,
-  SubmitButton,
-  TextAreaField,
+    FileField,
+    AppForm as Form,
+    SelectField,
+    SubmitButton,
+    TextAreaField,
 } from "@/components/forms";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { usePatchProgrammeAccreditationMutation } from "@/redux/features/programme-api-slice";
@@ -36,6 +37,7 @@ function Decision({ applicationID }: DecisionProps) {
   const intialValues = {
     status: "",
     pod_comment: "",
+    dep_meeting_minutes: null,
   };
 
   const validationSchema = Yup.object().shape({
@@ -48,6 +50,9 @@ function Decision({ applicationID }: DecisionProps) {
       const formData = new FormData();
       formData.append("status", values.status);
       formData.append("pod_comment", values.pod_comment);
+      if (values.dep_meeting_minutes) {
+        formData.append("dep_meeting_minutes", values.dep_meeting_minutes);
+      }
 
       await patchProgrammeAccreditation({
         id: applicationID,
@@ -82,11 +87,17 @@ function Decision({ applicationID }: DecisionProps) {
               name="status"
               label="Decision"
               options={status_options}
+              required
             />
             <TextAreaField
               name="pod_comment"
               label="Comments from Programme Head"
               placeholder="Enter your comments here..."
+              required
+            />
+            <FileField
+              name="dep_meeting_minutes"
+              label="Upload Department Meeting Minutes (optional)"
             />
           </div>
           <SubmitButton

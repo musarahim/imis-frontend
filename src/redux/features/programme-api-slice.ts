@@ -306,6 +306,14 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         const qs = search.toString();
         return `/programmes/programme-accreditation/invoiced-applications/${qs ? `?${qs}` : ""}`;
       },
+      providesTags: [{ type: "InvoicedApplications", id: "LIST" }],
+    }),
+    reconcileInvoice: builder.mutation({
+      query: ({ id }: { id: number }) => ({
+        url: `/programmes/programme-accreditation/${id}/reconcile-invoice/`,
+        method: "POST",
+      }),
+      invalidatesTags: [{ type: "InvoicedApplications", id: "LIST" }],
     }),
   }),
 });
@@ -335,5 +343,6 @@ export const {
   useRetrieveManagementApplicationQuery,
   useAddInvoiceMutation,
   useInvoicedApplicationsQuery,
+  useReconcileInvoiceMutation,
   useGetProgrammesReadyForInvoiceQuery,
 } = ProgrammeApiSlice;
