@@ -179,13 +179,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: "Progressed to Management",
               url: "/programmes/progressed-to-management",
             },
-            { title: "Applications Ready for Invoicing", url: "/programmes/applications-ready-for-invoicing" },
-            { title: "Invoiced Applications", url: "/programmes/invoiced-applications" },
+            {
+              title: "Applications Ready for Invoicing",
+              url: "/programmes/applications-ready-for-invoicing",
+            },
+            {
+              title: "Invoiced Applications",
+              url: "/programmes/invoiced-applications",
+            },
+            {
+              title: "Management Review",
+              url: "/programmes/management-review",
+            },
           ]),
           requiredGroups: [
             "Head Programme Accreditation",
             "Programme Reviewers",
             "Finance Officer",
+            "Management",
           ],
           items: [
             {
@@ -257,8 +268,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {
               title: "Invoiced Applications",
               url: "/programmes/invoiced-applications",
-              isActive: pathname.startsWith("/programmes/invoiced-applications"),
+              isActive: pathname.startsWith(
+                "/programmes/invoiced-applications",
+              ),
               requiredPermissions: ["can_manage_invoices"],
+            },
+            {
+              title: "Management Review",
+              url: "/programmes/management-review",
+              isActive: pathname.startsWith("/programmes/management-review"),
+              requiredPermissions: [
+                "can_approve_programme_at_management_level",
+              ],
             },
           ],
         },

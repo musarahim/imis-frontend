@@ -315,6 +315,13 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "InvoicedApplications", id: "LIST" }],
     }),
+    retrieveProgressedToManagementDetails: builder.query<
+      ProgrammeAccreditation,
+      number
+    >({
+      query: (id) =>
+        `/programmes/programme-accreditation/${id}/progressed-to-management-details/`,
+    }),
   }),
 });
 
@@ -345,4 +352,5 @@ export const {
   useInvoicedApplicationsQuery,
   useReconcileInvoiceMutation,
   useGetProgrammesReadyForInvoiceQuery,
+  useRetrieveProgressedToManagementDetailsQuery,
 } = ProgrammeApiSlice;
