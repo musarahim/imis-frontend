@@ -8,20 +8,13 @@ const authApiSlice = apiSlice.injectEndpoints({
 
     login: builder.mutation({
       query: ({ username, password }) => ({
-        url: "/auth/login/",
+        url: "/accounts/login/jwt/",
         method: "POST",
         body: { username, password },
       }),
     }),
-    twofactor: builder.mutation({
-      query: ({ ephemeral_token, code }) => ({
-        url: "/accounts/login/jwt/code/",
-        method: "POST",
-        body: { ephemeral_token, code },
-      }),
-    }),
     register: builder.mutation({
-      query: (args:InstitutionRegForm) => ({
+      query: (args: InstitutionRegForm) => ({
         url: "/users/",
         method: "POST",
         body: args,
@@ -61,28 +54,26 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     userPartialUpdate: builder.mutation({
-      query: (args:User) => ({
+      query: (args: User) => ({
         url: "/users/me/",
         method: "PATCH",
         body: args,
       }),
     }),
 
-    changePassword : builder.mutation({
+    changePassword: builder.mutation({
       query: ({ current_password, new_password, re_new_password }) => ({
         url: "/users/set_password/",
         method: "POST",
         body: { current_password, new_password, re_new_password },
       }),
     }),
-
   }),
 });
 
 export const {
   useRetrieveUserQuery,
   useLoginMutation,
-  useTwofactorMutation,
   useRegisterMutation,
   useVerifyMutation,
   useLogoutMutation,

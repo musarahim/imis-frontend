@@ -3,53 +3,53 @@ import ResetPasswordForm from "./ResetPasswordForm";
 function page() {
   return (
     <div className="flex min-h-screen lg:flex">
-        <div className="flex flex-1 flex-col justify-center px-8 py-12 ">
-          <div className="mx-auto w-full justify-center max-w-md">
+      <div className="flex flex-1 flex-col justify-center px-8 py-12 ">
+        <div className="mx-auto w-full justify-center max-w-md">
+          <div>
+            <Image
+              alt="NCHE IMIS"
+              height={500}
+              width={500}
+              src="/images/logo.png"
+              className="h-35 w-auto dark:bg-white"
+            />
+            <h2 className="mt-8 text-3xl/9 font-bold tracking-tight text-secondary dark:text-gray-50">
+              {" "}
+              NCHE PORTAL
+            </h2>
+            <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-gray-50">
+              Password Reset
+            </h2>
+          </div>
+
+          <div className="mt-10">
             <div>
-              <Image
-                alt="NCHE IMIS"
-                height={500}
-                width={500}
-                src="/images/logo.png"
-                className="h-35 w-auto dark:bg-white"
-              />
-              <h2 className="mt-8 text-3xl/9 font-bold tracking-tight text-secondary dark:text-gray-50">NCHE IMIS</h2>
-              <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-gray-50">Password Reset</h2>
-              
+              <ResetPasswordForm />
             </div>
 
-            <div className="mt-10">
-              <div>
-                <ResetPasswordForm />
-              </div>
-
-              <div className="mt-10">
-               
-
-               
-              </div>
-            </div>
+            <div className="mt-10"></div>
           </div>
         </div>
-        <div className="relative hidden flex-1 lg:block">
-          <Image
-            fill
-            sizes="100vw"
-            quality={100}
-            priority
-            loading="eager"
-            draggable={false}
-            decoding="async"
-            fetchPriority="high"
-            placeholder="blur"
-            blurDataURL="/images/login_bg.png"
-            alt=""
-            src="/images/login_bg.png"
-            className="absolute inset-0 size-auto object-fill"
-          />
-        </div>
       </div>
-  )
+      <div className="relative hidden flex-1 lg:block">
+        <Image
+          fill
+          sizes="100vw"
+          quality={100}
+          priority
+          loading="eager"
+          draggable={false}
+          decoding="async"
+          fetchPriority="high"
+          placeholder="blur"
+          blurDataURL="/images/login_bg.png"
+          alt=""
+          src="/images/login_bg.png"
+          className="absolute inset-0 size-auto object-fill"
+        />
+      </div>
+    </div>
+  );
 }
 
-export default page
+export default page;
