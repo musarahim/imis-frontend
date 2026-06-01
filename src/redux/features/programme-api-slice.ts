@@ -279,11 +279,27 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     >({
       query: ({ id, data }: { id: number; data: Omit<Invoice, "id"> }) => {
         const formData = new FormData();
-        formData.append("invoice_file", data.invoice_file as File);
-        formData.append("invoice_number", data.invoice_number);
-        formData.append("invoice_amount", String(data.invoice_amount));
+        if (data.invoice_items?.length) {
+          formData.append("invoice_items", JSON.stringify(data.invoice_items));
+          formData.append("application", String(id));
+          data.invoice_items.forEach((item, index) => {
+            formData.append(
+              `invoice_items[${index}][item_type]`,
+              String(item.item_type),
+            );
+            formData.append(
+              `invoice_items[${index}][persons_number]`,
+              String(item.persons_number),
+            );
+            formData.append(
+              `invoice_items[${index}][number_of_days]`,
+              String(item.number_of_days),
+            );
+            formData.append(`invoice_items[${index}][rate]`, String(item.rate));
+          });
+        }
         return {
-          url: `/programmes/programme-accreditation/${id}/post_invoice/`,
+          url: `/programmes/programme-invoices/`,
           method: "POST",
           body: formData,
         };
@@ -322,6 +338,28 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       query: (id) =>
         `/programmes/programme-accreditation/${id}/progressed-to-management-details/`,
     }),
+    invoiceItemTypes: builder.query<InvoiceItemType[], void>({
+      query: () => `/programmes/invoice-types/`,
+    }),
+    //reviewed applications
+    getReviewedApplications: builder.query<
+      ListRespornse<ProgrammeAccreditation>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-accreditation/reviewed-applications/${qs ? `?${qs}` : ""}`;
+      },
+    }),
   }),
 });
 
@@ -353,4 +391,6 @@ export const {
   useReconcileInvoiceMutation,
   useGetProgrammesReadyForInvoiceQuery,
   useRetrieveProgressedToManagementDetailsQuery,
+  useInvoiceItemTypesQuery,
+  useGetReviewedApplicationsQuery,
 } = ProgrammeApiSlice;

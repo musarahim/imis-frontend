@@ -4,22 +4,22 @@ import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useEmployeeData } from "@/hooks";
 import {
-  BookA,
-  Building,
-  FileBadge2,
-  HomeIcon,
-  LifeBuoy,
-  Send,
-  Settings2,
+    BookA,
+    Building,
+    FileBadge2,
+    HomeIcon,
+    LifeBuoy,
+    Send,
+    Settings2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -279,6 +279,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               isActive: pathname.startsWith("/programmes/management-review"),
               requiredPermissions: [
                 "can_approve_programme_at_management_level",
+              ],
+            },
+            {
+              title: "Preliminary Reviews",
+              url: "/programmes/preliminary-reviews",
+              isActive: pathname.startsWith("/programmes/preliminary-reviews"),
+              requiredPermissions: [
+                "can_assign_reviewers",
+                "can_review_programme_accreditation",
               ],
             },
           ],

@@ -1,24 +1,9 @@
 "use client";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
 import {
-  usePatchProgrammeAccreditationMutation,
-  useRetrievePreliminaryReviewQuery,
+    useRetrievePreliminaryReviewQuery
 } from "@/redux/features/programme-api-slice";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 const labelCellClassName =
   "w-64 align-top whitespace-nowrap pr-4 font-semibold text-md";
@@ -30,65 +15,10 @@ const plainTextCellClassName =
   "max-w-0 align-top break-words whitespace-pre-wrap";
 
 function Content({ id }: { id: string }) {
-  const router = useRouter();
-  const [patchProgrammeAccreditation, { isLoading: isSubmittingDecision }] =
-    usePatchProgrammeAccreditationMutation();
-  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
-  const [rejectionReason, setRejectionReason] = useState("");
-  const [rejectionError, setRejectionError] = useState("");
-
   const { data, isLoading, isError } = useRetrievePreliminaryReviewQuery(
     Number(id),
     { refetchOnMountOrArgChange: true },
   );
-
-  const applicationId = Number(data?.application);
-  const hasValidApplicationId =
-    Number.isFinite(applicationId) && applicationId > 0;
-
-  const handleAccept = () => {
-    if (!hasValidApplicationId) {
-      toast.error("Application ID is missing");
-      return;
-    }
-
-    router.push(
-      `/programmes/applications-ready-for-invoicing/${applicationId}/invoice`,
-    );
-  };
-
-  const handleReject = async () => {
-    if (!hasValidApplicationId) {
-      toast.error("Application ID is missing");
-      return;
-    }
-
-    const reason = rejectionReason.trim();
-    if (!reason) {
-      setRejectionError("A rejection reason is required");
-      return;
-    }
-
-    try {
-      const formData = new FormData();
-      formData.append("status", "rejected");
-      formData.append("rejection_reason", reason);
-
-      await patchProgrammeAccreditation({
-        id: applicationId,
-        data: formData,
-      }).unwrap();
-
-      toast.success("Application rejected successfully");
-      setIsRejectDialogOpen(false);
-      setRejectionReason("");
-      setRejectionError("");
-      router.push("/programmes/reviewed-applications");
-    } catch (error) {
-      console.error("Failed to reject application:", error);
-      toast.error("Failed to reject application");
-    }
-  };
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
@@ -351,81 +281,6 @@ function Content({ id }: { id: string }) {
           </TableRow>
         </TableBody>
       </Table>
-      <div className="mb-4 flex flex-wrap items-center justify-end gap-2 mt-6">
-        <Button
-          type="button"
-          onClick={handleAccept}
-          disabled={!hasValidApplicationId || isSubmittingDecision}
-          className="bg-emerald-600 text-white hover:bg-emerald-700"
-        >
-          Accept
-        </Button>
-        <Button
-          type="button"
-          variant="destructive"
-          onClick={() => setIsRejectDialogOpen(true)}
-          disabled={!hasValidApplicationId || isSubmittingDecision}
-        >
-          Reject
-        </Button>
-      </div>
-
-      <Dialog
-        open={isRejectDialogOpen}
-        onOpenChange={(open) => {
-          setIsRejectDialogOpen(open);
-          if (!open) {
-            setRejectionError("");
-          }
-        }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Reject Application</DialogTitle>
-            <DialogDescription>
-              Provide a reason for rejecting this application before submitting.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-2">
-            <Label htmlFor="rejection-reason">Reason</Label>
-            <Textarea
-              id="rejection-reason"
-              value={rejectionReason}
-              onChange={(event) => {
-                setRejectionReason(event.target.value);
-                if (rejectionError) {
-                  setRejectionError("");
-                }
-              }}
-              placeholder="Enter rejection reason..."
-              rows={4}
-            />
-            {rejectionError ? (
-              <p className="text-sm text-destructive">{rejectionError}</p>
-            ) : null}
-          </div>
-
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setIsRejectDialogOpen(false)}
-              disabled={isSubmittingDecision}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={handleReject}
-              disabled={isSubmittingDecision}
-            >
-              {isSubmittingDecision ? "Submitting..." : "Submit Rejection"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
