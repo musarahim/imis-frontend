@@ -111,7 +111,7 @@ function ActionCell({ application }: { application: Invoice }) {
             <DropdownMenuItem
               onClick={() =>
                 router.push(
-                  `/programmes/programme-accreditation/${application.id}/details`,
+                  `/programmes/application-invoices/${application.id}/details`,
                 )
               }
             >
@@ -235,7 +235,7 @@ export const columns: ColumnDef<Invoice>[] = [
       return (
         <div className="flex justify-center">
           <LinkAsBadge
-            href={`/programmes/programme-accreditation/${row.original.id}/details`}
+            href={`/programmes/application-invoices/${row.original.id}/details`}
             text={row.original.status ?? ""}
             className={getStatusColor(row.original.status ?? "")}
           />

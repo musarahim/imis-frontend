@@ -321,6 +321,9 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       },
       providesTags: [{ type: "InvoicedApplications", id: "LIST" }],
     }),
+    retrieveProgrammeInvoice: builder.query<Invoice, number>({
+      query: (id) => `/programmes/programme-invoices/${id}/`,
+    }),
     reconcileInvoice: builder.mutation({
       query: ({ id }: { id: number }) => ({
         url: `/programmes/programme-accreditation/${id}/reconcile-invoice/`,
@@ -390,4 +393,5 @@ export const {
   useRetrieveProgressedToManagementDetailsQuery,
   useInvoiceItemTypesQuery,
   useGetReviewedApplicationsQuery,
+  useRetrieveProgrammeInvoiceQuery,
 } = ProgrammeApiSlice;

@@ -714,17 +714,18 @@ interface PaymentPRN {
 interface Invoice {
   id?: number;
   institution?: string;
-  application?: string;
+  application?: string | number;
   invoice_number?: string;
   invoice_date?: string;
   status?: string;
   payment_date?: string;
   grand_total?: string;
   invoice_items?: {
-    item_type: string;
+    item_type: string | number;
     persons_number: number;
     number_of_days: number;
-    total: number;
+    rate?: number;
+    total?: number;
   }[];
 }
 
