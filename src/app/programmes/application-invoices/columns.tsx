@@ -25,10 +25,12 @@ import { useState } from "react";
 // Helper function to get status colors
 function getStatusColor(status: string) {
   switch (status?.toLowerCase()) {
-    case "pending":
-      return "bg-yellow-500 text-white dark:bg-yellow-600 hover:bg-yellow-600";
+    case "issued":
+      return "bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600";
     case "paid":
       return "bg-green-500 text-white dark:bg-green-600 hover:bg-green-600";
+    case "cancelled":
+      return "bg-red-500 text-white dark:bg-red-600 hover:bg-red-600";
     default:
       return "bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600";
   }
@@ -67,7 +69,7 @@ function formatFieldValue(key: string, value: unknown) {
 }
 
 // Actions cell component that can properly use hooks
-function ActionCell({ application }: { application: ProgrammeAccreditation }) {
+function ActionCell({ application }: { application: Invoice }) {
   const router = useRouter();
   const [isReconcileDialogOpen, setIsReconcileDialogOpen] = useState(false);
   const invoiceDetails = Object.entries(application)
@@ -115,7 +117,7 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
             >
               View
             </DropdownMenuItem>
-            {application.invoice_status?.toLowerCase() === "pending" && (
+            {application.status?.toLowerCase() === "paid" && (
               <DropdownMenuItem onSelect={() => setIsReconcileDialogOpen(true)}>
                 Reconcile Invoice
               </DropdownMenuItem>
@@ -175,7 +177,7 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<ProgrammeAccreditation>[] = [
+export const columns: ColumnDef<Invoice>[] = [
   {
     accessorKey: "institution",
     id: "institution",
@@ -184,13 +186,13 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
     ),
   },
   {
-    accessorKey: "application_number",
+    accessorKey: "application",
     id: "Application Number",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Application Code" />
     ),
     cell: ({ row }) => {
-      return <div>{row.original.application_number}</div>;
+      return <div>{row.original.application}</div>;
     },
   },
   {
@@ -211,7 +213,7 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
       <DataTableColumnHeader column={column} title="Amount" />
     ),
     cell: ({ row }) => {
-      const amount = row.original.invoice_amount;
+      const amount = row.original.grand_total;
       return <div>{Number(amount).toLocaleString()}</div>;
     },
   },
@@ -224,7 +226,7 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
     ),
   },
   {
-    accessorKey: "invoice_status",
+    accessorKey: "status",
     id: "Invoice Status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
@@ -234,8 +236,8 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
         <div className="flex justify-center">
           <LinkAsBadge
             href={`/programmes/programme-accreditation/${row.original.id}/details`}
-            text={row.original.invoice_status ?? ""}
-            className={getStatusColor(row.original.invoice_status ?? "")}
+            text={row.original.status ?? ""}
+            className={getStatusColor(row.original.status ?? "")}
           />
         </div>
       );

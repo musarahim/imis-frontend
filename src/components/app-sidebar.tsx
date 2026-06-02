@@ -266,12 +266,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               requiredPermissions: ["can_make_directorate_decision"],
             },
             {
-              title: "Invoiced Applications",
-              url: "/programmes/invoiced-applications",
-              isActive: pathname.startsWith(
-                "/programmes/invoiced-applications",
-              ),
-              requiredPermissions: ["can_manage_invoices"],
+              title: "Application Invoices",
+              url: "/programmes/application-invoices",
+              isActive: pathname.startsWith("/programmes/application-invoices"),
+              requiredPermissions: [
+                "can_manage_invoices",
+                "add_programmeinvoice",
+                "change_programmeinvoice",
+                "view_programmeinvoice ",
+              ],
             },
             {
               title: "Management Review",

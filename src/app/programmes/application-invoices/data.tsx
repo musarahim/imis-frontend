@@ -1,6 +1,6 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useInvoicedApplicationsQuery } from "@/redux/features/programme-api-slice";
+import { useApplicationInvoicesQuery } from "@/redux/features/programme-api-slice";
 import {
     ColumnFiltersState,
     PaginationState,
@@ -42,7 +42,7 @@ function InvoicedApplications() {
     };
   }, [pagination, sorting, globalFilter]);
 
-  const { data, isLoading, isError } = useInvoicedApplicationsQuery(
+  const { data, isLoading, isError } = useApplicationInvoicesQuery(
     queryParams,
     {
       // 3. Refetch data when pagination, sorting, or filtering changes
@@ -54,7 +54,7 @@ function InvoicedApplications() {
   console.log(data);
   return (
     <>
-      <DataTable<ProgrammeAccreditation, unknown>
+      <DataTable<Invoice, unknown>
         isFetching={isLoading}
         columns={columns}
         data={data?.results ?? []}

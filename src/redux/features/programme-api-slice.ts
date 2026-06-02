@@ -305,10 +305,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
-    invoicedApplications: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
-      ListParams
-    >({
+    applicationInvoices: builder.query<ListRespornse<Invoice>, ListParams>({
       query: (params) => {
         const p = params ?? {};
         const search = new URLSearchParams();
@@ -320,7 +317,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         if (p.ordering) search.set("ordering", p.ordering);
 
         const qs = search.toString();
-        return `/programmes/programme-accreditation/invoiced-applications/${qs ? `?${qs}` : ""}`;
+        return `/programmes/programme-invoices/${qs ? `?${qs}` : ""}`;
       },
       providesTags: [{ type: "InvoicedApplications", id: "LIST" }],
     }),
@@ -387,7 +384,7 @@ export const {
   useGetProgressedToManagementApplicationsQuery,
   useRetrieveManagementApplicationQuery,
   useAddInvoiceMutation,
-  useInvoicedApplicationsQuery,
+  useApplicationInvoicesQuery,
   useReconcileInvoiceMutation,
   useGetProgrammesReadyForInvoiceQuery,
   useRetrieveProgressedToManagementDetailsQuery,
