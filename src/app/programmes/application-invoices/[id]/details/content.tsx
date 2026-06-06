@@ -20,6 +20,7 @@ type InvoiceLike = {
   invoice_number?: string;
   invoice_date?: string;
   status?: string;
+  payment_reference?: string;
   payment_date?: string;
   grand_total?: string | number;
   invoice_amount?: string | number;
@@ -112,6 +113,7 @@ function Content({ id }: { id: string }) {
             application_number: invoice.application_number,
             institution: invoice.institution,
             invoice_date: invoice.invoice_date,
+            payment_reference: invoice.payment_reference,
             payment_date: invoice.payment_date,
             status: invoice.status,
             grand_total: invoice.grand_total,
@@ -162,6 +164,14 @@ function Content({ id }: { id: string }) {
             </TableCell>
             <TableCell className="text-md">
               {formatDate(invoice.payment_date)}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-semibold text-md" colSpan={3}>
+              Payment Reference:
+            </TableCell>
+            <TableCell className="text-md">
+              {invoice.payment_reference ?? "-"}
             </TableCell>
           </TableRow>
           <TableRow>

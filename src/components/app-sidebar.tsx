@@ -228,14 +228,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               ],
             },
             {
-              title: "Applications Ready for Invoicing",
-              url: "/programmes/applications-ready-for-invoicing",
-              isActive: pathname.startsWith(
-                "/programmes/applications-ready-for-invoicing",
-              ),
-              requiredPermissions: ["can_manage_invoices"],
-            },
-            {
               title: "Under Assessment",
               url: "/programmes/under-assessment",
               isActive: pathname.startsWith("/programmes/under-assessment"),

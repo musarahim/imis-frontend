@@ -326,7 +326,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     }),
     reconcileInvoice: builder.mutation({
       query: ({ id }: { id: number }) => ({
-        url: `/programmes/programme-accreditation/${id}/reconcile-invoice/`,
+        url: `/programmes/programme-invoices/${id}/reconcile-invoice/`,
         method: "POST",
       }),
       invalidatesTags: [{ type: "InvoicedApplications", id: "LIST" }],

@@ -1,23 +1,23 @@
 "use client";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  usePatchProgrammeAccreditationMutation,
-  useRetrievePreliminaryReviewQuery,
+    usePatchProgrammeAccreditationMutation,
+    useRetrievePreliminaryReviewQuery,
 } from "@/redux/features/programme-api-slice";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 const labelCellClassName =
@@ -358,7 +358,7 @@ function Content({ id }: { id: string }) {
           disabled={!hasValidApplicationId || isSubmittingDecision}
           className="bg-emerald-600 text-white hover:bg-emerald-700"
         >
-          Accept
+          Accept & Invoice
         </Button>
         <Button
           type="button"

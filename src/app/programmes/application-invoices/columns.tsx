@@ -17,11 +17,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LinkAsBadge } from "@/components/ui/link-as-badge";
-import { useReconcileInvoiceMutation } from "@/redux/features/programme-api-slice";
+import {
+    useReconcileInvoiceMutation,
+    useRetrieveProgrammeInvoiceQuery,
+} from "@/redux/features/programme-api-slice";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 // Helper function to get status colors
 function getStatusColor(status: string) {
   switch (status?.toLowerCase()) {
@@ -31,6 +36,8 @@ function getStatusColor(status: string) {
       return "bg-green-500 text-white dark:bg-green-600 hover:bg-green-600";
     case "cancelled":
       return "bg-red-500 text-white dark:bg-red-600 hover:bg-red-600";
+    case "reconciled":
+      return "bg-teal-500 text-white dark:bg-teal-600 hover:bg-teal-600";
     default:
       return "bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600";
   }
@@ -48,15 +55,18 @@ function formatFieldValue(key: string, value: unknown) {
     return "-";
   }
 
+  const isCurrencyLikeField =
+    key.toLowerCase().includes("amount") || key.toLowerCase().includes("total");
+
   if (typeof value === "number") {
-    if (key.toLowerCase().includes("amount")) {
+    if (isCurrencyLikeField) {
       return value.toLocaleString();
     }
     return String(value);
   }
 
   if (typeof value === "string") {
-    if (key.toLowerCase().includes("amount")) {
+    if (isCurrencyLikeField) {
       const numeric = Number(value);
       if (!Number.isNaN(numeric)) {
         return numeric.toLocaleString();
@@ -72,27 +82,61 @@ function formatFieldValue(key: string, value: unknown) {
 function ActionCell({ application }: { application: Invoice }) {
   const router = useRouter();
   const [isReconcileDialogOpen, setIsReconcileDialogOpen] = useState(false);
-  const invoiceDetails = Object.entries(application)
-    .filter(([key]) => {
+  const { data: detailedInvoice } = useRetrieveProgrammeInvoiceQuery(
+    isReconcileDialogOpen && application.id !== undefined
+      ? application.id
+      : skipToken,
+  );
+
+  const invoiceSnapshot = (detailedInvoice ?? application) as Invoice;
+  const invoiceDetails = Object.entries(invoiceSnapshot)
+    .filter(([key, value]) => {
+      if (value === null || value === undefined || value === "") {
+        return false;
+      }
+      if (key === "id" || key === "application_id") {
+        return false;
+      }
+      if (key === "invoice_items" || key === "payment_receipt") {
+        return false;
+      }
+
       const normalizedKey = key.toLowerCase();
       return (
-        normalizedKey.includes("invoice") &&
-        normalizedKey !== "invoice_payment_date"
+        normalizedKey.includes("invoice") ||
+        normalizedKey.includes("payment") ||
+        normalizedKey === "application" ||
+        normalizedKey === "institution" ||
+        normalizedKey === "status" ||
+        normalizedKey === "grand_total"
       );
     })
     .sort(([firstKey], [secondKey]) => firstKey.localeCompare(secondKey));
 
-  const [reconcileInvoice] = useReconcileInvoiceMutation();
+  const [reconcileInvoice, { isLoading: isReconciling }] =
+    useReconcileInvoiceMutation();
+
+  const reconcileTargetId =
+    invoiceSnapshot.application_id ??
+    (typeof invoiceSnapshot.application === "number"
+      ? invoiceSnapshot.application
+      : undefined);
+
   const handleReconcile = async () => {
-    if (application.id === undefined) {
-      console.error("Cannot reconcile invoice: missing application id");
+    if (reconcileTargetId === undefined) {
+      toast.error("Cannot reconcile invoice: missing application identifier.");
+      console.error(
+        "Cannot reconcile invoice: missing application id on invoice payload",
+      );
       return;
     }
 
     try {
-      await reconcileInvoice({ id: application.id }).unwrap();
+      await reconcileInvoice({ id: reconcileTargetId }).unwrap();
+      toast.success("Invoice reconciled successfully.");
       setIsReconcileDialogOpen(false);
     } catch (error) {
+      toast.error("Failed to reconcile invoice.");
       console.error("Failed to reconcile invoice:", error);
     }
   };
@@ -134,8 +178,8 @@ function ActionCell({ application }: { application: Invoice }) {
           <DialogHeader>
             <DialogTitle>Reconcile Invoice</DialogTitle>
             <DialogDescription>
-              Reconciliation form for invoice {application.invoice_number ?? ""}
-              .
+              Reconciliation form for invoice{" "}
+              {invoiceSnapshot.invoice_number ?? ""}.
             </DialogDescription>
           </DialogHeader>
 
@@ -162,10 +206,10 @@ function ActionCell({ application }: { application: Invoice }) {
             </DialogClose>
             <Button
               type="button"
-              onClick={() => handleReconcile()} // Replace with handleReconcile when backend is ready
-              disabled={application.id === undefined}
+              onClick={() => handleReconcile()}
+              disabled={isReconciling || reconcileTargetId === undefined}
             >
-              Reconcile
+              {isReconciling ? "Reconciling..." : "Reconcile"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -242,6 +286,20 @@ export const columns: ColumnDef<Invoice>[] = [
         </div>
       );
     },
+  },
+  {
+    accessorKey: "payment_date",
+    id: "Payment Date",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Payment Date" />
+    ),
+  },
+  {
+    accessorKey: "payment_reference",
+    id: "Payment Reference",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Payment Reference" />
+    ),
   },
   {
     id: "actions",

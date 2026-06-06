@@ -26,6 +26,7 @@ type InvoicePdfData = {
   application_number?: string;
   institution?: string;
   invoice_date?: string;
+  payment_reference?: string;
   payment_date?: string;
   status?: string;
   grand_total?: string | number;

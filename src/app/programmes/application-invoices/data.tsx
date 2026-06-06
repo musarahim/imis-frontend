@@ -24,7 +24,10 @@ function InvoicedApplications() {
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({
+      "Payment Date": false,
+      "Payment Reference": false,
+    });
 
   // 2. Memoize the RTK Query argument object
   const queryParams: ListParams = React.useMemo(() => {

@@ -57,8 +57,8 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
     },
   },
   {
-    accessorKey: "programme",
-    header: "Programme",
+    accessorKey: "program_name",
+    header: "Programme Name",
   },
 
   {
