@@ -1,6 +1,6 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useInvoicedApplicationsQuery } from "@/redux/features/programme-api-slice";
+import { useGetPreliminaryReviewsQuery } from "@/redux/features/programme-api-slice";
 import {
     ColumnFiltersState,
     PaginationState,
@@ -11,7 +11,7 @@ import React from "react";
 import { columns } from "./columns";
 // ...existing code...
 
-function InvoicedApplications() {
+function ProgrammeAccreditationData() {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -42,7 +42,7 @@ function InvoicedApplications() {
     };
   }, [pagination, sorting, globalFilter]);
 
-  const { data, isLoading, isError } = useInvoicedApplicationsQuery(
+  const { data, isLoading, isError } = useGetPreliminaryReviewsQuery(
     queryParams,
     {
       // 3. Refetch data when pagination, sorting, or filtering changes
@@ -54,7 +54,7 @@ function InvoicedApplications() {
   console.log(data);
   return (
     <>
-      <DataTable<ProgrammeAccreditation, unknown>
+      <DataTable<PreliminaryReview, unknown>
         isFetching={isLoading}
         columns={columns}
         data={data?.results ?? []}
@@ -73,4 +73,4 @@ function InvoicedApplications() {
   );
 }
 
-export default InvoicedApplications;
+export default ProgrammeAccreditationData;

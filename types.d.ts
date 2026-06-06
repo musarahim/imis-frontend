@@ -407,7 +407,6 @@ interface ProgrammeAccreditation {
   pod_comment?: string;
   director_comment?: string;
   reviewers?: ReviewerAssignment[];
-  invoice_file?: string;
   invoice_status?: string;
   invoice_number?: string;
   invoice_date?: string | null;
@@ -423,6 +422,9 @@ interface ProgrammeAccreditation {
   program_to_renew?: string | null;
   preliminary_reviewer?: number;
   assessor?: number;
+  review_date?: string;
+  expert_progression?: string;
+  review_id?: number;
 }
 
 interface PreliminaryReview {
@@ -710,12 +712,29 @@ interface PaymentPRN {
   prn_reconciled: string;
 }
 interface Invoice {
-  id: number;
-  application?: string;
-  invoice_number: string;
+  id?: number;
+  application_id?: number;
+  institution?: string;
+  application?: string | number;
+  invoice_number?: string;
   invoice_date?: string;
-  invoice_amount: number;
-  invoice_status?: string;
-  invoice_file: string | File;
-  invoice_payment_date?: string;
+  status?: string;
+  payment_reference?: string;
+  payment_receipt?: string;
+  payment_date?: string;
+  grand_total?: string;
+  invoice_items?: {
+    item_type: string | number;
+    persons_number: number;
+    number_of_days: number;
+    rate?: number;
+    total?: number;
+  }[];
 }
+
+type InvoiceItemType = {
+  id?: number;
+  name: string;
+  default_rate: string;
+  is_active?: boolean;
+};

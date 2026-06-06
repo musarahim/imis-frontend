@@ -1,6 +1,6 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useGetReviewedApplicationsQuery } from "@/redux/features/programme-api-slice";
+import { useApplicationInvoicesQuery } from "@/redux/features/programme-api-slice";
 import {
     ColumnFiltersState,
     PaginationState,
@@ -11,7 +11,7 @@ import React from "react";
 import { columns } from "./columns";
 // ...existing code...
 
-function ProgrammeAccreditationData() {
+function InvoicedApplications() {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -24,7 +24,10 @@ function ProgrammeAccreditationData() {
     [],
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({
+      "Payment Date": false,
+      "Payment Reference": false,
+    });
 
   // 2. Memoize the RTK Query argument object
   const queryParams: ListParams = React.useMemo(() => {
@@ -42,7 +45,7 @@ function ProgrammeAccreditationData() {
     };
   }, [pagination, sorting, globalFilter]);
 
-  const { data, isLoading, isError } = useGetReviewedApplicationsQuery(
+  const { data, isLoading, isError } = useApplicationInvoicesQuery(
     queryParams,
     {
       // 3. Refetch data when pagination, sorting, or filtering changes
@@ -54,7 +57,7 @@ function ProgrammeAccreditationData() {
   console.log(data);
   return (
     <>
-      <DataTable<ProgrammeAccreditation, unknown>
+      <DataTable<Invoice, unknown>
         isFetching={isLoading}
         columns={columns}
         data={data?.results ?? []}
@@ -68,12 +71,9 @@ function ProgrammeAccreditationData() {
         setColumnFilters={setColumnFilters}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
-        addHref="/programmes/assign-assessor"
-        addText="Assign Assessor"
-        addRequiredPermissions={["can_assign_assessors"]}
       />
     </>
   );
 }
 
-export default ProgrammeAccreditationData;
+export default InvoicedApplications;

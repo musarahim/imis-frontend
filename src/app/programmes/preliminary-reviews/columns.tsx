@@ -13,7 +13,7 @@ import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 // Actions cell component that can properly use hooks
-function ActionCell({ application }: { application: ProgrammeAccreditation }) {
+function ActionCell({ application }: { application: PreliminaryReview }) {
   const router = useRouter();
 
   return (
@@ -29,7 +29,7 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
           <DropdownMenuItem
             onClick={() =>
               router.push(
-                `/programmes/reviewed-applications/${application.review_id}/details`,
+                `/programmes/preliminary-reviews/${application.id}/details`,
               )
             }
           >
@@ -44,7 +44,7 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<ProgrammeAccreditation>[] = [
+export const columns: ColumnDef<PreliminaryReview>[] = [
   {
     accessorKey: "institution",
     header: "Institution",
@@ -57,12 +57,13 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
     },
   },
   {
-    accessorKey: "program_name",
-    header: "Programme Name",
+    accessorKey: "programme",
+    header: "Programme",
   },
 
   {
     accessorKey: "review_date",
+    id: "Review Date",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Review Date" />
     ),
@@ -74,7 +75,7 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
       return (
         <div className="flex justify-center">
           <LinkAsBadge
-            href={`/programmes/reviewed-applications/${row.original.review_id}/details`}
+            href={`/programmes/preliminary-reviews/${row.original.id}/details`}
             text={row.original.expert_progression ?? ""}
             className={
               row.original.expert_progression === "Yes"
