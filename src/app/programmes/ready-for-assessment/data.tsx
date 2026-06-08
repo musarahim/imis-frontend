@@ -1,6 +1,6 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useGetReviewedApplicationsQuery } from "@/redux/features/programme-api-slice";
+import { useGetProgrammesReadyForAccessmentQuery } from "@/redux/features/programme-api-slice";
 import {
     ColumnFiltersState,
     PaginationState,
@@ -42,7 +42,7 @@ function ProgrammeAccreditationData() {
     };
   }, [pagination, sorting, globalFilter]);
 
-  const { data, isLoading, isError } = useGetReviewedApplicationsQuery(
+  const { data, isLoading, isError } = useGetProgrammesReadyForAccessmentQuery(
     queryParams,
     {
       // 3. Refetch data when pagination, sorting, or filtering changes
@@ -68,6 +68,9 @@ function ProgrammeAccreditationData() {
         setColumnFilters={setColumnFilters}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
+        addHref="/programmes/assign-assessor"
+        addText="Assign Assessor"
+        addRequiredPermissions={["can_assign_assessors"]}
       />
     </>
   );

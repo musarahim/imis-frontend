@@ -3,26 +3,26 @@
 import { Input } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table";
 import useEmployeeData from "@/hooks/use-employee-data";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  PaginationState,
-  SortingState,
-  useReactTable,
-  VisibilityState,
+    ColumnDef,
+    ColumnFiltersState,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    PaginationState,
+    SortingState,
+    useReactTable,
+    VisibilityState,
 } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
 import * as React from "react";
@@ -135,16 +135,16 @@ export function DataTable<TData extends object, TValue>({
   });
 
   return (
-    <div>
-      <div className="flex items-center py-4">
+    <div className="w-full min-w-0">
+      <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center">
         <Input
           placeholder="Search..."
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
-          className="max-w-sm"
+          className="w-full sm:max-w-sm"
         />
 
-        <div className="ml-auto mr-2">
+        <div className="sm:ml-auto sm:mr-2">
           {shouldShowButton && (
             <LinkButton href={addHref} linkText={addText || "Add New"} />
           )}

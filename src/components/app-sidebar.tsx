@@ -166,7 +166,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: "Applications Reviews",
               url: "/programmes/reviewed-applications",
             },
-            { title: "Under Assessment", url: "/programmes/under-assessment" },
+            {
+              title: "Ready for Assessment",
+              url: "/programmes/ready-for-assessment",
+              isActive: pathname.startsWith("/programmes/ready-for-assessment"),
+              requiredPermissions: [
+                "can_assign_reviewers",
+                "can_review_programme_accreditation",
+              ],
+            },
+            {
+              title: "Under Assessment",
+              url: "/programmes/under-assessment",
+              isActive: pathname.startsWith("/programmes/under-assessment"),
+              requiredPermissions: ["can_assess_programme"],
+            },
             {
               title: "Programme Assessments",
               url: "/programmes/programme-assessments",
@@ -222,6 +236,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               isActive: pathname.startsWith(
                 "/programmes/reviewed-applications",
               ),
+              requiredPermissions: [
+                "can_assign_reviewers",
+                "can_review_programme_accreditation",
+              ],
+            },
+            {
+              title: "Ready for Assessment",
+              url: "/programmes/ready-for-assessment",
+              isActive: pathname.startsWith("/programmes/ready-for-assessment"),
               requiredPermissions: [
                 "can_assign_reviewers",
                 "can_review_programme_accreditation",
