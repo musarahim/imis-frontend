@@ -2,8 +2,8 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from "@/utils";
-import Chat from "./Chat";
-import Content from "./Content";
+import Content from "./content";
+
 type Props = { params: Promise<{ id: string }> };
 
 export default async function page({ params }: Props) {
@@ -16,10 +16,10 @@ export default async function page({ params }: Props) {
           { label: "Home", href: "/" },
           { label: "Lincenses", href: "/" },
           {
-            label: "Interim Authority (University)",
-            href: "/license/university/interim-authority/submitted",
+            label: "Programme Accreditation ",
+            href: "/programme-accreditation",
           },
-          { label: "Application Details" },
+          { label: "Preliminary Review Details" },
         ]}
       />
       <div className="flex flex-1">
@@ -28,23 +28,12 @@ export default async function page({ params }: Props) {
           <div className="flex flex-1 flex-col gap-4 p-4">
             <div className="border-t  border-gray-900/10  dark:border-gray-400">
               <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">
-                INTERIM AUTHORITY APPLICATION DETAILS
+                PROGRAMME ACCREDITATION DESK REVIEW INVOICE DETAILS
               </h2>
             </div>
             <div className="flex flex-col lg:flex-row gap-4 h-full">
-              <div className="flex-1 lg:w-3/4">
+              <div className="flex-1">
                 <Content id={id} />
-              </div>
-              <div className="lg:w-1/4 w-full">
-                <div className="bg-white dark:bg-gray-950 rounded-lg border p-2 h-full">
-                  <h3 className="text-md font-semibold mb-4 text-gray-900 dark:text-white">
-                    Application Discussion
-                  </h3>
-                  {/* Chart component will go here */}
-                  <div className="max-h-[48rem] bg-gray-50 dark:bg-gray-950  rounded flex items-center justify-center p-2">
-                    <Chat applicationId={id} />
-                  </div>
-                </div>
               </div>
             </div>
           </div>

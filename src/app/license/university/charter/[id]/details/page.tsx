@@ -14,10 +14,10 @@ export default async function page({ params }: Props) {
       <SiteHeader
         items={[
           { label: "Home", href: "/" },
-          { label: "Lincenses", href: "/" },
+          { label: "Licenses", href: "/" },
           {
-            label: "Interim Authority (University)",
-            href: "/license/university/interim-authority/submitted",
+            label: "Provisional License (University)",
+            href: "/university-provisional-license",
           },
           { label: "Application Details" },
         ]}
@@ -27,8 +27,8 @@ export default async function page({ params }: Props) {
         <SidebarInset>
           <div className="flex flex-1 flex-col gap-4 p-4">
             <div className="border-t  border-gray-900/10  dark:border-gray-400">
-              <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">
-                INTERIM AUTHORITY APPLICATION DETAILS
+              <h2 className="text-base/8 font-semibold  mt-2 text-gray-900 dark:text-white">
+                GRANT OF CHARTER (UNIVERSITY) APPLICATION DETAILS
               </h2>
             </div>
             <div className="flex flex-col lg:flex-row gap-4 h-full">
@@ -40,7 +40,7 @@ export default async function page({ params }: Props) {
                   <h3 className="text-md font-semibold mb-4 text-gray-900 dark:text-white">
                     Application Discussion
                   </h3>
-                  {/* Chart component will go here */}
+                  {/* Chat component will go here */}
                   <div className="max-h-[48rem] bg-gray-50 dark:bg-gray-950  rounded flex items-center justify-center p-2">
                     <Chat applicationId={id} />
                   </div>

@@ -10,7 +10,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import useEmployeeData from "@/hooks/use-employee-data";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -32,9 +31,9 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   isFetching: boolean;
+  totalCount?: number;
   addHref?: string;
   addText?: string;
-  addRequiredPermissions?: string[];
   //handlers
   pagination: PaginationState;
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
@@ -53,8 +52,8 @@ export function DataTable<TData extends object, TValue>({
   data,
   addHref,
   addText,
-  addRequiredPermissions,
   isFetching,
+  totalCount,
   globalFilter,
   setGlobalFilter,
   pagination,
@@ -66,31 +65,7 @@ export function DataTable<TData extends object, TValue>({
   columnVisibility,
   setColumnVisibility,
 }: DataTableProps<TData, TValue>) {
-  const { user } = useEmployeeData();
   const [searchValue, setSearchValue] = React.useState(globalFilter);
-
-  const canShowAddButton = React.useMemo(() => {
-    if (!addHref) {
-      return false;
-    }
-
-    if (!addRequiredPermissions?.length) {
-      return true;
-    }
-
-    const userPermissions = new Set(
-      user?.groups?.flatMap(
-        (group) =>
-          group.permissions?.map((permission) => permission.codename) || [],
-      ) || [],
-    );
-
-    return addRequiredPermissions.some((permission) =>
-      userPermissions.has(permission),
-    );
-  }, [addHref, addRequiredPermissions, user]);
-
-  const shouldShowButton = canShowAddButton && addHref;
 
   React.useEffect(() => {
     // Set an initial value when component mounts
@@ -115,6 +90,11 @@ export function DataTable<TData extends object, TValue>({
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
+    rowCount: totalCount,
+    pageCount:
+      typeof totalCount === "number"
+        ? Math.ceil(totalCount / pagination.pageSize)
+        : undefined,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -136,7 +116,7 @@ export function DataTable<TData extends object, TValue>({
 
   return (
     <div className="w-full min-w-0">
-      <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center">
+      <div className="flex flex-wrap items-center gap-2 py-4">
         <Input
           placeholder="Search..."
           value={searchValue}
@@ -144,22 +124,27 @@ export function DataTable<TData extends object, TValue>({
           className="w-full sm:max-w-sm"
         />
 
-        <div className="sm:ml-auto sm:mr-2">
-          {shouldShowButton && (
+        <div className="ml-auto mr-2 shrink-0">
+          {addHref && (
             <LinkButton href={addHref} linkText={addText || "Add New"} />
           )}
         </div>
 
-        <DataTableViewOptions table={table} />
+        <div className="shrink-0">
+          <DataTableViewOptions table={table} />
+        </div>
       </div>
-      <div className="overflow-hidden rounded-md border">
-        <Table>
+      <div className="w-full max-w-full overflow-x-auto rounded-md border">
+        <Table className="min-w-190 table-auto md:min-w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className="whitespace-normal sm:whitespace-normal align-top wrap-anywhere"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -191,7 +176,10 @@ export function DataTable<TData extends object, TValue>({
                   className={isFetching ? "opacity-50 transition-opacity" : ""}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className="whitespace-normal sm:whitespace-normal align-top wrap-anywhere"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

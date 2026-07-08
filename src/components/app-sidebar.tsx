@@ -202,6 +202,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               url: "/programmes/invoiced-applications",
             },
             {
+              title: "Desk Review Invoices",
+              url: "/programmes/desk-review-invoices",
+            },
+            {
               title: "Management Review",
               url: "/programmes/management-review",
             },
@@ -281,7 +285,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               requiredPermissions: ["can_make_directorate_decision"],
             },
             {
-              title: "Application Invoices",
+              title: "Administrative Visit Invoices",
               url: "/programmes/application-invoices",
               isActive: pathname.startsWith("/programmes/application-invoices"),
               requiredPermissions: [
@@ -289,6 +293,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 "add_programmeinvoice",
                 "change_programmeinvoice",
                 "view_programmeinvoice ",
+              ],
+            },
+            {
+              title: "Desk Review Invoices",
+              url: "/programmes/desk-review-invoices",
+              isActive: pathname.startsWith("/programmes/desk-review-invoices"),
+              requiredPermissions: [
+                "add_programmeassessmentinvoice",
+                "change_programmeassessmentinvoice",
+                "delete_programmeassessmentinvoice",
+                "view_programmeassessmentinvoice",
               ],
             },
             {
@@ -423,6 +438,169 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   url: "/license/university/charter/under-review",
                   isActive: pathname.startsWith(
                     "/license/university/charter/under-review",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+              ],
+            },
+            //odai interim authority
+            {
+              title: "Interim Authority (ODAI)",
+              url: "#",
+              isActive: pathname.startsWith(
+                "/license/odai/interim-authority/submitted",
+              ),
+              requiredPermissions: ["can_assign_reviewers"],
+              items: [
+                {
+                  title: "Submitted",
+                  url: "/license/odai/interim-authority/submitted",
+                  isActive: pathname.startsWith(
+                    "/license/odai/interim-authority/submitted",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+                {
+                  title: "Under Review",
+                  url: "/license/odai/interim-authority/under-review",
+                  isActive: pathname.startsWith(
+                    "/license/odai/interim-authority/under-review",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+              ],
+            },
+            //odai provisional license
+            {
+              title: "Provisional License (ODAI)",
+              url: "#",
+              isActive: pathname.startsWith(
+                "/license/odai/provisional-license/submitted",
+              ),
+              requiredPermissions: ["can_assign_reviewers"],
+              items: [
+                {
+                  title: "Submitted",
+                  url: "/license/odai/provisional-license/submitted",
+                  isActive: pathname.startsWith(
+                    "/license/odai/provisional-license/submitted",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+                {
+                  title: "Under Review",
+                  url: "/license/odai/provisional-license/under-review",
+                  isActive: pathname.startsWith(
+                    "/license/odai/provisional-license/under-review",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+              ],
+            },
+            {
+              title: "Charter (ODAI)",
+              url: "#",
+              isActive: pathname.startsWith("/license/odai/charter/submitted"),
+              requiredPermissions: ["can_assign_reviewers"],
+              items: [
+                {
+                  title: "Submitted",
+                  url: "/license/odai/charter/submitted",
+                  isActive: pathname.startsWith(
+                    "/license/odai/charter/submitted",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+                {
+                  title: "Under Review",
+                  url: "/license/odai/charter/under-review",
+                  isActive: pathname.startsWith(
+                    "/license/odai/charter/under-review",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+              ],
+            },
+            //provisional license OTI
+
+            {
+              title: "Provisional License (OTI)",
+              url: "#",
+              isActive: pathname.startsWith(
+                "/license/oti/provisional-license/submitted",
+              ),
+              requiredPermissions: ["can_assign_reviewers"],
+              items: [
+                {
+                  title: "Submitted",
+                  url: "/license/oti/provisional-license/submitted",
+                  isActive: pathname.startsWith(
+                    "/license/oti/provisional-license/submitted",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+                {
+                  title: "Under Review",
+                  url: "/license/oti/provisional-license/under-review",
+                  isActive: pathname.startsWith(
+                    "/license/oti/provisional-license/under-review",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+              ],
+            },
+            //classification and registration
+            {
+              title: "Classification and Registration",
+              url: "#",
+              isActive: pathname.startsWith(
+                "/license/oti/classification-registration/submitted",
+              ),
+              requiredPermissions: ["can_assign_reviewers"],
+              items: [
+                {
+                  title: "Submitted",
+                  url: "/license/oti/classification-registration/submitted",
+                  isActive: pathname.startsWith(
+                    "/license/oti/classification-registration/submitted",
+                  ),
+                  requiredPermissions: [
+                    "can_assign_reviewers",
+                    "can_review_institutional_licensing",
+                  ],
+                },
+                {
+                  title: "Under Review",
+                  url: "/license/oti/classification-registration/under-review",
+                  isActive: pathname.startsWith(
+                    "/license/oti/classification-registration/under-review",
                   ),
                   requiredPermissions: [
                     "can_assign_reviewers",

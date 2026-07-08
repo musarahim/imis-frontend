@@ -2,16 +2,22 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { RequireAuth } from "@/utils";
-import CharterApplicationData from "./data";
+import InvoiceForm from "./InvoiceForm";
+
 function page() {
   return (
     <RequireAuth>
       <SiteHeader
         items={[
           { label: "Home", href: "/" },
+          { label: "Programmes", href: "/programmes" },
           {
-            label: "Grant Charter University",
-            href: "/university-grant-charter",
+            label: "Applications Ready for Invoicing",
+            href: "/programmes/applications-ready-for-invoicing",
+          },
+          {
+            label: "Invoice",
+            href: "#",
           },
         ]}
       />
@@ -19,7 +25,7 @@ function page() {
         <AppSidebar />
         <SidebarInset>
           <div className="flex flex-1 flex-col gap-4 p-4">
-            <CharterApplicationData />
+            <InvoiceForm />
           </div>
         </SidebarInset>
       </div>

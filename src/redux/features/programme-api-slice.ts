@@ -273,6 +273,26 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    addProgrammeAssessmentInvoice: builder.mutation({
+      query: ({
+        id,
+        data,
+      }: {
+        id: number;
+        data: { desk_review_fee: number };
+      }) => {
+        const formData = new FormData();
+        formData.append("application", String(id));
+        formData.append("desk_review_fee", String(data.desk_review_fee));
+        return {
+          url: `/programmes/programme-assessment-invoices/`,
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
+
     addInvoice: builder.mutation<
       Invoice,
       { id: number; data: Omit<Invoice, "id"> }
@@ -360,6 +380,28 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         return `/programmes/programme-accreditation/reviewed-applications/${qs ? `?${qs}` : ""}`;
       },
     }),
+
+    getDeskReviewInvoices: builder.query<
+      ListRespornse<DeskReviewInvoice>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-assessment-invoices/${qs ? `?${qs}` : ""}`;
+      },
+    }),
+    retrieveDeskReviewInvoice: builder.query<DeskReviewInvoice, number>({
+      query: (id) => `/programmes/programme-assessment-invoices/${id}/`,
+    }),
   }),
 });
 
@@ -394,4 +436,7 @@ export const {
   useInvoiceItemTypesQuery,
   useGetReviewedApplicationsQuery,
   useRetrieveProgrammeInvoiceQuery,
+  useAddProgrammeAssessmentInvoiceMutation,
+  useGetDeskReviewInvoicesQuery,
+  useRetrieveDeskReviewInvoiceQuery,
 } = ProgrammeApiSlice;

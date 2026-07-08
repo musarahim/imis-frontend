@@ -394,7 +394,9 @@ interface ProgrammeAccreditation {
   application_type: string;
   program_level: string;
   program_name: string;
-  duration_semester: number;
+  duration: number;
+  duration_type: string;
+  number_of_years: number;
   campus: string;
   date_submitted?: string;
   status?: string;
@@ -455,6 +457,7 @@ interface PreliminaryReview {
   programme?: string;
   institution?: string;
   student_total?: number;
+  application_status?: string;
 }
 interface ProgrammeAssessment {
   id?: number;
@@ -738,3 +741,19 @@ type InvoiceItemType = {
   default_rate: string;
   is_active?: boolean;
 };
+
+interface DeskReviewInvoice {
+  id?: number;
+  application?: string;
+  status?: string;
+  invoice_number?: string;
+  desk_review_fee?: string;
+  administrative_fee?: string;
+  invoice_date?: string;
+  grand_total?: number;
+  payment_date?: string | null;
+  cleared?: boolean;
+  payment_reference?: string | null;
+  payment_receipt?: string | null;
+  institution?: string;
+}

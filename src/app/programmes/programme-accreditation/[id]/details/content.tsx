@@ -57,10 +57,19 @@ function Content({ id }: { id: string }) {
           </TableRow>
           <TableRow>
             <TableCell className="font-semibold text-md" colSpan={3}>
-              Duration (in semesters):
+              Number of Years:
             </TableCell>
 
-            <TableCell className="text-md">{data?.duration_semester}</TableCell>
+            <TableCell className="text-md">{data?.number_of_years}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-semibold text-md" colSpan={3}>
+              Duration (in {data?.duration_type}):
+            </TableCell>
+
+            <TableCell className="text-md">
+              {data?.duration} {data?.duration_type}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-semibold text-md" colSpan={3}>

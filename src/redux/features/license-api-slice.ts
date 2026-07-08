@@ -1,24 +1,29 @@
 import { apiSlice } from "../services/apiSlice";
 
+const buildListQuery = (path: string, params?: ListParams) => {
+  const p = params ?? {};
+  const search = new URLSearchParams();
+
+  if (p.page !== undefined) search.set("page", String(p.page));
+  if (p.pageSize !== undefined) search.set("page_size", String(p.pageSize));
+  if (p.search) search.set("search", p.search);
+  if (p.ordering) search.set("ordering", p.ordering);
+
+  const qs = search.toString();
+  return `${path}${qs ? `?${qs}` : ""}`;
+};
+
 const LicenseApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getIntrimAuthorities: builder.query<
       ListRespornse<InterimAuthority>,
       ListParams
     >({
-      query: (params) => {
-        const p = params ?? {};
-        const search = new URLSearchParams();
-
-        if (p.page !== undefined) search.set("page", String(p.page));
-        if (p.pageSize !== undefined)
-          search.set("page_size", String(p.pageSize));
-        if (p.search) search.set("search", p.search);
-        if (p.ordering) search.set("ordering", p.ordering);
-
-        const qs = search.toString();
-        return `/licenses/interim-authority/submitted-applications/${qs ? `?${qs}` : ""}`;
-      },
+      query: (params) =>
+        buildListQuery(
+          "/licenses/interim-authority/submitted-applications/",
+          params,
+        ),
     }),
     retrieveInterimAuthority: builder.query<InterimAuthority, number>({
       query: (id) => `/licenses/interim-authority/${id}/`,
@@ -44,24 +49,12 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    // University Provisional License Endpoints
     getProvisionalLicenses: builder.query<
       ListRespornse<UniversityProvisionalLicense>,
       ListParams
     >({
-      query: (params) => {
-        const p = params ?? {};
-        const search = new URLSearchParams();
-
-        if (p.page !== undefined) search.set("page", String(p.page));
-        if (p.pageSize !== undefined)
-          search.set("page_size", String(p.pageSize));
-        if (p.search) search.set("search", p.search);
-        if (p.ordering) search.set("ordering", p.ordering);
-
-        const qs = search.toString();
-        return `/licenses/university-provisional-license/${qs ? `?${qs}` : ""}`;
-      },
+      query: (params) =>
+        buildListQuery("/licenses/university-provisional-license/", params),
     }),
 
     retrieveProvisionalLicense: builder.query<
@@ -96,19 +89,8 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
       ListRespornse<CharterApplication>,
       ListParams
     >({
-      query: (params) => {
-        const p = params ?? {};
-        const search = new URLSearchParams();
-
-        if (p.page !== undefined) search.set("page", String(p.page));
-        if (p.pageSize !== undefined)
-          search.set("page_size", String(p.pageSize));
-        if (p.search) search.set("search", p.search);
-        if (p.ordering) search.set("ordering", p.ordering);
-
-        const qs = search.toString();
-        return `/licenses/charter-application/${qs ? `?${qs}` : ""}`;
-      },
+      query: (params) =>
+        buildListQuery("/licenses/charter-application/", params),
     }),
     retrieveCharterApplication: builder.query<CharterApplication, number>({
       query: (id) => `/licenses/charter-application/${id}/`,
@@ -162,6 +144,17 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
         body: { userId, applications },
       }),
     }),
+    //get interim authority ODAI applications
+    getODAIInterimAuthorities: builder.query<
+      ListRespornse<InterimAuthority>,
+      ListParams
+    >({
+      query: (params) =>
+        buildListQuery(
+          "/licenses/interim-authority-odai/submitted-applications/",
+          params,
+        ),
+    }),
   }),
 });
 
@@ -182,4 +175,5 @@ export const {
   useGetInterimChatMessagesQuery,
   useGetDeskReviewersQuery,
   useAssignInterimAuthorityReviewersMutation,
+  useGetODAIInterimAuthoritiesQuery,
 } = LicenseApiSlice;
