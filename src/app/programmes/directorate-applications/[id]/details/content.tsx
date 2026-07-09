@@ -97,11 +97,19 @@ function Content({ id }: { id: string }) {
           </TableRow>
           <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
+              Number of years
+            </TableCell>
+            <TableCell className={plainTextCellClassName}>
+              {data?.number_of_years}
+            </TableCell>
+          </TableRow>
+          <TableRow className="bg-muted">
+            <TableCell className={labelCellClassName} colSpan={1}>
               Duration:
             </TableCell>
 
             <TableCell className={plainTextCellClassName}>
-              {data?.duration_semester} semesters
+              {data?.duration} {data?.duration_type}
             </TableCell>
           </TableRow>
 

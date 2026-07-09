@@ -10,6 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { useEmployeeData } from "@/hooks";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -34,6 +35,7 @@ interface DataTableProps<TData, TValue> {
   totalCount?: number;
   addHref?: string;
   addText?: string;
+  addRequiredPermissions?: string[];
   //handlers
   pagination: PaginationState;
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
@@ -52,6 +54,7 @@ export function DataTable<TData extends object, TValue>({
   data,
   addHref,
   addText,
+  addRequiredPermissions,
   isFetching,
   totalCount,
   globalFilter,
@@ -65,7 +68,26 @@ export function DataTable<TData extends object, TValue>({
   columnVisibility,
   setColumnVisibility,
 }: DataTableProps<TData, TValue>) {
+  const { user } = useEmployeeData();
   const [searchValue, setSearchValue] = React.useState(globalFilter);
+
+  const userPermissions = React.useMemo(() => {
+    if (!user || !user.groups) return new Set<string>();
+    return new Set(
+      user.groups.flatMap(
+        (group) =>
+          group.permissions?.map((permission) => permission.codename) || [],
+      ),
+    );
+  }, [user]);
+
+  const canSeeAddAction = React.useMemo(() => {
+    const requiredPermissions = addRequiredPermissions ?? [];
+    if (requiredPermissions.length === 0) return true;
+    return requiredPermissions.some((permission) =>
+      userPermissions.has(permission),
+    );
+  }, [addRequiredPermissions, userPermissions]);
 
   React.useEffect(() => {
     // Set an initial value when component mounts
@@ -125,7 +147,7 @@ export function DataTable<TData extends object, TValue>({
         />
 
         <div className="ml-auto mr-2 shrink-0">
-          {addHref && (
+          {addHref && canSeeAddAction && (
             <LinkButton href={addHref} linkText={addText || "Add New"} />
           )}
         </div>
