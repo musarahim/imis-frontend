@@ -128,7 +128,7 @@ interface ListParams {
   ordering?: string;
 }
 
-interface ListRespornse<T> {
+interface ListResponse<T> {
   count: number;
   next: string | null;
   previous: string | null;
@@ -300,34 +300,37 @@ interface CharterApplication {
   land_in_use: string;
   land_for_future_use: string;
   year_obtained: string;
-  leased_or_rented: boolean;
+  leased_or_rented: string;
   classrooms: number;
   libraries: number;
   science_labs: number;
   computer_labs: number;
   staff_houses: number;
-  areadministrative_staff_area: number;
+  administrative_staff_area: number;
   area_for_staff_use: number;
   administrative_block_area: number;
-  student_Welfare_offices: number;
+  student_welfare_offices: number;
   sick_bay_area: number;
   hostels_area: number;
   meeting_hall_area: number;
+  master_plan: File | null;
   area_of_playground: number;
   available_playgrounds: string;
   area_of_empty_space: number;
-  total_roads_mileage: string;
+  total_roads_mileage: number;
   water_source: string;
   power_source: string;
   has_cultivable_land: true;
   cultivable_land: number;
+  number_of_vehicles: number;
+  vehicle_registration: string;
   library_books: number;
   text_books: number;
   computers_in_use: number;
   computers_in_library: number;
   academic_staff_computers: number;
   administrative_staff_computers: number;
-  library_computer_software: number;
+  library_computer_software: string;
   students_have_access: true;
   has_internet_access: true;
   library_seats: number;
@@ -336,15 +339,22 @@ interface CharterApplication {
   administration_block_seats: number;
   student_facilities: string;
   full_time_academic_staff: number;
+  full_time_academic_staff_qualifications: File | null;
+  part_time_academic_staff: number;
   intended_full_time_academic_staff: number;
-  intended_part_time_academic_staff: number;
+  part_time_academic_staff_qualifications: File | null;
   phd_holders: number;
+  phd_holder_discipline: File | null;
   masters_holders: number;
+  masters_holders_discipline: File | null;
   bachelor_holders: number;
+  bachelor_holders_discipline: File | null;
   diploma_holders: number;
-  average_staff_student_ratio: number;
+  diploma_holders_discipline: File | null;
+  average_staff_student_ratio: string;
   staff_overload: number;
   administrative_staff: number;
+  programme_staff_student_ratio: File | null;
   support_staff: number;
   chancellor: string;
   vice_chancellor: string;
@@ -353,16 +363,16 @@ interface CharterApplication {
   vice_registrar: string;
   ownership: string;
   other_assets: string;
-  annual_budget: string;
-  fees_percentage: string;
+  annual_budget: number;
+  fees_percentage: number;
   other_income_source: string;
-  infrastructure_budget: string;
-  research_budget: string;
-  computer_budget: string;
-  science_labs_budget: string;
-  staff_development_budget: string;
-  library_budget: string;
-  staff_salary_budget: string;
+  infrastructure_budget: number;
+  research_budget: number;
+  computer_budget: number;
+  science_labs_budget: number;
+  staff_development_budget: number;
+  library_budget: number;
+  staff_salary_budget: number;
   current_bankers: string;
   vision: string;
   mission: string;
@@ -372,6 +382,7 @@ interface CharterApplication {
   social_science_students: number;
   basic_science_students: number;
   arts_education_students: number;
+  science_education_students: number;
   agriculture_students: number;
   medicine_students: number;
   veterinary_students: number;
@@ -381,11 +392,27 @@ interface CharterApplication {
   central_region: number;
   northern_region: number;
   western_region: number;
-  eastern_africans: number;
+  east_africans: number;
   other_regions: number;
   institution: string;
   publication_years: string[];
   status: string | null;
+  application_date?: string;
+  deans: File | null;
+  senate_members: File | null;
+  council_members: File | null;
+  previous_year_accounts: File | null;
+  fees_structure: File | null;
+  university_strategic_plan: File | null;
+  programmes_offered: File | null;
+  areas_of_competence: File | null;
+  future_planned_programmes: File | null;
+  signature_officers: File | null;
+  financial_control: File | null;
+  detailed_programmes: File | null;
+  facilities: File | null;
+  member_cvs: File | null;
+  prn?: string;
 }
 
 interface ProgrammeAccreditation {
@@ -394,7 +421,9 @@ interface ProgrammeAccreditation {
   application_type: string;
   program_level: string;
   program_name: string;
-  duration_semester: number;
+  duration: number;
+  duration_type: string;
+  number_of_years: number;
   campus: string;
   date_submitted?: string;
   status?: string;
@@ -455,6 +484,7 @@ interface PreliminaryReview {
   programme?: string;
   institution?: string;
   student_total?: number;
+  application_status?: string;
 }
 interface ProgrammeAssessment {
   id?: number;
@@ -505,6 +535,11 @@ interface Employee {
   id?: number;
   employee_number: string;
   date_of_birth: string;
+  names?: string;
+  email?: string;
+  phone?: string;
+  alternative_phone_number?: string;
+  profile_pic?: string;
   gender: "male" | "female";
   joining_date: string;
   distance_from_work: number;
@@ -738,3 +773,19 @@ type InvoiceItemType = {
   default_rate: string;
   is_active?: boolean;
 };
+
+interface DeskReviewInvoice {
+  id?: number;
+  application?: string;
+  status?: string;
+  invoice_number?: string;
+  desk_review_fee?: string;
+  administrative_fee?: string;
+  invoice_date?: string;
+  grand_total?: number;
+  payment_date?: string | null;
+  cleared?: boolean;
+  payment_reference?: string | null;
+  payment_receipt?: string | null;
+  institution?: string;
+}

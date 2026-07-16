@@ -10,7 +10,10 @@ function page() {
       <SiteHeader
         items={[
           { label: "Home", href: "/" },
-          { label: "License", href: "/license" },
+          {
+            label: "License",
+            href: "/license/university/interim-authority/submitted",
+          },
           {
             label: "Interim Authority (University)",
             href: "/license/university/interim-authority/submitted",

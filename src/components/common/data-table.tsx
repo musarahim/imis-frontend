@@ -28,10 +28,12 @@ import { Loader2 } from "lucide-react";
 import * as React from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options ";
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   isFetching: boolean;
+  totalCount?: number;
   addHref?: string;
   addText?: string;
   addRequiredPermissions?: string[];
@@ -55,6 +57,7 @@ export function DataTable<TData extends object, TValue>({
   addText,
   addRequiredPermissions,
   isFetching,
+  totalCount,
   globalFilter,
   setGlobalFilter,
   pagination,
@@ -68,7 +71,6 @@ export function DataTable<TData extends object, TValue>({
 }: DataTableProps<TData, TValue>) {
   const { user } = useEmployeeData();
   const [searchValue, setSearchValue] = React.useState(globalFilter);
-
   const canShowAddButton = React.useMemo(() => {
     if (!addHref) {
       return false;
@@ -115,6 +117,11 @@ export function DataTable<TData extends object, TValue>({
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
+    rowCount: totalCount,
+    pageCount:
+      typeof totalCount === "number"
+        ? Math.ceil(totalCount / pagination.pageSize)
+        : undefined,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -135,16 +142,16 @@ export function DataTable<TData extends object, TValue>({
   });
 
   return (
-    <div className="w-full min-w-0">
-      <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center">
+    <div>
+      <div className="flex items-center py-4">
         <Input
           placeholder="Search..."
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
-          className="w-full sm:max-w-sm"
+          className="max-w-sm"
         />
 
-        <div className="sm:ml-auto sm:mr-2">
+        <div className="ml-auto mr-2">
           {shouldShowButton && (
             <LinkButton href={addHref} linkText={addText || "Add New"} />
           )}

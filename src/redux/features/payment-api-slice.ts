@@ -9,7 +9,7 @@ interface ListParams {
 
 const PaymentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPaymentPRNs: builder.query<ListRespornse<PaymentPRN>, ListParams>({
+    getPaymentPRNs: builder.query<ListResponse<PaymentPRN>, ListParams>({
       query: (params) => {
         const p = params ?? {};
         const search = new URLSearchParams();

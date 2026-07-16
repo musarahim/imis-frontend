@@ -69,7 +69,13 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
   },
   {
     accessorKey: "status",
-    header: () => <div className="text-center">Progressed</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Application Status" />
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: () => <div className="text-center ">Progressed</div>,
     cell: ({ row }) => {
       return (
         <div className="flex justify-center">

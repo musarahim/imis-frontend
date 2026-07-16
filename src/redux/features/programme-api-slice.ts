@@ -2,7 +2,7 @@ import { apiSlice } from "../services/apiSlice";
 const ProgrammeApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProgrammeAccreditations: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
+      ListResponse<ProgrammeAccreditation>,
       ListParams
     >({
       query: (params) => {
@@ -20,7 +20,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       },
     }),
     getProgrammeAccreditationsUnderReview: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
+      ListResponse<ProgrammeAccreditation>,
       ListParams
     >({
       query: (params) => {
@@ -40,7 +40,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
 
     //ready for invoicing
     getProgrammesReadyForInvoice: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
+      ListResponse<ProgrammeAccreditation>,
       ListParams
     >({
       query: (params) => {
@@ -59,7 +59,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     }),
     // end of applications ready for invoicing
     getProgrammeAccreditationsUnderAssessment: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
+      ListResponse<ProgrammeAccreditation>,
       ListParams
     >({
       query: (params) => {
@@ -135,7 +135,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     }),
 
     getPreliminaryReviews: builder.query<
-      ListRespornse<PreliminaryReview>,
+      ListResponse<PreliminaryReview>,
       ListParams
     >({
       query: (params) => {
@@ -165,7 +165,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     }),
 
     getProgrammeAssessments: builder.query<
-      ListRespornse<ProgrammeAssessment>,
+      ListResponse<ProgrammeAssessment>,
       ListParams
     >({
       query: (params) => {
@@ -190,7 +190,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     }),
 
     getProgrammesReadyForAccessment: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
+      ListResponse<ProgrammeAccreditation>,
       ListParams
     >({
       query: (params) => {
@@ -208,7 +208,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       },
     }),
     getProgressedToDirectorateApplications: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
+      ListResponse<ProgrammeAccreditation>,
       ListParams
     >({
       query: (params) => {
@@ -226,7 +226,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       },
     }),
     getProgressedToManagementApplications: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
+      ListResponse<ProgrammeAccreditation>,
       ListParams
     >({
       query: (params) => {
@@ -273,6 +273,26 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    addProgrammeAssessmentInvoice: builder.mutation({
+      query: ({
+        id,
+        data,
+      }: {
+        id: number;
+        data: { desk_review_fee: number };
+      }) => {
+        const formData = new FormData();
+        formData.append("application", String(id));
+        formData.append("desk_review_fee", String(data.desk_review_fee));
+        return {
+          url: `/programmes/programme-assessment-invoices/`,
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
+
     addInvoice: builder.mutation<
       Invoice,
       { id: number; data: Omit<Invoice, "id"> }
@@ -305,7 +325,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
-    applicationInvoices: builder.query<ListRespornse<Invoice>, ListParams>({
+    applicationInvoices: builder.query<ListResponse<Invoice>, ListParams>({
       query: (params) => {
         const p = params ?? {};
         const search = new URLSearchParams();
@@ -343,7 +363,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     }),
     //reviewed applications
     getReviewedApplications: builder.query<
-      ListRespornse<ProgrammeAccreditation>,
+      ListResponse<ProgrammeAccreditation>,
       ListParams
     >({
       query: (params) => {
@@ -359,6 +379,28 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         const qs = search.toString();
         return `/programmes/programme-accreditation/reviewed-applications/${qs ? `?${qs}` : ""}`;
       },
+    }),
+
+    getDeskReviewInvoices: builder.query<
+      ListResponse<DeskReviewInvoice>,
+      ListParams
+    >({
+      query: (params) => {
+        const p = params ?? {};
+        const search = new URLSearchParams();
+
+        if (p.page !== undefined) search.set("page", String(p.page));
+        if (p.pageSize !== undefined)
+          search.set("page_size", String(p.pageSize));
+        if (p.search) search.set("search", p.search);
+        if (p.ordering) search.set("ordering", p.ordering);
+
+        const qs = search.toString();
+        return `/programmes/programme-assessment-invoices/${qs ? `?${qs}` : ""}`;
+      },
+    }),
+    retrieveDeskReviewInvoice: builder.query<DeskReviewInvoice, number>({
+      query: (id) => `/programmes/programme-assessment-invoices/${id}/`,
     }),
   }),
 });
@@ -394,4 +436,7 @@ export const {
   useInvoiceItemTypesQuery,
   useGetReviewedApplicationsQuery,
   useRetrieveProgrammeInvoiceQuery,
+  useAddProgrammeAssessmentInvoiceMutation,
+  useGetDeskReviewInvoicesQuery,
+  useRetrieveDeskReviewInvoiceQuery,
 } = ProgrammeApiSlice;
