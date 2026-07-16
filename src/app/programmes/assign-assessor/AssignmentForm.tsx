@@ -4,17 +4,17 @@ import { AppForm, SelectField, SubmitButton } from "@/components/forms";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table";
 import {
-  useAssignAssessorsMutation,
-  useGetProgrammeAssessorsQuery,
-  useGetProgrammesReadyForAccessmentQuery,
+    useAssignAssessorsMutation,
+    useGetProgrammeAssessorsQuery,
+    useGetProgrammesReadyForAccessmentQuery,
 } from "@/redux/features/programme-api-slice";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -51,7 +51,11 @@ function AssignmentForm() {
 
     if (isChecked) {
       setSelectedRows(
-        new Set((data?.results ?? []).map((row) => String(row.id))),
+        new Set(
+          (data?.results ?? []).map((row: ProgrammeAccreditation) =>
+            String(row.id),
+          ),
+        ),
       );
       setApplicationError("");
     } else {
@@ -97,15 +101,17 @@ function AssignmentForm() {
     setApplicationError("");
 
     const selectedApplications =
-      data?.results?.filter((row) => selectedRows.has(String(row.id))) ?? [];
+      data?.results?.filter((row: ProgrammeAccreditation) =>
+        selectedRows.has(String(row.id)),
+      ) ?? [];
 
     const selectedAssessor = assessors?.find(
       (assessor) => String(assessor.id) === values.assessor,
     );
 
     const selectedApplicationIds = selectedApplications
-      .map((app) => app.id)
-      .filter((id): id is number => id !== undefined);
+      .map((app: ProgrammeAccreditation) => app.id)
+      .filter((id: number | undefined): id is number => id !== undefined);
     const selectedAssessorId = selectedAssessor?.id ?? null;
 
     if (selectedAssessorId) {

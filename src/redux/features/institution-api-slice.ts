@@ -2,7 +2,7 @@ import { apiSlice } from "../services/apiSlice";
 
 const InstitutionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getInstitutions: builder.query<ListRespornse<Institution>, void>({
+    getInstitutions: builder.query<ListResponse<Institution>, void>({
       query: () => "/institutions/institutions/",
     }),
     retrieveInstitution: builder.query<Institution, number>({

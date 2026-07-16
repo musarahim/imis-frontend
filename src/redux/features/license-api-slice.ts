@@ -16,7 +16,7 @@ const buildListQuery = (path: string, params?: ListParams) => {
 const LicenseApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getIntrimAuthorities: builder.query<
-      ListRespornse<InterimAuthority>,
+      ListResponse<InterimAuthority>,
       ListParams
     >({
       query: (params) =>
@@ -50,7 +50,7 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
     }),
 
     getProvisionalLicenses: builder.query<
-      ListRespornse<UniversityProvisionalLicense>,
+      ListResponse<UniversityProvisionalLicense>,
       ListParams
     >({
       query: (params) =>
@@ -86,7 +86,7 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
 
     //university charter application endpoints
     getCharterApplications: builder.query<
-      ListRespornse<CharterApplication>,
+      ListResponse<CharterApplication>,
       ListParams
     >({
       query: (params) =>
@@ -146,7 +146,7 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
     }),
     //get interim authority ODAI applications
     getODAIInterimAuthorities: builder.query<
-      ListRespornse<InterimAuthority>,
+      ListResponse<InterimAuthority>,
       ListParams
     >({
       query: (params) =>

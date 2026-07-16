@@ -20,6 +20,7 @@ import {
     LifeBuoy,
     Send,
     Settings2,
+    Users2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -149,6 +150,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             },
           ],
         },
+        {
+          title: "Human Resource Management",
+          url: "#",
+          icon: Users2,
+          isActive: isActiveRoute("#", [
+            { title: "Employees", url: "/hr/employees" },
+          ]),
+          requiredGroups: ["Human Resource"],
+          items: [
+            {
+              title: "Employees",
+              url: "/hr/employees",
+              isActive: pathname.startsWith("/hr/employees"),
+              requiredPermissions: ["manage_employee"],
+            },
+          ],
+        },
+
         {
           title: "Programme Accreditation",
           url: "#",

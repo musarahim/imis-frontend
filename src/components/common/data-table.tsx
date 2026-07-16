@@ -10,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { useEmployeeData } from "@/hooks";
+import useEmployeeData from "@/hooks/use-employee-data";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -28,6 +28,7 @@ import { Loader2 } from "lucide-react";
 import * as React from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options ";
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -70,24 +71,28 @@ export function DataTable<TData extends object, TValue>({
 }: DataTableProps<TData, TValue>) {
   const { user } = useEmployeeData();
   const [searchValue, setSearchValue] = React.useState(globalFilter);
+  const canShowAddButton = React.useMemo(() => {
+    if (!addHref) {
+      return false;
+    }
 
-  const userPermissions = React.useMemo(() => {
-    if (!user || !user.groups) return new Set<string>();
-    return new Set(
-      user.groups.flatMap(
+    if (!addRequiredPermissions?.length) {
+      return true;
+    }
+
+    const userPermissions = new Set(
+      user?.groups?.flatMap(
         (group) =>
           group.permissions?.map((permission) => permission.codename) || [],
-      ),
+      ) || [],
     );
-  }, [user]);
 
-  const canSeeAddAction = React.useMemo(() => {
-    const requiredPermissions = addRequiredPermissions ?? [];
-    if (requiredPermissions.length === 0) return true;
-    return requiredPermissions.some((permission) =>
+    return addRequiredPermissions.some((permission) =>
       userPermissions.has(permission),
     );
-  }, [addRequiredPermissions, userPermissions]);
+  }, [addHref, addRequiredPermissions, user]);
+
+  const shouldShowButton = canShowAddButton && addHref;
 
   React.useEffect(() => {
     // Set an initial value when component mounts
@@ -137,36 +142,31 @@ export function DataTable<TData extends object, TValue>({
   });
 
   return (
-    <div className="w-full min-w-0">
-      <div className="flex flex-wrap items-center gap-2 py-4">
+    <div>
+      <div className="flex items-center py-4">
         <Input
           placeholder="Search..."
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
-          className="w-full sm:max-w-sm"
+          className="max-w-sm"
         />
 
-        <div className="ml-auto mr-2 shrink-0">
-          {addHref && canSeeAddAction && (
+        <div className="ml-auto mr-2">
+          {shouldShowButton && (
             <LinkButton href={addHref} linkText={addText || "Add New"} />
           )}
         </div>
 
-        <div className="shrink-0">
-          <DataTableViewOptions table={table} />
-        </div>
+        <DataTableViewOptions table={table} />
       </div>
-      <div className="w-full max-w-full overflow-x-auto rounded-md border">
-        <Table className="min-w-190 table-auto md:min-w-full">
+      <div className="overflow-hidden rounded-md border">
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead
-                      key={header.id}
-                      className="whitespace-normal sm:whitespace-normal align-top wrap-anywhere"
-                    >
+                    <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -198,10 +198,7 @@ export function DataTable<TData extends object, TValue>({
                   className={isFetching ? "opacity-50 transition-opacity" : ""}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="whitespace-normal sm:whitespace-normal align-top wrap-anywhere"
-                    >
+                    <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

@@ -128,7 +128,7 @@ interface ListParams {
   ordering?: string;
 }
 
-interface ListRespornse<T> {
+interface ListResponse<T> {
   count: number;
   next: string | null;
   previous: string | null;
@@ -535,6 +535,11 @@ interface Employee {
   id?: number;
   employee_number: string;
   date_of_birth: string;
+  names?: string;
+  email?: string;
+  phone?: string;
+  alternative_phone_number?: string;
+  profile_pic?: string;
   gender: "male" | "female";
   joining_date: string;
   distance_from_work: number;
