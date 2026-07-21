@@ -75,7 +75,7 @@ function Identification({ employee }: { employee: Employee }) {
               Passport type
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.passport_type}
+              {employee?.passport_type_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">

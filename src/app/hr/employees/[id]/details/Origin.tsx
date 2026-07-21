@@ -10,7 +10,7 @@ function Origin({ employee }: { employee: Employee }) {
               District of origin
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.district_of_origin}
+              {employee?.district_of_origin_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -18,7 +18,7 @@ function Origin({ employee }: { employee: Employee }) {
               County of origin
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.county_of_origin}
+              {employee?.county_of_origin_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -26,7 +26,7 @@ function Origin({ employee }: { employee: Employee }) {
               Sub-county of origin
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.sub_county_of_origin}
+              {employee?.sub_county_of_origin_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -34,7 +34,7 @@ function Origin({ employee }: { employee: Employee }) {
               Parish of origin
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.parish_of_origin}
+              {employee?.parish_of_origin_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -42,7 +42,7 @@ function Origin({ employee }: { employee: Employee }) {
               Village of origin
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.village_of_origin}
+              {employee?.village_of_origin_name}
             </TableCell>
           </TableRow>
 

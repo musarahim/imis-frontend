@@ -1,13 +1,23 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { useField, useFormikContext } from "formik";
+import { Check, ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 interface Option {
   value: string;
@@ -23,12 +33,22 @@ interface Props {
   placeholder?: string;
 }
 
-function SelectField({ name, label, required = false, options, id, placeholder }: Props) {
+function SelectField({
+  name,
+  label,
+  required = false,
+  options,
+  id,
+  placeholder,
+}: Props) {
+  const [open, setOpen] = useState(false);
   const [field, meta] = useField<string>(name);
-  const { setFieldValue, setFieldTouched } = useFormikContext<Record<string, unknown>>();
+  const { setFieldValue, setFieldTouched } =
+    useFormikContext<Record<string, unknown>>();
 
-  // Convert "" to undefined so Select shows the placeholder
-  const selectedValue = field.value ? String(field.value) : undefined;
+  const selectedLabel = options.find(
+    (opt) => opt.value === String(field.value ?? ""),
+  )?.label;
 
   return (
     <div className="w-full">
@@ -40,31 +60,62 @@ function SelectField({ name, label, required = false, options, id, placeholder }
       </label>
 
       <div className="mt-2">
-        <Select
-          value={selectedValue}
-          onValueChange={(val) => setFieldValue(name, val)}
-          onOpenChange={(open) => {
-            if (!open) setFieldTouched(name, true, true);
+        <Popover
+          open={open}
+          onOpenChange={(isOpen) => {
+            setOpen(isOpen);
+            if (!isOpen) setFieldTouched(name, true, true);
           }}
         >
-          <SelectTrigger
-            id={id ?? name}
-            className="w-full"
-            aria-required={required}
-            aria-invalid={!!(meta.touched && meta.error)}
-          >
-            <SelectValue placeholder={placeholder} />
-          </SelectTrigger>
+          <PopoverTrigger asChild>
+            <Button
+              id={id ?? name}
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              aria-required={required}
+              aria-invalid={!!(meta.touched && meta.error)}
+              className={cn(
+                "w-full justify-between font-normal",
+                !selectedLabel && "text-muted-foreground",
+              )}
+            >
+              {selectedLabel ?? placeholder ?? "Select…"}
+              <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
 
-          <SelectContent>
-            {/* No empty-value item here */}
-            {options.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+          <PopoverContent className="w-[--radix-popover-trigger-width] p-0 ">
+            <Command>
+              <CommandInput placeholder="Search…" />
+              <CommandList>
+                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandGroup>
+                  {options.map((opt) => (
+                    <CommandItem
+                      key={opt.value}
+                      value={opt.label}
+                      onSelect={() => {
+                        setFieldValue(name, opt.value);
+                        setOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          field.value === opt.value
+                            ? "opacity-100"
+                            : "opacity-0",
+                        )}
+                      />
+                      {opt.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
 
       {meta.touched && meta.error ? (

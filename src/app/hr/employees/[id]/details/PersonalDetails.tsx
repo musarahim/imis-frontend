@@ -9,7 +9,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Names
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.title}. {employee?.names}
+              {employee?.names}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -36,7 +36,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Directorate
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.directorate}
+              {employee?.directorate_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -44,7 +44,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Department
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.department}
+              {employee?.department_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -52,7 +52,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Designation
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.designation}
+              {employee?.designation_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -60,7 +60,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Supervisor
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.supervisor}
+              {employee?.supervisor_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -109,7 +109,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Gender
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.gender}
+              {employee?.gender_name}
             </TableCell>
           </TableRow>
 
@@ -118,7 +118,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Nationality
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.nationality}
+              {employee?.nationality_name}
             </TableCell>
           </TableRow>
 
@@ -127,7 +127,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Religion
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.religion}
+              {employee?.religion_name}
             </TableCell>
           </TableRow>
 
@@ -136,7 +136,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Tribe
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.tribe}
+              {employee?.tribe_name}
             </TableCell>
           </TableRow>
 
@@ -145,7 +145,7 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               Marital status
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.marital_status}
+              {employee?.marital_status_name}
             </TableCell>
           </TableRow>
 

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -8,9 +8,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { useField } from 'formik';
+import { useField } from "formik";
 import { CalendarIcon } from "lucide-react";
-import { useState } from 'react';
+import { useState } from "react";
 
 type Props = {
   name: string;
@@ -18,33 +18,29 @@ type Props = {
   required?: boolean;
 };
 
-function formatDate(date: Date | undefined) {
-  if (!date) {
-    return ""
-  }
-
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  })
+function toYMD(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
-function isValidDate(date: Date | undefined) {
-  if (!date) {
-    return false
-  }
-  return !isNaN(date.getTime())
+function parseYMD(value: string): Date | undefined {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return undefined;
+  const date = new Date(
+    Number(match[1]),
+    Number(match[2]) - 1,
+    Number(match[3]),
+  );
+  return isNaN(date.getTime()) ? undefined : date;
 }
 
-function DatePicker({name, label, required}: Props) {
+function DatePicker({ name, label, required }: Props) {
   const [field, meta, helpers] = useField(name);
   const [open, setOpen] = useState(false);
-  const [month, setMonth] = useState<Date>(field.value ? new Date(field.value) : new Date());
-  
-  // Get the current date value from Formik
-  const currentDate = field.value ? new Date(field.value) : undefined;
-  const displayValue = formatDate(currentDate);
+  const currentDate = field.value ? parseYMD(String(field.value)) : undefined;
+  const [month, setMonth] = useState<Date>(currentDate ?? new Date());
 
   return (
     <div className="flex flex-col gap-3">
@@ -55,26 +51,20 @@ function DatePicker({name, label, required}: Props) {
         <Input
           id={name}
           name={field.name}
-          value={displayValue}
-          placeholder="June 01, 2025"
+          value={field.value ? String(field.value) : ""}
+          placeholder="YYYY-MM-DD"
           className="bg-background pr-10"
           onChange={(e) => {
             const inputValue = e.target.value;
-            const date = new Date(inputValue);
-            
-            if (isValidDate(date)) {
-              helpers.setValue(date);
-              setMonth(date);
-            } else {
-              // Allow typing but don't set invalid dates
-              helpers.setValue(inputValue);
-            }
+            helpers.setValue(inputValue);
+            const parsed = parseYMD(inputValue);
+            if (parsed) setMonth(parsed);
           }}
           onBlur={field.onBlur}
           onKeyDown={(e) => {
             if (e.key === "ArrowDown") {
-              e.preventDefault()
-              setOpen(true)
+              e.preventDefault();
+              setOpen(true);
             }
           }}
         />
@@ -100,11 +90,13 @@ function DatePicker({name, label, required}: Props) {
               mode="single"
               selected={currentDate}
               captionLayout="dropdown"
+              fromYear={1900}
+              toYear={new Date().getFullYear() + 10}
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
                 if (date) {
-                  helpers.setValue(date);
+                  helpers.setValue(toYMD(date));
                   setMonth(date);
                 }
                 setOpen(false);
@@ -117,7 +109,7 @@ function DatePicker({name, label, required}: Props) {
         <div className="text-red-500 text-sm px-1">{meta.error}</div>
       )}
     </div>
-  )
+  );
 }
 
-export default DatePicker
+export default DatePicker;

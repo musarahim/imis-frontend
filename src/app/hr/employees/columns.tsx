@@ -57,7 +57,7 @@ const columns: ColumnDef<Employee>[] = [
     header: "Name",
   },
   {
-    accessorKey: "designation",
+    accessorKey: "designation_name",
     header: "Designation",
     enableSorting: true,
     enableHiding: false,
