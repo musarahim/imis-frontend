@@ -39,7 +39,7 @@ function Content({ id }: { id: number }) {
                     <div className="relative">
                       <Avatar className="h-24 w-24">
                         <AvatarImage
-                          src={employee?.profile_pic ?? ""}
+                          src={employee?.passport_photo ?? ""}
                           alt="Profile"
                         />
                         <AvatarFallback className="text-2xl"></AvatarFallback>
@@ -64,7 +64,7 @@ function Content({ id }: { id: number }) {
 
                         <div className="flex items-center gap-1">
                           <MapPin className="size-4" />
-                          {employee?.village}, {employee?.district}
+                          {employee?.village_name}, {employee?.district_name}
                         </div>
                         <div className="flex items-center gap-1">
                           <Calendar className="size-4" />

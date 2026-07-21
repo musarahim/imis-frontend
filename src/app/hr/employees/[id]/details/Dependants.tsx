@@ -31,7 +31,7 @@ function Dependants({ employee }: { employee: Employee }) {
                     Relationship
                   </TableCell>
                   <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-wrap-break-words">
-                    {dependant?.relationship}
+                    {dependant?.relationship_name}
                   </TableCell>
                 </TableRow>
 

@@ -139,6 +139,14 @@ interface Region {
   name: string;
   code: string;
 }
+interface Title {
+  id: number;
+  name: string;
+}
+interface Relationship {
+  id: number;
+  name: string;
+}
 
 interface District {
   id: number;
@@ -545,6 +553,7 @@ interface Employee {
   distance_from_work: number;
   address: string;
   directorate: string;
+  directorate_name: string;
   address_of_origin: string;
   marital_status: string;
   spouse_name: string;
@@ -592,26 +601,49 @@ interface Employee {
   signature: string | null;
   system_account: string;
   department: string;
+  department_name: string;
   designation: string;
+  designation_name?: string;
   title: string;
+  title_name?: string;
   nationality: string;
+  nationality_name: string;
   religion: string;
   tribe: string;
   supervisor: string;
+  supervisor_name: string;
   district: string;
+  district_name: string;
   county: string;
+  county_name: string;
   sub_county: string;
+  sub_county_name: string;
   parish: string;
+  parish_name: string;
   village: string;
+  village_name: string;
   district_of_origin: string;
+  district_of_origin_name: string;
   county_of_origin: string;
+  county_of_origin_name: string;
   sub_county_of_origin: string;
+  sub_county_of_origin_name: string;
   parish_of_origin: string;
+  parish_of_origin_name: string;
   village_of_origin: string;
+  gender_name?: string;
+  village_of_origin_name?: string;
   education_histories: EducationHistory[];
   work_histories: WorkHistory[];
   referees: Referee[];
   dependents: Dependent[];
+  religion_name?: string;
+  tribe_name?: string;
+  marital_status_name?: string;
+  blood_group_name?: string;
+  passport_type_name?: string;
+  father_status_name?: string;
+  mother_status_name?: string;
 }
 
 interface WorkHistory {
@@ -650,6 +682,7 @@ interface Dependent {
   date_of_birth: string;
   employee?: number;
   gender?: string;
+  relationship_name?: string;
 }
 
 interface LeaveType {
@@ -788,4 +821,66 @@ interface DeskReviewInvoice {
   payment_reference?: string | null;
   payment_receipt?: string | null;
   institution?: string;
+}
+
+interface Directorate {
+  id?: number;
+  name: string;
+  short_code: string;
+}
+
+interface Department {
+  id?: number;
+  name: string;
+  short_code: string;
+  directorate?: string;
+}
+
+interface Designation {
+  id?: number;
+  name: string;
+}
+
+interface Nationality {
+  id?: number;
+  name: string;
+}
+
+interface Religion {
+  id?: number;
+  name: string;
+}
+
+interface Tribe {
+  id?: number;
+  name: string;
+}
+
+interface EmployeeDropdown {
+  id: number;
+  full_name: string;
+}
+
+interface County {
+  id: number;
+  name: string;
+  district: string;
+}
+
+interface SubCounty {
+  id: number;
+  name: string;
+  county: string;
+}
+
+interface Parish {
+  id: number;
+  name: string;
+  sub_county: string;
+}
+
+interface Village {
+  id: number;
+  name: string;
+  parish: string;
 }

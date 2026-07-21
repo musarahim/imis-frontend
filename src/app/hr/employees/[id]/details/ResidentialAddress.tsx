@@ -10,7 +10,7 @@ function ResidentialAddress({ employee }: { employee: Employee }) {
               District
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.district}
+              {employee?.district_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -18,7 +18,7 @@ function ResidentialAddress({ employee }: { employee: Employee }) {
               County
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.county}
+              {employee?.county_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -26,7 +26,7 @@ function ResidentialAddress({ employee }: { employee: Employee }) {
               Sub-county
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.sub_county}
+              {employee?.sub_county_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -34,7 +34,7 @@ function ResidentialAddress({ employee }: { employee: Employee }) {
               Parish
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.parish}
+              {employee?.parish_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -42,7 +42,7 @@ function ResidentialAddress({ employee }: { employee: Employee }) {
               Village
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
-              {employee?.village}
+              {employee?.village_name}
             </TableCell>
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
