@@ -53,9 +53,7 @@ function StepE({ onNext, onBack, data }: StepProps) {
       "Contact person telephone is required",
     ),
     contact_person_email: Yup.string().email("Invalid email"),
-    contact_person_address: Yup.string().required(
-      "Contact person address is required",
-    ),
+    contact_person_address: Yup.string(),
   });
 
   const onSubmit = async (values: FormValues) => {
@@ -138,7 +136,6 @@ function StepE({ onNext, onBack, data }: StepProps) {
           <TextAreaField
             name="contact_person_address"
             label="Contact Person Address"
-            required
           />
         </div>
       </div>
