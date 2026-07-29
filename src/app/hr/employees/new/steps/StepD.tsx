@@ -4,11 +4,12 @@ import {
     DatePicker,
     InputField,
     PhoneNumberInput,
+    SelectField,
     SubmitButton,
     TextAreaField,
 } from "@/components/forms";
+import { useGetRelationshipsQuery } from "@/redux/features/commonApiSlice";
 import { useUpdateEmployeeMutation } from "@/redux/features/hr-api-slice";
-
 import { toast } from "sonner";
 import * as Yup from "yup";
 
@@ -31,6 +32,12 @@ type FormValues = {
 function StepD({ onNext, onBack, data }: StepProps) {
   const [updateEmployee, { isLoading: isUpdating }] =
     useUpdateEmployeeMutation();
+  const { data: relationships = [] } = useGetRelationshipsQuery();
+
+  const relationshipOptions = relationships.map((r) => ({
+    value: String(r.id),
+    label: r.name,
+  }));
 
   const stepBInitialValues = {
     next_of_kin_name: data?.next_of_kin_name || "",
@@ -119,7 +126,8 @@ function StepD({ onNext, onBack, data }: StepProps) {
           />
         </div>
         <div className="sm:col-span-3">
-          <InputField
+          <SelectField
+            options={relationshipOptions}
             name="next_of_kin_relationship"
             label="Relationship"
             required

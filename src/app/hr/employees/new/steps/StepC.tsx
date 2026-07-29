@@ -224,7 +224,7 @@ function StepC({ onNext, onBack, data }: StepProps) {
     >
       <div className="border-t  border-gray-900/10  dark:border-gray-400">
         <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">
-          Residential Address
+          Area of Origin
         </h2>
       </div>
       <div className="mt-3 grid grid-cols-1 gap-x-3 gap-y-6 sm:grid-cols-6">

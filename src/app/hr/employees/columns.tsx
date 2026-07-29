@@ -60,7 +60,8 @@ const columns: ColumnDef<Employee>[] = [
     accessorKey: "designation_name",
     header: "Designation",
     enableSorting: true,
-    enableHiding: false,
+    enableHiding: true,
+    enableColumnFilter: true,
   },
   {
     accessorKey: "email",
