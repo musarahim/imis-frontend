@@ -62,9 +62,7 @@ function StepG({ onNext, onBack, data }: StepProps) {
 
   const stepGValidation = Yup.object({
     nin: Yup.string().required("NIN is required"),
-    national_id_document: Yup.mixed().required(
-      "Please upload National ID document",
-    ),
+    national_id_document: Yup.mixed(),
     passport_photo: Yup.mixed(),
     license_number: Yup.string().required("License number is required"),
     class_of_license: Yup.string(),
@@ -135,7 +133,7 @@ function StepG({ onNext, onBack, data }: StepProps) {
     >
       <div className="border-t  border-gray-900/10  dark:border-gray-400">
         <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">
-          Contact Person Details
+          IDentification Details
         </h2>
       </div>
       <div className="mt-3 grid grid-cols-1 gap-x-3 gap-y-6 sm:grid-cols-6">
@@ -150,7 +148,6 @@ function StepG({ onNext, onBack, data }: StepProps) {
           <FileField
             name="national_id_document"
             label="Copy of National ID Document"
-            required
             accept=".pdf"
           />
         </div>
