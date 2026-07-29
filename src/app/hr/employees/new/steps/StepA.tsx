@@ -214,7 +214,7 @@ function StepA({ onNext, id }: StepProps) {
     blood_group: Yup.string(),
     allergies: Yup.string(),
     joining_date: Yup.string().required("This field is required"),
-    supervisor: Yup.string().required("This field is required"),
+    supervisor: Yup.string(),
   });
 
   const onSubmit = async (values: FormValues) => {
@@ -385,8 +385,7 @@ function StepA({ onNext, id }: StepProps) {
         <div className="sm:col-span-3">
           <SelectField
             name="supervisor"
-            label="Supervisor"
-            required
+            label="Reports To (Supervisor)"
             options={supervisorOptions}
           />
         </div>
