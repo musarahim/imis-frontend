@@ -21,7 +21,7 @@ import {
     useGetEmployeeDetailsQuery,
     useGetSupervisorDropdownQuery,
     useGetUserDropdownQuery,
-    useUpdateEmployeeMutation
+    useUpdateEmployeeMutation,
 } from "@/redux/features/hr-api-slice";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useFormikContext } from "formik";
@@ -202,17 +202,17 @@ function StepA({ onNext, id }: StepProps) {
     department: Yup.string().required("This field is required"),
     designation: Yup.string().required("This field is required"),
     employee_number: Yup.string().required("This field is required"),
-    nssf_number: Yup.string().required("This field is required"),
-    tin_number: Yup.string().required("This field is required"),
+    nssf_number: Yup.string(),
+    tin_number: Yup.string(),
     date_of_birth: Yup.string().required("This field is required"),
     gender: Yup.string().required("This field is required"),
     nationality: Yup.string().required("This field is required"),
     religion: Yup.string().required("This field is required"),
     tribe: Yup.string().required("This field is required"),
     marital_status: Yup.string().required("This field is required"),
-    spouse_name: Yup.string().required("This field is required"),
-    blood_group: Yup.string().required("This field is required"),
-    allergies: Yup.string().required("This field is required"),
+    spouse_name: Yup.string(),
+    blood_group: Yup.string(),
+    allergies: Yup.string(),
     joining_date: Yup.string().required("This field is required"),
     supervisor: Yup.string().required("This field is required"),
   });
@@ -313,13 +313,12 @@ function StepA({ onNext, id }: StepProps) {
           <InputField name="employee_number" label="Employee Number" required />
         </div>
         <div className="sm:col-span-3">
-          <InputField name="nssf_number" label="NSSF Number" required />
+          <InputField name="nssf_number" label="NSSF Number" />
         </div>
         <div className="sm:col-span-3">
           <InputField
             name="tin_number"
             label="Tax Identification Number (TIN)"
-            required
           />
         </div>
         <div className="sm:col-span-3">
@@ -366,19 +365,18 @@ function StepA({ onNext, id }: StepProps) {
           />
         </div>
         <div className="sm:col-span-3">
-          <InputField name="spouse_name" label="Spouse Name" required />
+          <InputField name="spouse_name" label="Spouse Name" />
         </div>
         <div className="sm:col-span-3">
           <SelectField
             name="blood_group"
             label="Blood Group"
-            required
             options={blood_group_options}
           />
         </div>
 
         <div className="sm:col-span-full">
-          <TextAreaField name="allergies" label="Allergies" required />
+          <TextAreaField name="allergies" label="Allergies" />
         </div>
 
         <div className="sm:col-span-3">
