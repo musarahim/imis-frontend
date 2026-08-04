@@ -1,17 +1,20 @@
-import Link from 'next/link';
-import { Button } from './button';
+import Link from "next/link";
+import { Button } from "./button";
 
 interface LinkButtonProps {
-  href: string;
+  href?: string;
   linkText?: string;
 }
 
-function LinkButton({href, linkText}: LinkButtonProps) {
+const getSafeHref = (href?: string) =>
+  typeof href === "string" && href.trim().length > 0 ? href : "#";
+
+function LinkButton({ href, linkText }: LinkButtonProps) {
   return (
-     <Button asChild>
-      <Link href={href}>{linkText}</Link>
+    <Button asChild>
+      <Link href={getSafeHref(href)}>{linkText}</Link>
     </Button>
-  )
+  );
 }
 
 export { LinkButton };

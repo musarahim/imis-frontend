@@ -1,17 +1,25 @@
-import Link from 'next/link';
-import { Badge } from './badge';
+import Link from "next/link";
+import { ReactNode } from "react";
+import { Badge } from "./badge";
 
 interface LinkAsBadgeProps {
-  href: string;
-  text: string;
+  href?: string;
+  text?: string;
+  children?: ReactNode;
   className?: string;
 }
-function LinkAsBadge({href, text, className}: LinkAsBadgeProps) {
+
+const getSafeHref = (href?: string) =>
+  typeof href === "string" && href.trim().length > 0 ? href : "#";
+
+function LinkAsBadge({ href, text, children, className }: LinkAsBadgeProps) {
+  const linkLabel = children ?? text ?? "";
+
   return (
-     <Badge asChild  className={`${className}`}>
-      <Link href={href}>{text}</Link>
+    <Badge asChild className={`${className}`}>
+      <Link href={getSafeHref(href)}>{linkLabel}</Link>
     </Badge>
-  )
+  );
 }
 
 export { LinkAsBadge };
