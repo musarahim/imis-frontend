@@ -637,6 +637,7 @@ interface Employee {
   work_histories: WorkHistory[];
   referees: Referee[];
   dependents: Dependent[];
+  documents: Document[];
   religion_name?: string;
   tribe_name?: string;
   marital_status_name?: string;
@@ -683,6 +684,13 @@ interface Dependent {
   employee?: number;
   gender?: string;
   relationship_name?: string;
+}
+
+interface Document {
+  id?: number;
+  name: string;
+  document: string;
+  employee?: number;
 }
 
 interface LeaveType {
@@ -883,4 +891,127 @@ interface Village {
   id: number;
   name: string;
   parish: string;
+}
+
+// ─── Performance Appraisal Types ──────────────────────────────────────────────
+
+type AppraisalStatus =
+  | "draft"
+  | "self_assessment"
+  | "appraiser_review"
+  | "reviewer_review"
+  | "director_review"
+  | "executive_review"
+  | "completed"
+  | "rejected";
+
+interface AppraisalOutput {
+  id?: number;
+  appraisal?: number;
+  output: string;
+  performance_indicator: string;
+  performance_target: string;
+  self_score?: number | null;
+  appraiser_score?: number | null;
+  agreed_score?: number | null;
+  comments?: string;
+}
+
+interface CompetencyRating {
+  id?: number;
+  appraisal?: number;
+  competency_number: number;
+  score: number;
+}
+
+interface ImprovementArea {
+  id?: number;
+  appraisal?: number;
+  performance_gap: string;
+  agreed_action: string;
+  time_frame: string;
+}
+
+interface NextYearPlan {
+  id?: number;
+  appraisal?: number;
+  key_output: string;
+  performance_indicator: string;
+  target: string;
+}
+
+interface AppraisalQualification {
+  id?: number;
+  appraisal?: number;
+  date_period: string;
+  institution: string;
+  qualification_attained: string;
+}
+
+interface AppraisalTraining {
+  id?: number;
+  appraisal?: number;
+  date_period: string;
+  organiser: string;
+  attainment: string;
+}
+
+interface AppraisalComment {
+  id?: number;
+  appraisal?: number;
+  commenter?: number;
+  commenter_role:
+    | "appraisee"
+    | "appraiser"
+    | "reviewer"
+    | "director"
+    | "executive";
+  comment: string;
+  created?: string;
+}
+
+interface PerformanceAppraisal {
+  id?: number;
+  start_date: string;
+  end_date: string;
+  appraisee: number;
+  appraiser: number;
+  reviewer?: number | null;
+  director?: number | null;
+  executive_director?: number | null;
+  status?: AppraisalStatus;
+  date_submitted?: string | null;
+
+  // Section B scores
+  output_total_score?: number;
+  output_average?: number;
+  output_weighted_score?: number;
+
+  // Section C scores
+  competency_total_score?: number;
+  competency_average?: number;
+  competency_weighted_score?: number;
+
+  overall_score?: number;
+  overall_level?: string;
+
+  // Text fields
+  additional_tasks?: string;
+  skills_needed?: string;
+  challenges?: string;
+  supervisor_remarks?: string;
+
+  // Related objects (read)
+  outputs?: AppraisalOutput[];
+  competencies?: CompetencyRating[];
+  improvement_areas?: ImprovementArea[];
+  next_year_plans?: NextYearPlan[];
+  initial_qualifications?: AppraisalQualification[];
+  additional_qualifications?: AppraisalQualification[];
+  trainings?: AppraisalTraining[];
+  comments?: AppraisalComment[];
+
+  // read-only display
+  appraisee_name?: string;
+  appraiser_name?: string;
 }

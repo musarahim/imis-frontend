@@ -129,7 +129,7 @@ function StepE({ onNext, onBack, data }: StepProps) {
         </div>
 
         <div className="sm:col-span-2">
-          <InputField name="contact_person_email" label="Email" required />
+          <InputField name="contact_person_email" label="Email" />
         </div>
 
         <div className="sm:col-span-full">

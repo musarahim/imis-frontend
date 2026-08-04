@@ -1,84 +1,83 @@
 "use client";
 import {
     AppForm,
+    FileField,
     InputField,
-    PhoneNumberInput,
     SubmitButton,
 } from "@/components/forms";
 import { useUpdateEmployeeMutation } from "@/redux/features/hr-api-slice";
 import { FieldArray } from "formik";
 import { PlusCircle, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import * as Yup from "yup";
 
 type StepProps = {
   onBack: () => void;
   data?: Employee;
-  onNext: (data?: Employee) => void;
 };
 
-type RefereeEntry = {
+type DocumentEntry = {
   id?: number;
   name: string;
-  place_of_work: string;
-  position: string;
-  telephone: string;
-  email: string;
+  document: File | string | null;
 };
 
 type FormValues = {
-  referees: RefereeEntry[];
+  documents: DocumentEntry[];
 };
 
-const emptyReferee: RefereeEntry = {
+const emptyDocument: DocumentEntry = {
   name: "",
-  place_of_work: "",
-  position: "",
-  telephone: "",
-  email: "",
+  document: "",
 };
 
-function StepL({ onBack, onNext, data }: StepProps) {
+function StepM({ onBack, data }: StepProps) {
   const [updateEmployee, { isLoading: isUpdating }] =
     useUpdateEmployeeMutation();
 
+  const router = useRouter();
+
   const initialValues: FormValues = {
-    referees: data?.referees?.length
-      ? data.referees.map((r) => ({
-          id: r.id,
-          name: r.name ?? "",
-          place_of_work: r.place_of_work ?? "",
-          position: r.position ?? "",
-          telephone: r.telephone ?? "",
-          email: r.email ?? "",
+    documents: data?.documents?.length
+      ? data.documents.map((d) => ({
+          id: d.id,
+          name: d.name ?? "",
+          document: d.document ?? "",
         }))
       : [],
   };
 
   const validationSchema = Yup.object({
-    referees: Yup.array().of(
+    documents: Yup.array().of(
       Yup.object({
         name: Yup.string().required("Name is required"),
-        place_of_work: Yup.string().required("Place of work is required"),
-        position: Yup.string().required("Position is required"),
-        telephone: Yup.string(),
-        email: Yup.string().email("Invalid email"),
+        document: Yup.string().required("Document is required"),
       }),
     ),
   });
 
   const onSubmit = async (values: FormValues) => {
     const formdata = new FormData();
-    formdata.append("referees", JSON.stringify(values.referees));
+    const meta = values.documents.map(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ({ document: _, ...rest }) => rest,
+    );
+    formdata.append("documents", JSON.stringify(meta));
+    values.documents.forEach((doc, idx) => {
+      if (doc.document instanceof File) {
+        formdata.append(`doc_file_${idx}`, doc.document);
+      }
+    });
 
     await updateEmployee({ id: data?.id ? Number(data.id) : 0, data: formdata })
       .unwrap()
       .then((res) => {
-        onNext(res);
+        router.push(`/hr/employees/${res.id}/details`);
       })
       .catch((err) => {
         toast.error(
-          err?.data?.message || "Failed to save referees. Please try again.",
+          err?.data?.message || "Failed to save documents. Please try again.",
         );
       });
   };
@@ -91,21 +90,21 @@ function StepL({ onBack, onNext, data }: StepProps) {
     >
       <div className="border-t border-gray-900/10 dark:border-gray-400">
         <h2 className="text-base/8 font-semibold mt-2 text-gray-900 dark:text-white">
-          Referees
+          Contracts & Documents
         </h2>
       </div>
 
-      <FieldArray name="referees">
+      <FieldArray name="documents">
         {({ push, remove, form }) => (
           <div className="mt-3 space-y-4">
-            {form.values.referees.map((_: RefereeEntry, index: number) => (
+            {form.values.documents.map((_: DocumentEntry, index: number) => (
               <div
                 key={index}
                 className="grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-6 border border-gray-200 dark:border-gray-700 rounded-md p-4"
               >
                 <div className="sm:col-span-full flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Referee {index + 1}
+                    Documents {index + 1}
                   </span>
                   <button
                     type="button"
@@ -118,36 +117,17 @@ function StepL({ onBack, onNext, data }: StepProps) {
 
                 <div className="sm:col-span-3">
                   <InputField
-                    name={`referees[${index}].name`}
-                    label="Full Name"
+                    name={`documents[${index}].name`}
+                    label="Document Name"
                     required
                   />
                 </div>
                 <div className="sm:col-span-3">
-                  <InputField
-                    name={`referees[${index}].position`}
-                    label="Position"
+                  <FileField
+                    name={`documents[${index}].document`}
+                    label="Upload Document"
                     required
-                  />
-                </div>
-                <div className="sm:col-span-full">
-                  <InputField
-                    name={`referees[${index}].place_of_work`}
-                    label="Place of Work"
-                    required
-                  />
-                </div>
-                <div className="sm:col-span-3">
-                  <PhoneNumberInput
-                    name={`referees[${index}].telephone`}
-                    label="Telephone"
-                  />
-                </div>
-                <div className="sm:col-span-3">
-                  <InputField
-                    name={`referees[${index}].email`}
-                    label="Email"
-                    type="email"
+                    accept=".pdf"
                   />
                 </div>
               </div>
@@ -155,11 +135,11 @@ function StepL({ onBack, onNext, data }: StepProps) {
 
             <button
               type="button"
-              onClick={() => push({ ...emptyReferee })}
+              onClick={() => push({ ...emptyDocument })}
               className="flex items-center gap-2 text-sky-600 hover:text-sky-800 text-sm font-medium mt-2"
             >
               <PlusCircle className="h-4 w-4" />
-              Add Referee
+              Add Document
             </button>
           </div>
         )}
@@ -175,7 +155,7 @@ function StepL({ onBack, onNext, data }: StepProps) {
         </button>
         <SubmitButton
           isLoading={isUpdating}
-          title="Save & Continue"
+          title="Submit"
           className="rounded-md flex min-w-32 justify-center text-sm px-3 my-2 py-1.5 font-semibold leading-6 text-white bg-sky-600"
         />
       </div>
@@ -183,4 +163,4 @@ function StepL({ onBack, onNext, data }: StepProps) {
   );
 }
 
-export default StepL;
+export default StepM;

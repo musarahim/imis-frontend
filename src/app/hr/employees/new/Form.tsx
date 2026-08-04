@@ -13,13 +13,28 @@ import {
     StepJ,
     StepK,
     StepL,
+    StepM,
 } from "./steps";
 type props = {
   showStepNumber: boolean;
   employee_id?: number;
 };
 
-const stepsArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+const stepsArray = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+];
 function Form({ showStepNumber, employee_id }: props) {
   const [step, setStep] = useState("A");
   const [formData, setFormData] = useState<Partial<Employee>>({});
@@ -48,10 +63,14 @@ function Form({ showStepNumber, employee_id }: props) {
       setStep("K");
     } else if (step === "K") {
       setStep("L");
+    } else if (step === "L") {
+      setStep("M");
     }
   };
   const handleBack = () => {
-    if (step === "L") {
+    if (step === "M") {
+      setStep("L");
+    } else if (step === "L") {
       setStep("K");
     } else if (step === "K") {
       setStep("J");
@@ -77,7 +96,7 @@ function Form({ showStepNumber, employee_id }: props) {
   };
 
   const renderTopStepNumber = () => {
-    if (!showStepNumber || step === "M") return null;
+    if (!showStepNumber || step === "N") return null;
     return (
       <section className="mt-2 mb-4 flex justify-between">
         {stepsArray.map((item, index) => (
@@ -170,7 +189,14 @@ function Form({ showStepNumber, employee_id }: props) {
           />
         )}
         {step === "L" && (
-          <StepL onBack={handleBack} data={formData as Employee} />
+          <StepL
+            onBack={handleBack}
+            data={formData as Employee}
+            onNext={handleNext}
+          />
+        )}
+        {step === "M" && (
+          <StepM onBack={handleBack} data={formData as Employee} />
         )}
       </div>
     </div>

@@ -10,6 +10,7 @@ import { Calendar, Camera, Mail, MapPin } from "lucide-react";
 import BankDetail from "./BankDetail";
 import ContactPerson from "./ContactPerson";
 import Dependants from "./Dependants";
+import Documents from "./Documents";
 import Education from "./Education";
 import Identification from "./Identification";
 import NextofKin from "./NextofKin";
@@ -156,6 +157,12 @@ function Content({ id }: { id: number }) {
                         className="w-full justify-start"
                       >
                         Referees
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="documents"
+                        className="w-full justify-start"
+                      >
+                        Documents
                       </TabsTrigger>
                     </TabsList>
 
@@ -306,6 +313,17 @@ function Content({ id }: { id: number }) {
                           </CardContent>
                         </Card>
                       </TabsContent>
+                      <TabsContent value="documents" className="mt-4">
+                        <Card>
+                          <CardContent className="p-6">
+                            <h3 className="text-lg font-semibold mb-4">
+                              Documents
+                            </h3>
+                            <Separator className="mb-3" />
+                            {employee && <Documents employee={employee} />}
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
                     </div>
                   </div>
                 </CardContent>
@@ -442,6 +460,16 @@ function Content({ id }: { id: number }) {
                     <h3 className="text-lg font-semibold mb-4">Referees</h3>
                     <Separator className="mb-3" />
                     {employee && <Referees employee={employee} />}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="documents" className="h-full mt-0">
+                <Card className="h-full">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold mb-4">Documents</h3>
+                    <Separator className="mb-3" />
+                    {employee && <Documents employee={employee} />}
                   </CardContent>
                 </Card>
               </TabsContent>

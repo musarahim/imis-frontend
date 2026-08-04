@@ -35,12 +35,13 @@ type Item = {
   isActive?: boolean;
   requiredPermissions?: string[];
   requiredGroups?: string[];
+  isVisible?: boolean;
   items?: Item[];
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
-  const { user, isLoading } = useEmployeeData();
+  const { user, employee, isLoading } = useEmployeeData();
 
   // Function to check if a menu item is active
   const isActiveRoute = (url: string, items?: Item[]) => {
@@ -66,7 +67,56 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return new Set(user.groups.map((g) => g.name));
   }, [user]);
 
+  const designationName = employee?.designation_name?.toLowerCase() || "";
+  const groupNamesLower = React.useMemo(
+    () => Array.from(userGroups).map((g) => g.toLowerCase()),
+    [userGroups],
+  );
+
+  const hasAnyPermission = React.useCallback(
+    (permissions: string[]) => permissions.some((p) => userPermissions.has(p)),
+    [userPermissions],
+  );
+
+  const isExecutiveDirector =
+    designationName.includes("executive director") ||
+    groupNamesLower.some((g) => g.includes("executive director"));
+
+  const isDirector =
+    !isExecutiveDirector &&
+    (designationName.includes("director") ||
+      groupNamesLower.some((g) => g.includes("director")));
+
+  const isReviewer =
+    designationName.includes("reviewer") ||
+    groupNamesLower.some((g) => g.includes("reviewer")) ||
+    hasAnyPermission(["can_review_appraisal", "can_review_staff_appraisal"]);
+
+  const isAppraiser =
+    designationName.includes("supervisor") ||
+    designationName.includes("manager") ||
+    designationName.includes("head") ||
+    designationName.includes("director") ||
+    hasAnyPermission([
+      "manage_employee",
+      "can_approve_staff_appraisal",
+      "can_appraise_staff",
+    ]);
+
+  const canSeeAppraiserMenu = isAppraiser;
+  const canSeeReviewerMenu = isReviewer;
+  const canSeeDirectorMenu = isDirector;
+  const canSeeExecutiveMenu = isExecutiveDirector;
+
+  const directorateLabel = employee?.directorate_name
+    ? `${employee.directorate_name} Directorate`
+    : "Your Directorate";
+
   const canSeeItem = (item: Item): boolean => {
+    if (item.isVisible === false) {
+      return false;
+    }
+
     // If no requirements, everyone can see
     const requiredPerms: string[] = item.requiredPermissions ?? [];
     const requiredGroups: string[] = item.requiredGroups ?? [];
@@ -164,6 +214,73 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               url: "/hr/employees",
               isActive: pathname.startsWith("/hr/employees"),
               requiredPermissions: ["manage_employee"],
+            },
+          ],
+        },
+
+        {
+          title: "Performance Appraisal",
+          url: "#",
+          icon: FileBadge2,
+          isActive: isActiveRoute("#", [
+            { title: "My Appraisals", url: "/hr/performance_appraisal" },
+            {
+              title: "Appraiser Reviews",
+              url: "/hr/performance_appraisal/appraiser-reviews",
+            },
+            {
+              title: "Reviewer Reviews",
+              url: "/hr/performance_appraisal/reviewer-reviews",
+            },
+            {
+              title: "Director Reviews",
+              url: "/hr/performance_appraisal/director-reviews",
+            },
+            {
+              title: "Executive Director Reviews",
+              url: "/hr/performance_appraisal/executive-reviews",
+            },
+          ]),
+          requiredGroups: ["Staff"],
+          items: [
+            {
+              title: "My Appraisals",
+              url: "/hr/performance_appraisal",
+              isActive:
+                pathname === "/hr/performance_appraisal" ||
+                pathname.startsWith("/hr/performance_appraisal/new"),
+            },
+            {
+              title: "Appraiser Reviews",
+              url: "/hr/performance_appraisal/appraiser-reviews",
+              isActive: pathname.startsWith(
+                "/hr/performance_appraisal/appraiser-reviews",
+              ),
+              isVisible: canSeeAppraiserMenu,
+            },
+            {
+              title: "Reviewer Reviews",
+              url: "/hr/performance_appraisal/reviewer-reviews",
+              isActive: pathname.startsWith(
+                "/hr/performance_appraisal/reviewer-reviews",
+              ),
+              isVisible: canSeeReviewerMenu,
+            },
+            {
+              title: `Director Reviews (${directorateLabel})`,
+              url: "/hr/performance_appraisal/director-reviews",
+              isActive: pathname.startsWith(
+                "/hr/performance_appraisal/director-reviews",
+              ),
+              isVisible: canSeeDirectorMenu,
+            },
+            {
+              title: "Executive Director Reviews",
+              url: "/hr/performance_appraisal/executive-reviews",
+              isActive: pathname.startsWith(
+                "/hr/performance_appraisal/executive-reviews",
+              ),
+              isVisible: canSeeExecutiveMenu,
             },
           ],
         },
@@ -665,7 +782,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
       ],
     }),
-    [pathname, isActiveRoute],
+    [
+      pathname,
+      isActiveRoute,
+      directorateLabel,
+      canSeeAppraiserMenu,
+      canSeeReviewerMenu,
+      canSeeDirectorMenu,
+      canSeeExecutiveMenu,
+    ],
   );
 
   // --- Filter menu based on permissions/groups ---
