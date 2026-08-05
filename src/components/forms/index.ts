@@ -1,3 +1,4 @@
+export { default as AmountField } from "./AmountField";
 export { default as AppForm } from "./AppForm";
 export { default as CheckboxInput } from "./CheckboxInput";
 export { default as DatePicker } from "./DatePicker";
@@ -12,4 +13,3 @@ export { default as RichEditorField } from "./RichEditorField";
 export { default as SelectField } from "./SelectField";
 export { default as SubmitButton } from "./SubmitButton";
 export { default as TextAreaField } from "./TextAreaField";
-

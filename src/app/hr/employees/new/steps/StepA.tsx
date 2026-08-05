@@ -250,17 +250,6 @@ function StepA({ onNext, id }: StepProps) {
       );
     }
   };
-  //       const result = await createEmployee(values).unwrap();
-  //       // toast.success("Provisional License created successfully");
-
-  //       onNext(result);
-  //     } catch (error) {
-  //       console.error("Error submitting Step A:", error);
-  //       toast.error(
-  //         "An error occurred while submitting the form. Please try again.",
-  //       );
-  //     }
-  //   };
 
   return (
     <AppForm

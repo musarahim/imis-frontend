@@ -20,6 +20,7 @@ import {
     LifeBuoy,
     Send,
     Settings2,
+    ShoppingBag,
     Users2,
 } from "lucide-react";
 import Image from "next/image";
@@ -281,6 +282,45 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 "/hr/performance_appraisal/executive-reviews",
               ),
               isVisible: canSeeExecutiveMenu,
+            },
+          ],
+        },
+        {
+          title: "Procurement",
+          url: "#",
+          icon: ShoppingBag,
+          isActive: isActiveRoute("#", [
+            { title: "Procurement Items", url: "/procurement/items" },
+            { title: "Budget", url: "/procurement/budget" },
+            { title: "Expenditure", url: "/procurement/expenditure" },
+            { title: "Procurement Reports", url: "/procurement/reports" },
+          ]),
+          requiredGroups: ["Procurement Officer"],
+          items: [
+            {
+              title: "Items",
+              url: "/procurement/items",
+              isActive: pathname.startsWith("/procurement/items"),
+              requiredPermissions: ["view_procurementitem"],
+            },
+            {
+              title: "Budgets",
+              url: "/procurement/budget",
+              isActive: pathname.startsWith("/procurement/budget"),
+              requiredPermissions: ["view_procurementbudget"],
+            },
+
+            {
+              title: "Expenditures",
+              url: "/procurement/expenditure",
+              isActive: pathname.startsWith("/procurement/expenditure"),
+              requiredPermissions: ["view_procurementexpenditure"],
+            },
+            {
+              title: "Procurement Reports",
+              url: "/procurement/reports",
+              isActive: pathname.startsWith("/procurement/reports"),
+              requiredPermissions: ["view_procurementreports"],
             },
           ],
         },

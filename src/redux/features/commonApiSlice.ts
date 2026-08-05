@@ -51,6 +51,9 @@ const commonApiSlice = apiSlice.injectEndpoints({
     getRelationships: builder.query<Relationship[], void>({
       query: () => "/common/relationships/",
     }),
+    getFinancialYears: builder.query<FinancialYear[], void>({
+      query: () => "/common/financial-years/",
+    }),
   }),
 });
 
@@ -67,4 +70,5 @@ export const {
   useGetSubCountiesQuery,
   useGetParishesQuery,
   useGetVillagesQuery,
+  useGetFinancialYearsQuery,
 } = commonApiSlice;
