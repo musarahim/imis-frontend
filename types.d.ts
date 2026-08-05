@@ -154,6 +154,11 @@ interface District {
   code: string;
 }
 
+interface FinancialYear {
+  id: number;
+  name: string;
+}
+
 interface InterimAuthority {
   id?: number;
   application_code?: string;
@@ -1014,4 +1019,40 @@ interface PerformanceAppraisal {
   // read-only display
   appraisee_name?: string;
   appraiser_name?: string;
+}
+
+interface ProcurementItem {
+  id?: number;
+  name: string;
+  description: string;
+}
+
+interface ProcurementBudget {
+  id?: number;
+  item: string;
+  item_name?: string;
+  amount: number;
+  current_balance?: number;
+  fiscal_year: string;
+  fiscal_year_name?: string;
+  department: string;
+  department_name?: string;
+  amount_spent?: number;
+}
+
+interface ProcurementExpenditure {
+  id?: number;
+  reference?: string;
+  budget: ProcurementBudget;
+  procurement_subject: string;
+  amount: number;
+  date?: string;
+  item?: string;
+  budget_amount?: number;
+}
+
+interface BudgetDropdown {
+  id: number;
+  name: string;
+  balance: Number;
 }

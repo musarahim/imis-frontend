@@ -64,7 +64,7 @@ function StepG({ onNext, onBack, data }: StepProps) {
     nin: Yup.string().required("NIN is required"),
     national_id_document: Yup.mixed(),
     passport_photo: Yup.mixed(),
-    license_number: Yup.string().required("License number is required"),
+    license_number: Yup.string(),
     class_of_license: Yup.string(),
     date_of_issue: Yup.string(),
     date_of_expiry: Yup.string(),
