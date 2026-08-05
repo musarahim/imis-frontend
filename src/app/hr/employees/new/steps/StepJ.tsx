@@ -73,7 +73,7 @@ function StepJ({ onNext, onBack, data }: StepProps) {
         to_year: Yup.string().required("To year is required"),
         qualification: Yup.string().required("Qualification is required"),
         award_date: Yup.string(),
-        certificate_document: Yup.mixed(),
+        certificate_document: Yup.mixed().nullable().notRequired(),
       }),
     ),
   });
