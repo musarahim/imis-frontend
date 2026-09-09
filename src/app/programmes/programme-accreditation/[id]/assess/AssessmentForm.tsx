@@ -16,7 +16,7 @@ type AssessmentFormProps = {
   id: string;
 };
 const yes_no_options = [
-  { label: "Accredit as is", value: "accredit" },
+  { label: "Accredit as Presented", value: "accredit" },
   { label: "Accredit with Minor Corrections", value: "minor" },
   { label: "Accredit After Major Corrections", value: "major" },
   { label: "Don't Accredit", value: "reject" },
@@ -30,7 +30,6 @@ function AssessmentForm({ id }: AssessmentFormProps) {
     application: id,
     programme_development_process: "",
     rationale: "",
-    programme_objectives: "",
     competences: "",
     learning_outcomes: "",
     entry_requirements: "",
@@ -39,16 +38,16 @@ function AssessmentForm({ id }: AssessmentFormProps) {
     curriculum_structure: "",
     staffing_levels: "",
     infrastructure: "",
-    cbe_allignment: "",
+    programme_structure: "",
     other_comments: "",
     // course
     course_name: "",
     course_code: "",
     course_level: "",
-    contact_hours: "",
+    notional_hours: "",
     credit_units: "",
     course_description: "",
-    course_objectives: "",
+    course_competences: "",
     course_learning_outcomes: "",
     detailed_course_content: "",
     instructional_materials: "",
@@ -69,9 +68,6 @@ function AssessmentForm({ id }: AssessmentFormProps) {
       "Programme development process is required",
     ),
     rationale: Yup.string().required("Programme Rationale is required"),
-    programme_objectives: Yup.string().required(
-      "Programme objectives are required",
-    ),
     competences: Yup.string().required("Competences are required"),
     learning_outcomes: Yup.string().required("Learning outcomes are required"),
     entry_requirements: Yup.string().required(
@@ -84,16 +80,20 @@ function AssessmentForm({ id }: AssessmentFormProps) {
     ),
     staffing_levels: Yup.string().required("Staffing levels are required"),
     infrastructure: Yup.string().required("Infrastructure is required"),
-    cbe_allignment: Yup.string().required("CBE alignment is required"),
+    programme_structure: Yup.string().required(
+      "Programme structure is required",
+    ),
     other_comments: Yup.string(),
     // course
     course_name: Yup.string().required("Course name is required"),
     course_code: Yup.string().required("Course code is required"),
     course_level: Yup.string().required("Course level is required"),
-    contact_hours: Yup.string().required("Contact hours are required"),
+    notional_hours: Yup.string().required("Notional hours are required"),
     credit_units: Yup.string().required("Credit units are required"),
     course_description: Yup.string().required("Course description is required"),
-    course_objectives: Yup.string().required("Course objectives are required"),
+    course_competences: Yup.string().required(
+      "Course competences are required",
+    ),
     course_learning_outcomes: Yup.string().required(
       "Course learning outcomes are required",
     ),
@@ -147,7 +147,7 @@ function AssessmentForm({ id }: AssessmentFormProps) {
         </label>
         <RichEditorField
           name="programme_development_process"
-          label="1. Programme Development Process"
+          label="1. Programme Development Process/Review Process"
         />
 
         <RichEditorField
@@ -155,11 +155,7 @@ function AssessmentForm({ id }: AssessmentFormProps) {
           label="2. Programme Rationale/ Justification (e.g., Purpose, Relevance, Broad based)"
         />
 
-        <RichEditorField
-          name="programme_objectives"
-          label="3. Programme Objectives"
-        />
-        <RichEditorField name="competences" label="4. Competences" />
+        <RichEditorField name="competences" label="4. Programme Competences" />
 
         <RichEditorField
           name="learning_outcomes"
@@ -177,11 +173,11 @@ function AssessmentForm({ id }: AssessmentFormProps) {
         <RichEditorField name="grading_system" label="8. Grading System" />
         <RichEditorField
           name="curriculum_structure"
-          label="8. Curriculum Structure (General Overview of Programme Matrix)"
+          label="9. Curriculum Structure (General Overview of Programme Matrix)"
         />
         <RichEditorField
           name="staffing_levels"
-          label="9. Staffing Levels (e.g. Availability of core staff)"
+          label="9. Human Resource (e.g. Availability of core staff)"
         />
         <RichEditorField
           name="infrastructure"
@@ -189,29 +185,24 @@ function AssessmentForm({ id }: AssessmentFormProps) {
         />
 
         <RichEditorField
-          name="cbe_allignment"
-          label="11. CBE Alignment
--Student-centred learning-teaching philosophy
--Shift from content-based instruction to competency development.
--Modes of Assessment - practical applications (Formative & summative)
--Articulation of Generic/Graduate Employability Skills (e.g. Communication, critical thinking, problem-solving, team-work etc.)"
+          name="programme_structure"
+          label="10. Programme Structure"
         />
-        <RichEditorField name="other_comments" label="12. Other Comments" />
+        <RichEditorField name="other_comments" label="13. Other Comments" />
         <Separator className="my-4" />
         <label className="text-sm font-semibold my-3">B) COURSE</label>
         <TextAreaField name="course_name" label="Course Name" />
         <TextAreaField name="course_code" label="Course Code" />
         <TextAreaField name="course_level" label="Course Level" />
-        <TextAreaField name="contact_hours" label="Contact Hours" />
+        <TextAreaField name="notional_hours" label="Notional Hours" />
         <TextAreaField name="credit_units" label="Credit Units" />
-        <TextAreaField
-          name="course_description"
-          label="Brief Course Description"
-        />
-        <TextAreaField name="course_objectives" label="Course Objectives" />
+        <TextAreaField name="course_description" label="Course Description" />
+        <TextAreaField name="course_competences" label="Course Competences" />
         <TextAreaField
           name="course_learning_outcomes"
-          label="Course Learning Outcomes"
+          label="Course Learning Outcomes
+(Use of K/S/A/V) -(Knowledge/Skills/Attitudes/Values) framework
+"
         />
         <TextAreaField
           name="detailed_course_content"
@@ -221,8 +212,15 @@ function AssessmentForm({ id }: AssessmentFormProps) {
           name="instructional_materials"
           label="Study/Instructional Materials"
         />
-        <TextAreaField name="delivery_modes" label="Modes of Delivery" />
-        <TextAreaField name="assessment_modes" label="Modes of Assessment" />
+        <TextAreaField
+          name="delivery_modes"
+          label="Modes of Delivery (Learner-centered learning that develops practical employability skills.
+)"
+        />
+        <TextAreaField
+          name="assessment_modes"
+          label="Modes of Assessment - practical applications and authentic assessments (Formative 50% minimum.& summative)"
+        />
         <TextAreaField name="reading_list" label="Reading List" />
         <TextAreaField
           name="writing_styles_and_grammar"
@@ -234,7 +232,7 @@ function AssessmentForm({ id }: AssessmentFormProps) {
         />
         <Separator className="my-4" />
         <label className="text-sm font-semibold my-3">
-          C) OVERALL COMMENTS AND RECOMMENDATION
+          C) PROGRAMME ASSESSOR&apos;S CONCLUDING COMMENTS & ENDORSEMENT
         </label>
         <TextAreaField
           name="institution_comments"

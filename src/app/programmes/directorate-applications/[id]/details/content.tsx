@@ -17,7 +17,7 @@ const plainTextCellClassName =
   "max-w-0 align-top break-words whitespace-pre-wrap";
 
 const recommendationBadgeClass: Record<string, string> = {
-  "Accredit as is":
+  "Accredit as Presented":
     "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600",
   "Accredit with Minor Corrections":
     "bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-600",
@@ -204,12 +204,7 @@ function Content({ id }: { id: string }) {
             </TableCell>
 
             <TableCell className="align-top text-gray-800 dark:text-gray-100">
-              <div
-                className={richTextCellClassName}
-                dangerouslySetInnerHTML={{
-                  __html: data?.preliminary_review?.type_of_entry_summary || "",
-                }}
-              />
+              {data?.preliminary_review?.type_of_entry}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -302,7 +297,7 @@ function Content({ id }: { id: string }) {
                 className={richTextCellClassName}
                 dangerouslySetInnerHTML={{
                   __html:
-                    data?.preliminary_review?.programme_duration_summary || "",
+                    data?.preliminary_review?.programme_duration_comments || "",
                 }}
               />
             </TableCell>
@@ -460,20 +455,7 @@ function Content({ id }: { id: string }) {
               />
             </TableCell>
           </TableRow>
-          <TableRow className="bg-muted">
-            <TableCell className={labelCellClassName} colSpan={1}>
-              Programme Objectives:
-            </TableCell>
 
-            <TableCell className="align-top text-gray-800 dark:text-gray-100">
-              <div
-                className={richTextCellClassName}
-                dangerouslySetInnerHTML={{
-                  __html: data?.assessment?.programme_objectives || "",
-                }}
-              />
-            </TableCell>
-          </TableRow>
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
               Competences:
@@ -589,18 +571,19 @@ function Content({ id }: { id: string }) {
           </TableRow>
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
-              CBE Alignment:
+              Programme Structure:
             </TableCell>
 
             <TableCell className="align-top text-gray-800 dark:text-gray-100">
               <div
                 className={richTextCellClassName}
                 dangerouslySetInnerHTML={{
-                  __html: data?.assessment?.cbe_allignment || "",
+                  __html: data?.assessment?.programme_structure || "",
                 }}
               />
             </TableCell>
           </TableRow>
+
           <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Others:
@@ -650,16 +633,17 @@ function Content({ id }: { id: string }) {
               {data?.assessment?.course_level}
             </TableCell>
           </TableRow>
-          <TableRow>
+
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
-              Contact Hours:
+              Notional Hours:
             </TableCell>
 
             <TableCell className={plainTextCellClassName}>
-              {data?.assessment?.contact_hours}
+              {data?.assessment?.notional_hours}
             </TableCell>
           </TableRow>
-          <TableRow className="bg-muted">
+          <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
               Credit Units:
             </TableCell>
@@ -678,16 +662,16 @@ function Content({ id }: { id: string }) {
             </TableCell>
           </TableRow>
 
-          <TableRow className="bg-muted">
+          <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
-              Course Objectives:
+              Course Competences:
             </TableCell>
 
             <TableCell className={plainTextCellClassName}>
-              {data?.assessment?.course_objectives}
+              {data?.assessment?.course_competences}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Course Learning Outcomes:
             </TableCell>

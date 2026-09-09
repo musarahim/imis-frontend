@@ -13,7 +13,7 @@ import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const recommendationBadgeClass: Record<string, string> = {
-  "Accredit as is":
+  "Accredit as Presented":
     "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600",
   "Accredit with Minor Corrections":
     "bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-600",

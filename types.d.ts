@@ -473,15 +473,20 @@ interface PreliminaryReview {
   id?: number;
   reviewer?: string;
   application?: string;
-  type_of_entry_summary?: string;
+  tier_displine?: string;
+  type_of_entry?: string;
   type_of_entry_comments?: string;
   entry_requirements_summary?: string;
   entry_requirements_comments?: string;
   human_resource_summary?: string;
   human_resource_comments?: string;
   facilities_summary?: string;
+  align_with_cbet?: string;
+  align_with_cbet_comments?: string;
+  assessment_structure?: string;
+  assessment_structure_comments?: string;
   facilities_comments?: string;
-  programme_duration_summary?: string;
+  programme_duration?: string;
   programme_duration_comments?: string;
   minimum_graduation_load_summary?: string;
   minimum_graduation_load_comments?: string;
@@ -496,6 +501,7 @@ interface PreliminaryReview {
   review_date?: string;
   programme?: string;
   institution?: string;
+  institution_category?: string;
   student_total?: number;
   application_status?: string;
 }
@@ -505,7 +511,6 @@ interface ProgrammeAssessment {
   application?: string;
   programme_development_process: string;
   rationale: string;
-  programme_objectives: string;
   competences: string;
   learning_outcomes: string;
   entry_requirements: string;
@@ -514,15 +519,15 @@ interface ProgrammeAssessment {
   curriculum_structure: string;
   staffing_levels: string;
   infrastructure: string;
-  cbe_allignment: string;
+  programme_structure: string;
   other_comments: string;
   course_name: string;
   course_code: string;
   course_level: string;
-  contact_hours: string;
+  notional_hours: string;
   credit_units: string;
   course_description: string;
-  course_objectives: string;
+  course_competences: string;
   course_learning_outcomes: string;
   detailed_course_content: string;
   instructional_materials: string;

@@ -15,7 +15,7 @@ const plainTextCellClassName =
   "max-w-0 align-top break-words whitespace-pre-wrap";
 
 const recommendationBadgeClass: Record<string, string> = {
-  "Accredit as is":
+  "Accredit as Presented":
     "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600",
   "Accredit with Minor Corrections":
     "bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-600",
@@ -144,20 +144,6 @@ function Content({ id }: { id: string }) {
               />
             </TableCell>
           </TableRow>
-          <TableRow>
-            <TableCell className={labelCellClassName} colSpan={1}>
-              Programme Objectives:
-            </TableCell>
-
-            <TableCell className="align-top text-gray-800 dark:text-gray-100">
-              <div
-                className={richTextCellClassName}
-                dangerouslySetInnerHTML={{
-                  __html: data?.programme_objectives || "",
-                }}
-              />
-            </TableCell>
-          </TableRow>
           <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Competences:
@@ -273,18 +259,19 @@ function Content({ id }: { id: string }) {
           </TableRow>
           <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
-              CBE Alignment:
+              Programme Structure:
             </TableCell>
 
             <TableCell className="align-top text-gray-800 dark:text-gray-100">
               <div
                 className={richTextCellClassName}
                 dangerouslySetInnerHTML={{
-                  __html: data?.cbe_allignment || "",
+                  __html: data?.programme_structure || "",
                 }}
               />
             </TableCell>
           </TableRow>
+
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
               Others:
@@ -334,16 +321,17 @@ function Content({ id }: { id: string }) {
               {data?.course_level}
             </TableCell>
           </TableRow>
-          <TableRow className="bg-muted">
+
+          <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
-              Contact Hours:
+              Notional Hours:
             </TableCell>
 
             <TableCell className={plainTextCellClassName}>
-              {data?.contact_hours}
+              {data?.notional_hours}
             </TableCell>
           </TableRow>
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
               Credit Units:
             </TableCell>
@@ -362,16 +350,16 @@ function Content({ id }: { id: string }) {
             </TableCell>
           </TableRow>
 
-          <TableRow>
+          <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
-              Course Objectives:
+              Course Competences:
             </TableCell>
 
             <TableCell className={plainTextCellClassName}>
-              {data?.course_objectives}
+              {data?.course_competences}
             </TableCell>
           </TableRow>
-          <TableRow className="bg-muted">
+          <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
               Course Learning Outcomes:
             </TableCell>
@@ -484,7 +472,9 @@ function Content({ id }: { id: string }) {
       </h2>
       {data?.pod_comment && (
         <div className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-md p-4 my-4 mx-3">
-          <h3 className="font-semibold mb-2">Programme Head Recommendation: {data.status}</h3>
+          <h3 className="font-semibold mb-2">
+            Programme Head Recommendation: {data.status}
+          </h3>
           <h3 className="font-semibold mb-2">Comments from Programme Head:</h3>
           <p>{data.pod_comment}</p>
         </div>
