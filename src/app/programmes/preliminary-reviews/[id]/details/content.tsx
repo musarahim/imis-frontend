@@ -1,9 +1,7 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import {
-    useRetrievePreliminaryReviewQuery
-} from "@/redux/features/programme-api-slice";
+import { useRetrievePreliminaryReviewQuery } from "@/redux/features/programme-api-slice";
 
 const labelCellClassName =
   "w-64 align-top whitespace-nowrap pr-4 font-semibold text-md";
@@ -102,12 +100,7 @@ function Content({ id }: { id: string }) {
             </TableCell>
 
             <TableCell className="align-top text-gray-800 dark:text-gray-100">
-              <div
-                className={richTextCellClassName}
-                dangerouslySetInnerHTML={{
-                  __html: data?.type_of_entry_summary || "",
-                }}
-              />
+              {data?.type_of_entry}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -197,7 +190,7 @@ function Content({ id }: { id: string }) {
               <div
                 className={richTextCellClassName}
                 dangerouslySetInnerHTML={{
-                  __html: data?.programme_duration_summary || "",
+                  __html: data?.programme_duration_comments || "",
                 }}
               />
             </TableCell>

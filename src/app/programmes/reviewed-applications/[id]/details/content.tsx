@@ -28,7 +28,7 @@ const richTextCellClassName =
   "max-w-full overflow-hidden break-words whitespace-normal align-top [&_*]:max-w-full [&_*]:break-words [&_img]:h-auto [&_img]:max-w-full [&_table]:w-full [&_table]:table-fixed";
 
 const plainTextCellClassName =
-  "max-w-0 align-top break-words whitespace-pre-wrap";
+  "max-w-0 align-top whitespace-normal break-words";
 
 function Content({ id }: { id: string }) {
   const router = useRouter();
@@ -132,13 +132,22 @@ function Content({ id }: { id: string }) {
             <col />
           </colgroup>
           <TableBody>
-            <TableRow>
+            <TableRow className="bg-muted">
               <TableCell className={labelCellClassName} colSpan={1}>
                 Institution:
               </TableCell>
 
               <TableCell className={plainTextCellClassName}>
                 {data?.institution}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Institution Category:
+              </TableCell>
+
+              <TableCell className={plainTextCellClassName}>
+                {data?.institution_category}
               </TableCell>
             </TableRow>
             <TableRow className="bg-muted">
@@ -186,39 +195,27 @@ function Content({ id }: { id: string }) {
                 {data?.expert_progression}
               </TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell className={labelCellClassName} colSpan={1}>
-                Institution:
-              </TableCell>
 
-              <TableCell className={plainTextCellClassName}>
-                {data?.institution}
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-muted">
+            <TableRow>
               <TableCell className={labelCellClassName} colSpan={1}>
                 Type of Entry:
               </TableCell>
 
               <TableCell className="align-top text-gray-800 dark:text-gray-100">
-                <div
-                  className={richTextCellClassName}
-                  dangerouslySetInnerHTML={{
-                    __html: data?.type_of_entry_summary || "",
-                  }}
-                />
+                {data?.type_of_entry}
               </TableCell>
             </TableRow>
-            <TableRow>
+
+            <TableRow className="bg-muted">
               <TableCell className={labelCellClassName} colSpan={1}>
-                Entry Remarks:
+                Type of Entry Remarks:
               </TableCell>
 
-              <TableCell className={plainTextCellClassName}>
+              <TableCell className={richTextCellClassName}>
                 {data?.type_of_entry_comments}
               </TableCell>
             </TableRow>
-            <TableRow className="bg-muted">
+            <TableRow>
               <TableCell className={labelCellClassName} colSpan={1}>
                 Entry Requirements:
               </TableCell>
@@ -232,16 +229,79 @@ function Content({ id }: { id: string }) {
                 />
               </TableCell>
             </TableRow>
-            <TableRow>
+
+            <TableRow className="bg-muted">
               <TableCell className={labelCellClassName} colSpan={1}>
                 Entry Requirements Remarks:
               </TableCell>
 
               <TableCell className={plainTextCellClassName}>
-                {data?.entry_requirements_comments}
+                <div className={richTextCellClassName}>
+                  {data?.entry_requirements_comments}
+                </div>
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Alignment to CBE:
+              </TableCell>
+
+              <TableCell className={plainTextCellClassName}>
+                {data?.align_with_cbet}
               </TableCell>
             </TableRow>
             <TableRow className="bg-muted">
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Alignment to CBE Remarks:
+              </TableCell>
+
+              <TableCell className={plainTextCellClassName}>
+                <div className={richTextCellClassName}>
+                  {data?.align_with_cbet_comments}
+                </div>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Assessment Structure:
+              </TableCell>
+
+              <TableCell className={plainTextCellClassName}>
+                {data?.assessment_structure}
+              </TableCell>
+            </TableRow>
+            <TableRow className="bg-muted">
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Assessment Structure Remarks:
+              </TableCell>
+
+              <TableCell className={plainTextCellClassName}>
+                <div className={richTextCellClassName}>
+                  {data?.assessment_structure_comments}
+                </div>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Programme Duration:
+              </TableCell>
+
+              <TableCell className="align-top text-gray-800 dark:text-gray-100">
+                {data?.programme_duration}
+              </TableCell>
+            </TableRow>
+            <TableRow className="bg-muted">
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Programme Duration Remarks:
+              </TableCell>
+
+              <TableCell className={plainTextCellClassName}>
+                {data?.programme_duration_comments}
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
               <TableCell className={labelCellClassName} colSpan={1}>
                 Human Resources:
               </TableCell>
@@ -255,7 +315,7 @@ function Content({ id }: { id: string }) {
                 />
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow className="bg-muted">
               <TableCell className={labelCellClassName} colSpan={1}>
                 Human Resources Remarks:
               </TableCell>
@@ -264,7 +324,7 @@ function Content({ id }: { id: string }) {
                 {data?.human_resource_comments}
               </TableCell>
             </TableRow>
-            <TableRow className="bg-muted">
+            <TableRow>
               <TableCell className={labelCellClassName} colSpan={1}>
                 Facilities:
               </TableCell>
@@ -278,7 +338,7 @@ function Content({ id }: { id: string }) {
                 />
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow className="bg-muted">
               <TableCell className={labelCellClassName} colSpan={1}>
                 Facilities Remarks:
               </TableCell>
@@ -287,20 +347,7 @@ function Content({ id }: { id: string }) {
                 {data?.facilities_comments}
               </TableCell>
             </TableRow>
-            <TableRow className="bg-muted">
-              <TableCell className={labelCellClassName} colSpan={1}>
-                Programme Duration:
-              </TableCell>
 
-              <TableCell className="align-top text-gray-800 dark:text-gray-100">
-                <div
-                  className={richTextCellClassName}
-                  dangerouslySetInnerHTML={{
-                    __html: data?.programme_duration_summary || "",
-                  }}
-                />
-              </TableCell>
-            </TableRow>
             <TableRow>
               <TableCell className={labelCellClassName} colSpan={1}>
                 Duration Remarks:
@@ -377,6 +424,16 @@ function Content({ id }: { id: string }) {
               <TableCell className={plainTextCellClassName}>
                 {data?.student_total}
               </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Remarks on the number of students:
+              </TableCell>
+              <TableCell className={plainTextCellClassName}>
+                {data?.student_comment}
+              </TableCell>
+
+              <TableCell></TableCell>
             </TableRow>
           </TableBody>
         </Table>

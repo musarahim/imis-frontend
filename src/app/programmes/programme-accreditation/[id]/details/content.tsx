@@ -78,6 +78,7 @@ function Content({ id }: { id: string }) {
 
             <TableCell className="text-md">{data?.institution}</TableCell>
           </TableRow>
+
           <TableRow>
             <TableCell className="font-semibold text-md" colSpan={3}>
               Campus:
@@ -140,7 +141,7 @@ function Content({ id }: { id: string }) {
           (activeDocument === "structure" || !activeDocument) &&
           typeof data.program_structure === "string" && (
             <>
-              <PdfViewer url={data.program_structure} />
+              <PdfViewer url={data.program_structure} height="100vh" />
             </>
           )}
 
@@ -150,7 +151,7 @@ function Content({ id }: { id: string }) {
             <>
               {/* Debug info - remove in production */}
 
-              <PdfViewer url={data.letter_of_submission} />
+              <PdfViewer url={data.letter_of_submission} height="100vh" />
             </>
           )}
 
