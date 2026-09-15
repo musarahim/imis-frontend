@@ -460,17 +460,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               ),
               requiredPermissions: ["can_make_directorate_decision"],
             },
-            {
-              title: "Administrative Visit Invoices",
-              url: "/programmes/application-invoices",
-              isActive: pathname.startsWith("/programmes/application-invoices"),
-              requiredPermissions: [
-                "can_manage_invoices",
-                "add_programmeinvoice",
-                "change_programmeinvoice",
-                "view_programmeinvoice ",
-              ],
-            },
+
             {
               title: "Desk Review Invoices",
               url: "/programmes/desk-review-invoices",
@@ -480,6 +470,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 "change_programmeassessmentinvoice",
                 "delete_programmeassessmentinvoice",
                 "view_programmeassessmentinvoice",
+              ],
+            },
+            {
+              title: "Administrative Visit Invoices",
+              url: "/programmes/application-invoices",
+              isActive: pathname.startsWith("/programmes/application-invoices"),
+              requiredPermissions: [
+                "can_manage_invoices",
+                "add_programmeinvoice",
+                "change_programmeinvoice",
+                "view_programmeinvoice ",
               ],
             },
             {

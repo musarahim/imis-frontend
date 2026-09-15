@@ -22,13 +22,32 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const labelCellClassName =
-  "w-64 align-top whitespace-nowrap pr-4 font-semibold text-md";
+  "align-top whitespace-normal break-words pr-4 font-semibold text-md";
 
 const richTextCellClassName =
   "max-w-full overflow-hidden break-words whitespace-normal align-top [&_*]:max-w-full [&_*]:break-words [&_img]:h-auto [&_img]:max-w-full [&_table]:w-full [&_table]:table-fixed";
 
 const plainTextCellClassName =
-  "max-w-0 align-top whitespace-normal break-words";
+  "align-top whitespace-normal [overflow-wrap:anywhere]";
+
+const tierDisciplineLabels: Record<string, string> = {
+  agriculture: "Agriculture",
+  applied_sciences: "Applied Sciences",
+  pure_sciences: "Pure Sciences",
+  business: "Business",
+  computing: "Computing",
+  education_arts: "Education - Arts",
+  education_sciences: "Education - Sciences",
+  library_studies: "Library Studies",
+  laws: "Laws",
+  engineering: "Engineering",
+  journalism_languages: "Journalism and Languages",
+  social_sciences: "Social Sciences",
+  afd: "Art, Fashion and Design",
+  human_health: "Human Health",
+  animal_health: "Animal Health",
+  theology: "Theology",
+};
 
 function Content({ id }: { id: string }) {
   const router = useRouter();
@@ -123,12 +142,12 @@ function Content({ id }: { id: string }) {
           </Button>
         </div>
       ) : null}
-      <div className="bg-white dark:bg-gray-950 rounded-lg border p-2 h-full">
-        <h3 className="text-xl font-semibold">{data?.programme}</h3>{" "}
+      <div className="min-w-0 w-full max-w-full bg-white dark:bg-gray-950 rounded-lg border p-2 h-full">
+        <h3 className="text-xl font-semibold [overflow-wrap:anywhere]">{data?.programme}</h3>{" "}
         <Separator className="my-4" />
-        <Table className="mt-1 w-full table-fixed">
+        <Table className="mt-1 w-full table-fixed [&_td]:whitespace-normal [&_td]:[overflow-wrap:anywhere]">
           <colgroup>
-            <col className="w-64" />
+            <col className="w-2/5 sm:w-64" />
             <col />
           </colgroup>
           <TableBody>
@@ -166,6 +185,24 @@ function Content({ id }: { id: string }) {
 
               <TableCell className={plainTextCellClassName}>
                 {data?.programme}
+              </TableCell>
+            </TableRow>
+            <TableRow className="bg-muted">
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Tier Discipline:
+              </TableCell>
+              <TableCell className={plainTextCellClassName}>
+                {data?.tier_displine
+                  ? (tierDisciplineLabels[data.tier_displine] ?? data.tier_displine)
+                  : "Not provided"}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className={labelCellClassName}>
+                Application Status:
+              </TableCell>
+              <TableCell className={plainTextCellClassName}>
+                {data?.application_status || "Not provided"}
               </TableCell>
             </TableRow>
             <TableRow className="bg-muted">
@@ -348,15 +385,6 @@ function Content({ id }: { id: string }) {
               </TableCell>
             </TableRow>
 
-            <TableRow>
-              <TableCell className={labelCellClassName} colSpan={1}>
-                Duration Remarks:
-              </TableCell>
-
-              <TableCell className={plainTextCellClassName}>
-                {data?.programme_duration_comments}
-              </TableCell>
-            </TableRow>
             <TableRow className="bg-muted">
               <TableCell className={labelCellClassName} colSpan={1}>
                 Minimum Graduation Load:
@@ -373,7 +401,7 @@ function Content({ id }: { id: string }) {
             </TableRow>
             <TableRow>
               <TableCell className={labelCellClassName} colSpan={1}>
-                Remarks:
+                Minimum Graduation Load Remarks:
               </TableCell>
 
               <TableCell className={plainTextCellClassName}>
@@ -381,12 +409,10 @@ function Content({ id }: { id: string }) {
               </TableCell>
             </TableRow>
             <TableRow className="bg-muted">
-              <TableCell className={labelCellClassName} colSpan={1}>
+              <TableCell className={labelCellClassName} colSpan={2}>
                 Proposed Maximum Number of Students to be Registered Per Year
                 Based on the Available Resources
               </TableCell>
-
-              <TableCell></TableCell>
             </TableRow>
             <TableRow>
               <TableCell className={labelCellClassName} colSpan={1}>
@@ -432,8 +458,6 @@ function Content({ id }: { id: string }) {
               <TableCell className={plainTextCellClassName}>
                 {data?.student_comment}
               </TableCell>
-
-              <TableCell></TableCell>
             </TableRow>
           </TableBody>
         </Table>
