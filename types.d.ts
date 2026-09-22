@@ -826,6 +826,7 @@ type InvoiceItemType = {
 };
 
 interface DeskReviewInvoice {
+  can_manage?: boolean;
   id?: number;
   application?: string;
   status?: string;

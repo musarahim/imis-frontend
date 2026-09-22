@@ -50,6 +50,7 @@ function DeskReviewInvoice() {
     {
       // 3. Refetch data when pagination, sorting, or filtering changes
       refetchOnMountOrArgChange: true,
+      pollingInterval: 60000,
     },
   );
   if (isLoading) return <div>Loading...</div>;
