@@ -232,6 +232,14 @@ function Content({ id }: { id: string }) {
                 {data?.expert_progression}
               </TableCell>
             </TableRow>
+            <TableRow>
+              <TableCell className={labelCellClassName} colSpan={1}>
+                Progression Comment:
+              </TableCell>
+              <TableCell className={plainTextCellClassName}>
+                {data?.progression_comment}
+              </TableCell>
+            </TableRow>
 
             <TableRow>
               <TableCell className={labelCellClassName} colSpan={1}>

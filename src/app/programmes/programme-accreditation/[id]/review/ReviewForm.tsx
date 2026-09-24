@@ -74,6 +74,7 @@ function ReviewForm({ id }: ReviewFormProps) {
     student_comment: "",
     expert_progression: "",
     tier_displine: "",
+    progression_comment: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -132,6 +133,9 @@ function ReviewForm({ id }: ReviewFormProps) {
     tier_displine: Yup.string().required("Tier discipline is required"),
     expert_progression: Yup.string().required(
       "Expert progression recommendation is required",
+    ),
+    progression_comment: Yup.string().required(
+      "Progression comment is required",
     ),
   });
 
@@ -256,6 +260,10 @@ function ReviewForm({ id }: ReviewFormProps) {
           name="expert_progression"
           label="Do you recommend progression to experts?"
           options={yes_no_options}
+        />
+        <TextAreaField
+          name="progression_comment"
+          label="Remarks on Progression Recommendation"
         />
         <div className="text-right">
           <SubmitButton

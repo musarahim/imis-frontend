@@ -76,15 +76,7 @@ function Content({ id }: { id: string }) {
               {data?.review_date}
             </TableCell>
           </TableRow>
-          <TableRow className="bg-muted">
-            <TableCell className={labelCellClassName} colSpan={1}>
-              Progression for Expert Review:
-            </TableCell>
 
-            <TableCell className={plainTextCellClassName}>
-              {data?.expert_progression}
-            </TableCell>
-          </TableRow>
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
               Institution:
@@ -270,6 +262,24 @@ function Content({ id }: { id: string }) {
 
             <TableCell className={plainTextCellClassName}>
               {data?.student_total}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className={labelCellClassName} colSpan={1}>
+              Progression for Expert Review:
+            </TableCell>
+
+            <TableCell className={plainTextCellClassName}>
+              {data?.expert_progression}
+            </TableCell>
+          </TableRow>
+          <TableRow className="bg-muted">
+            <TableCell className={labelCellClassName} colSpan={1}>
+              Progression Comment:
+            </TableCell>
+
+            <TableCell className={plainTextCellClassName}>
+              {data?.progression_comment}
             </TableCell>
           </TableRow>
         </TableBody>

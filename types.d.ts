@@ -504,6 +504,7 @@ interface PreliminaryReview {
   institution_category?: string;
   student_total?: number;
   application_status?: string;
+  progression_comment?: string;
 }
 interface ProgrammeAssessment {
   id?: number;
