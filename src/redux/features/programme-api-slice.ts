@@ -398,9 +398,36 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         const qs = search.toString();
         return `/programmes/programme-assessment-invoices/${qs ? `?${qs}` : ""}`;
       },
+      providesTags: [{ type: "InvoicedApplications", id: "REVIEW_LIST" }],
     }),
     retrieveDeskReviewInvoice: builder.query<DeskReviewInvoice, number>({
       query: (id) => `/programmes/programme-assessment-invoices/${id}/`,
+      providesTags: (_result, _error, id) => [{ type: "InvoicedApplications", id: `REVIEW_${id}` }],
+    }),
+    updateDeskReviewInvoice: builder.mutation<DeskReviewInvoice, { id: number; desk_review_fee: string }>({
+      query: ({ id, desk_review_fee }) => ({
+        url: `/programmes/programme-assessment-invoices/${id}/`,
+        method: "PATCH",
+        body: { desk_review_fee },
+      }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "InvoicedApplications", id: "REVIEW_LIST" },
+        { type: "InvoicedApplications", id: `REVIEW_${id}` },
+      ],
+    }),
+    sendDeskReviewInvoice: builder.mutation<DeskReviewInvoice, number>({
+      query: (id) => ({ url: `/programmes/programme-assessment-invoices/${id}/send-invoice/`, method: "POST" }),
+      invalidatesTags: (_result, _error, id) => [
+        { type: "InvoicedApplications", id: "REVIEW_LIST" },
+        { type: "InvoicedApplications", id: `REVIEW_${id}` },
+      ],
+    }),
+    acknowledgeDeskReviewPayment: builder.mutation<DeskReviewInvoice, number>({
+      query: (id) => ({ url: `/programmes/programme-assessment-invoices/${id}/reconcile-invoice/`, method: "POST" }),
+      invalidatesTags: (_result, _error, id) => [
+        { type: "InvoicedApplications", id: "REVIEW_LIST" },
+        { type: "InvoicedApplications", id: `REVIEW_${id}` },
+      ],
     }),
   }),
 });
@@ -439,4 +466,7 @@ export const {
   useAddProgrammeAssessmentInvoiceMutation,
   useGetDeskReviewInvoicesQuery,
   useRetrieveDeskReviewInvoiceQuery,
+  useUpdateDeskReviewInvoiceMutation,
+  useSendDeskReviewInvoiceMutation,
+  useAcknowledgeDeskReviewPaymentMutation,
 } = ProgrammeApiSlice;

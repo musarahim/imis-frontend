@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useRetrieveDeskReviewInvoiceQuery } from "@/redux/features/programme-api-slice";
 import ExportInvoicePdfButton from "./ExportInvoicePdfButton";
+import InvoiceActions from "./InvoiceActions";
 
 const formatDate = (value?: string) => {
   if (!value) return "-";
@@ -55,6 +56,7 @@ function Content({ id }: { id: string }) {
     Number(id),
     {
       refetchOnMountOrArgChange: true,
+      pollingInterval: 60000,
     },
   );
 
@@ -87,8 +89,12 @@ function Content({ id }: { id: string }) {
         />
       </div>
       <Separator className="my-4" />
+      <InvoiceActions invoice={invoice} />
+      {invoice.status?.toLowerCase() === "paid" && <p className="mb-4 font-medium text-amber-700">Payment proof submitted — awaiting accounts verification.</p>}
+      {invoice.cleared && <p className="mb-4 font-medium text-green-700">Payment verified and acknowledged.</p>}
+      {invoice.payment_receipt && <a className="mb-4 inline-block text-blue-600 underline" href={invoice.payment_receipt} target="_blank" rel="noopener noreferrer">View Payment Receipt</a>}
 
-      <Table className="w-full mt-1">
+      <Table className="w-full mt-1 table-fixed [&_td]:whitespace-normal [&_td]:[overflow-wrap:anywhere]">
         <TableBody>
           <TableRow>
             <TableCell className="font-semibold text-md" colSpan={3}>

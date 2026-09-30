@@ -19,6 +19,7 @@ import {
     useGetDesignationsQuery,
     useGetDirectoratesQuery,
     useGetEmployeeDetailsQuery,
+    useGetGradeScalesQuery,
     useGetSupervisorDropdownQuery,
     useGetUserDropdownQuery,
     useUpdateEmployeeMutation,
@@ -52,6 +53,9 @@ type FormValues = {
   blood_group: string;
   allergies: string;
   joining_date: string;
+  present_appointment_date: string;
+  employment_terms: string;
+  grade_scale: string;
   supervisor: string;
 };
 const gender_options = [
@@ -77,6 +81,19 @@ const blood_group_options = [
   { label: "O+", value: "O+" },
   { label: "O-", value: "O-" },
 ];
+const employment_terms_options = [
+  { label: "Probation", value: "probation" },
+  { label: "Contract", value: "contract" },
+  { label: "Temporary", value: "temporary" },
+];
+
+function GradeScaleSelect() {
+  const { values } = useFormikContext<FormValues>();
+  const { data: grades } = useGetGradeScalesQuery();
+  const options = grades?.filter((grade) => String(grade.designation) === values.designation)
+    .map((grade) => ({ label: grade.code, value: String(grade.id) })) || [];
+  return <SelectField name="grade_scale" label="Salary scale" options={options} />;
+}
 
 function DepartmentSelect() {
   const { values, setFieldValue } = useFormikContext<FormValues>();
@@ -192,6 +209,9 @@ function StepA({ onNext, id }: StepProps) {
     blood_group: initialValues?.blood_group || "",
     allergies: initialValues?.allergies || "",
     joining_date: initialValues?.joining_date || "",
+    present_appointment_date: initialValues?.present_appointment_date || "",
+    employment_terms: initialValues?.employment_terms || "",
+    grade_scale: String(initialValues?.grade_scale || ""),
     supervisor: initialValues?.supervisor || "",
   };
 
@@ -214,6 +234,9 @@ function StepA({ onNext, id }: StepProps) {
     blood_group: Yup.string(),
     allergies: Yup.string(),
     joining_date: Yup.string().required("This field is required"),
+    present_appointment_date: Yup.string(),
+    employment_terms: Yup.string(),
+    grade_scale: Yup.string(),
     supervisor: Yup.string(),
   });
 
@@ -370,6 +393,15 @@ function StepA({ onNext, id }: StepProps) {
 
         <div className="sm:col-span-3">
           <DatePicker name="joining_date" label="Joining Date" required />
+        </div>
+        <div className="sm:col-span-3">
+          <DatePicker name="present_appointment_date" label="Date of present appointment" />
+        </div>
+        <div className="sm:col-span-3">
+          <SelectField name="employment_terms" label="Terms of employment" options={employment_terms_options} />
+        </div>
+        <div className="sm:col-span-3">
+          <GradeScaleSelect />
         </div>
         <div className="sm:col-span-3">
           <SelectField

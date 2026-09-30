@@ -8,6 +8,9 @@ import { useGetPaymentPRNsQuery } from "@/redux/features/payment-api-slice";
 import { FileDisplay } from "@/utils/fileUtils";
 import ExportPdfButton from "./ExportPdfButton";
 
+const toHtmlString = (value: string | File | null | undefined): string =>
+  typeof value === "string" ? value : "";
+
 function Content({ id }: { id: string }) {
   const { data: institutions } = useGetInstitutionsQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -255,7 +258,7 @@ function Content({ id }: { id: string }) {
               <TableCell className="text-gray-800 dark:text-gray-100 whitespace-pre-wrap break-words">
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: data?.governance_structure || "",
+                    __html: toHtmlString(data?.governance_structure),
                   }}
                 />
               </TableCell>
@@ -268,7 +271,7 @@ function Content({ id }: { id: string }) {
               <TableCell className="text-gray-800 dark:text-gray-100 whitespace-pre-wrap break-words">
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: data?.human_resources || "",
+                    __html: toHtmlString(data?.human_resources),
                   }}
                 />
               </TableCell>

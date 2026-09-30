@@ -14,6 +14,9 @@ import {
     useCreateCompetencyMutation,
     useCreateImprovementAreaMutation,
     useCreateNextYearPlanMutation,
+    useUpdateCompetencyMutation,
+    useUpdateImprovementAreaMutation,
+    useUpdateNextYearPlanMutation,
     useGetAppraisalByIdQuery,
     useSubmitAppraiserReviewMutation,
     useUpdateOutputMutation,
@@ -122,11 +125,13 @@ type OutputScoreRow = {
 };
 
 type ImprovementRow = {
+  id?: number;
   performance_gap: string;
   agreed_action: string;
   time_frame: string;
 };
 type NextYearRow = {
+  id?: number;
   key_output: string;
   performance_indicator: string;
   target: string;
@@ -143,6 +148,7 @@ function ReviewForm({ id }: { id: string }) {
     Record<number, number>
   >({});
   const [supervisorRemarks, setSupervisorRemarks] = useState("");
+  const [appraiserComment, setAppraiserComment] = useState("");
   const [improvements, setImprovements] = useState<ImprovementRow[]>([
     { performance_gap: "", agreed_action: "", time_frame: "" },
   ]);
@@ -153,8 +159,11 @@ function ReviewForm({ id }: { id: string }) {
 
   const [updateOutput] = useUpdateOutputMutation();
   const [createCompetency] = useCreateCompetencyMutation();
+  const [updateCompetency] = useUpdateCompetencyMutation();
   const [createImprovement] = useCreateImprovementAreaMutation();
+  const [updateImprovement] = useUpdateImprovementAreaMutation();
   const [createNextYearPlan] = useCreateNextYearPlanMutation();
+  const [updateNextYearPlan] = useUpdateNextYearPlanMutation();
   const [submitAppraiserReview] = useSubmitAppraiserReviewMutation();
 
   useEffect(() => {
@@ -171,24 +180,51 @@ function ReviewForm({ id }: { id: string }) {
         })),
       );
     }
+    if (appraisal?.competencies?.length) {
+      setCompetencyScores(Object.fromEntries(appraisal.competencies.map((c) => [c.competency_number, c.score])));
+    }
+    if (appraisal?.improvement_areas?.length) {
+      setImprovements(appraisal.improvement_areas.map((a) => ({ id: a.id, performance_gap: a.performance_gap, agreed_action: a.agreed_action, time_frame: a.time_frame })));
+    }
+    if (appraisal?.next_year_plans?.length) {
+      setNextYearPlans(appraisal.next_year_plans.map((p) => ({ id: p.id, key_output: p.key_output, performance_indicator: p.performance_indicator, target: p.target })));
+    }
+    if (appraisal?.supervisor_remarks) setSupervisorRemarks(appraisal.supervisor_remarks);
   }, [appraisal]);
 
   // Score preview
   const agreedScores = outputRows
-    .map((o) => o.agreed_score ?? o.appraiser_score)
+    .map((o) => o.agreed_score)
     .filter((s): s is number => s !== null);
   const outputTotal = agreedScores.reduce((a, b) => a + b, 0);
   const outputMax = outputRows.length * 5;
   const outputWeighted =
-    outputMax > 0 ? ((outputTotal / outputMax) * 70).toFixed(1) : "—";
+    outputMax > 0 && agreedScores.length === outputRows.length
+      ? ((outputTotal / outputMax) * 70).toFixed(1) : "—";
 
   const compScores = Object.values(competencyScores).filter(Boolean);
   const compTotal = compScores.reduce((a, b) => a + b, 0);
-  const compMax = compScores.length * 5;
+  const compMax = 50;
   const compWeighted =
-    compMax > 0 ? ((compTotal / compMax) * 30).toFixed(1) : "—";
+    compScores.length === 10 ? ((compTotal / compMax) * 30).toFixed(1) : "—";
 
   const handleSubmit = async () => {
+    if (!outputRows.length || outputRows.some((o) => !o.appraiser_score || !o.agreed_score)) {
+      toast.error("Enter the appraiser and agreed scores for every output.");
+      return;
+    }
+    if (Object.keys(competencyScores).length !== 10) {
+      toast.error("Rate all 10 competencies.");
+      return;
+    }
+    if (improvements.some((i) => (i.performance_gap || i.agreed_action || i.time_frame) && (!i.performance_gap || !i.agreed_action || !i.time_frame))) {
+      toast.error("Complete every improvement plan row.");
+      return;
+    }
+    if (nextYearPlans.some((p) => (p.key_output || p.performance_indicator || p.target) && (!p.key_output || !p.performance_indicator || !p.target))) {
+      toast.error("Complete every next year plan row.");
+      return;
+    }
     setSaving(true);
     try {
       // 1. Save appraiser/agreed scores for each output
@@ -210,11 +246,9 @@ function ReviewForm({ id }: { id: string }) {
       );
       await Promise.all(
         competencyEntries.map(([num, score]) =>
-          createCompetency({
-            appraisal: Number(id),
-            competency_number: Number(num),
-            score,
-          }).unwrap(),
+          appraisal?.competencies?.find((c) => c.competency_number === Number(num))?.id
+            ? updateCompetency({ id: appraisal.competencies.find((c) => c.competency_number === Number(num))!.id!, data: { score } }).unwrap()
+            : createCompetency({ appraisal: Number(id), competency_number: Number(num), score }).unwrap(),
         ),
       );
 
@@ -224,7 +258,9 @@ function ReviewForm({ id }: { id: string }) {
       );
       await Promise.all(
         filledImprovements.map((imp) =>
-          createImprovement({ ...imp, appraisal: Number(id) }).unwrap(),
+          imp.id
+            ? updateImprovement({ id: imp.id, data: imp }).unwrap()
+            : createImprovement({ ...imp, appraisal: Number(id) }).unwrap(),
         ),
       );
 
@@ -234,7 +270,9 @@ function ReviewForm({ id }: { id: string }) {
       );
       await Promise.all(
         filledPlans.map((plan) =>
-          createNextYearPlan({ ...plan, appraisal: Number(id) }).unwrap(),
+          plan.id
+            ? updateNextYearPlan({ id: plan.id, data: plan }).unwrap()
+            : createNextYearPlan({ ...plan, appraisal: Number(id) }).unwrap(),
         ),
       );
 
@@ -242,6 +280,7 @@ function ReviewForm({ id }: { id: string }) {
       await submitAppraiserReview({
         id: Number(id),
         supervisor_remarks: supervisorRemarks,
+        appraiser_comment: appraiserComment,
       }).unwrap();
       toast.success("Appraiser review submitted successfully.");
       router.push("/hr/performance_appraisal/appraiser-reviews");
@@ -668,6 +707,12 @@ function ReviewForm({ id }: { id: string }) {
             Use this section to comment about the job, career development, and
             any other relevant information.
           </p>
+          <Textarea
+            id="appraiser_comment"
+            rows={4}
+            value={appraiserComment}
+            onChange={(e) => setAppraiserComment(e.target.value)}
+          />
         </div>
       </section>
 

@@ -12,11 +12,16 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import {
     useCreateOutputMutation,
+    useDeleteOutputMutation,
+    useGetAppraisalByIdQuery,
+    useSubmitSelfAssessmentMutation,
     useUpdateAppraisalMutation,
+    useUpdateOutputMutation,
 } from "@/redux/features/appraisal-api-slice";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { toast } from "react-toastify";
 
 const SCORES = [1, 2, 3, 4, 5];
@@ -29,6 +34,7 @@ const RATING_LABELS: Record<number, string> = {
 };
 
 type OutputRow = {
+  id?: number;
   output: string;
   performance_indicator: string;
   performance_target: string;
@@ -43,6 +49,7 @@ type Props = {
 
 function SectionB({ onBack, data }: Props) {
   const appraisalId = data?.id;
+  const { data: appraisal } = useGetAppraisalByIdQuery(appraisalId ?? skipToken);
   const [outputs, setOutputs] = useState<OutputRow[]>([
     {
       output: "",
@@ -52,6 +59,7 @@ function SectionB({ onBack, data }: Props) {
       comments: "",
     },
   ]);
+  const [removedOutputIds, setRemovedOutputIds] = useState<number[]>([]);
   const [additionalTasks, setAdditionalTasks] = useState("");
   const [skillsNeeded, setSkillsNeeded] = useState("");
   const [challenges, setChallenges] = useState("");
@@ -60,7 +68,25 @@ function SectionB({ onBack, data }: Props) {
   const router = useRouter();
 
   const [createOutput] = useCreateOutputMutation();
+  const [deleteOutput] = useDeleteOutputMutation();
+  const [updateOutput] = useUpdateOutputMutation();
   const [updateAppraisal] = useUpdateAppraisalMutation();
+  const [submitSelfAssessment] = useSubmitSelfAssessmentMutation();
+
+  useEffect(() => {
+    if (!appraisal) return;
+    if (appraisal.outputs?.length) {
+      setOutputs(appraisal.outputs.map((o) => ({
+        id: o.id, output: o.output, performance_indicator: o.performance_indicator,
+        performance_target: o.performance_target, self_score: o.self_score ?? null,
+        comments: o.comments ?? "",
+      })));
+    }
+    setAdditionalTasks(appraisal.additional_tasks ?? "");
+    setSkillsNeeded(appraisal.skills_needed ?? "");
+    setChallenges(appraisal.challenges ?? "");
+    setAppraiseeComment(appraisal.comments?.find((c) => c.commenter_role === "appraisee")?.comment ?? "");
+  }, [appraisal]);
 
   const updateRow = (
     i: number,
@@ -76,16 +102,23 @@ function SectionB({ onBack, data }: Props) {
       toast.error("Save Section A first before continuing.");
       return;
     }
-    const filled = outputs.filter((o) => o.output || o.performance_indicator);
+    const filled = outputs.filter((o) => o.output || o.performance_indicator || o.performance_target);
     if (filled.length === 0) {
       toast.error("Add at least one agreed output.");
       return;
     }
+    if (filled.some((o) => !o.output.trim() || !o.performance_indicator.trim() || !o.performance_target.trim() || !o.self_score)) {
+      toast.error("Complete the output, indicator, target and self score for every row.");
+      return;
+    }
     setSaving(true);
     try {
+      await Promise.all(removedOutputIds.map((id) => deleteOutput(id).unwrap()));
       await Promise.all(
         filled.map((o) =>
-          createOutput({ ...o, appraisal: appraisalId }).unwrap(),
+          o.id
+            ? updateOutput({ id: o.id, data: o }).unwrap()
+            : createOutput({ ...o, appraisal: appraisalId }).unwrap(),
         ),
       );
       await updateAppraisal({
@@ -96,6 +129,7 @@ function SectionB({ onBack, data }: Props) {
           challenges,
         },
       }).unwrap();
+      await submitSelfAssessment({ id: appraisalId, comment: appraiseeComment.trim() }).unwrap();
       toast.success("Appraisal submitted successfully.");
       router.push(`/hr/performance_appraisal/`);
     } catch {
@@ -232,9 +266,10 @@ function SectionB({ onBack, data }: Props) {
                       type="button"
                       size="icon"
                       variant="ghost"
-                      onClick={() =>
-                        setOutputs(outputs.filter((_, idx) => idx !== i))
-                      }
+                      onClick={() => {
+                        if (o.id) setRemovedOutputIds((ids) => [...ids, o.id!]);
+                        setOutputs(outputs.filter((_, idx) => idx !== i));
+                      }}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>

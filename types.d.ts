@@ -504,6 +504,7 @@ interface PreliminaryReview {
   institution_category?: string;
   student_total?: number;
   application_status?: string;
+  progression_comment?: string;
 }
 interface ProgrammeAssessment {
   id?: number;
@@ -560,6 +561,13 @@ interface Employee {
   profile_pic?: string;
   gender: "male" | "female";
   joining_date: string;
+  present_appointment_date?: string | null;
+  employment_terms?: string;
+  employment_terms_name?: string | null;
+  grade_scale?: number | string | null;
+  grade_scale_code?: string | null;
+  supervisor_designation_name?: string | null;
+  supervisor_grade_scale_code?: string | null;
   distance_from_work: number;
   address: string;
   directorate: string;
@@ -826,6 +834,7 @@ type InvoiceItemType = {
 };
 
 interface DeskReviewInvoice {
+  can_manage?: boolean;
   id?: number;
   application?: string;
   status?: string;
@@ -984,6 +993,10 @@ interface PerformanceAppraisal {
   id?: number;
   start_date: string;
   end_date: string;
+  employment_terms?: "probation" | "contract" | "temporary" | "";
+  present_appointment_date?: string | null;
+  appraisee_salary_scale?: string;
+  appraiser_salary_scale?: string;
   appraisee: number;
   appraiser: number;
   reviewer?: number | null;
@@ -1024,6 +1037,11 @@ interface PerformanceAppraisal {
   // read-only display
   appraisee_name?: string;
   appraiser_name?: string;
+  appraisee_birth_date?: string | null;
+  appraisee_designation?: string | null;
+  appraisee_directorate?: string | null;
+  appraisee_department?: string | null;
+  appraiser_designation?: string | null;
 }
 
 interface ProcurementItem {

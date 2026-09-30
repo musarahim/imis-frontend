@@ -200,6 +200,15 @@ function Content({ id }: { id: string }) {
 
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
+              Progression Comment:
+            </TableCell>
+            <TableCell className={plainTextCellClassName}>
+              {data?.preliminary_review?.progression_comment}
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell className={labelCellClassName} colSpan={1}>
               Type of Entry:
             </TableCell>
 

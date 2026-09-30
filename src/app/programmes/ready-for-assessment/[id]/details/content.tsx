@@ -159,6 +159,14 @@ function Content({ id }: { id: string }) {
           </TableRow>
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
+              Progression Comment:
+            </TableCell>
+            <TableCell className={plainTextCellClassName}>
+              {data?.progression_comment}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className={labelCellClassName} colSpan={1}>
               Institution:
             </TableCell>
 

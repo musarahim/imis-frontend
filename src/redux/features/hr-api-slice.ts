@@ -24,6 +24,9 @@ const hrApiSlice = apiSlice.injectEndpoints({
     getEmployeeDetails: builder.query<Employee, number>({
       query: (id) => `/hr/employees/${id}/employee-details/`,
     }),
+    getMyBiodata: builder.query<Employee, void>({
+      query: () => "/hr/employees/my-biodata/",
+    }),
     createEmployee: builder.mutation<Employee, FormData>({
       query: (data) => ({
         url: "/hr/employees/",
@@ -63,6 +66,9 @@ const hrApiSlice = apiSlice.injectEndpoints({
     getDesignations: builder.query<Designation[], void>({
       query: () => "/hr/designations/",
     }),
+    getGradeScales: builder.query<{ id: number; code: string; designation: number }[], void>({
+      query: () => "/hr/grade-scales/",
+    }),
     getSupervisorDropdown: builder.query<EmployeeDropdown[], void>({
       query: () => "/hr/employee-dropdown/",
     }),
@@ -72,6 +78,7 @@ const hrApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetEmployeesQuery,
   useGetEmployeeByIdQuery,
+  useGetMyBiodataQuery,
   useCreateEmployeeMutation,
   useUpdateEmployeeMutation,
   useDeleteEmployeeMutation,
@@ -79,6 +86,7 @@ export const {
   useGetDirectoratesQuery,
   useGetDepartmentsQuery,
   useGetDesignationsQuery,
+  useGetGradeScalesQuery,
   useGetSupervisorDropdownQuery,
   useGetEmployeeDetailsQuery,
 } = hrApiSlice;

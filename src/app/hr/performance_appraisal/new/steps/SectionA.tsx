@@ -16,9 +16,16 @@ import {
     useCreateAppraisalMutation,
     useCreateInitialQualificationMutation,
     useCreateTrainingMutation,
+    useDeleteAdditionalQualificationMutation,
+    useDeleteInitialQualificationMutation,
+    useDeleteTrainingMutation,
+    useUpdateAdditionalQualificationMutation,
+    useUpdateInitialQualificationMutation,
+    useUpdateTrainingMutation,
     useGetAppraisalByIdQuery,
     useUpdateAppraisalMutation,
 } from "@/redux/features/appraisal-api-slice";
+import { useGetMyBiodataQuery } from "@/redux/features/hr-api-slice";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -26,12 +33,14 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 type QualRow = {
+  id?: number;
   date_period: string;
   institution: string;
   qualification_attained: string;
 };
 
 type TrainingRow = {
+  id?: number;
   date_period: string;
   organiser: string;
   attainment: string;
@@ -55,15 +64,26 @@ const EMPTY_QUAL_ROW: QualRow = {
 
 function SectionA({ onNext, id }: Props) {
   const { data: appraisal } = useGetAppraisalByIdQuery(id ?? skipToken);
+  const { data: biodata } = useGetMyBiodataQuery();
+  const terms = appraisal?.employment_terms || biodata?.employment_terms;
   const [createAppraisal] = useCreateAppraisalMutation();
   const [updateAppraisal] = useUpdateAppraisalMutation();
   const [createInitialQual] = useCreateInitialQualificationMutation();
+  const [updateInitialQual] = useUpdateInitialQualificationMutation();
   const [createAdditionalQual] = useCreateAdditionalQualificationMutation();
+  const [updateAdditionalQual] = useUpdateAdditionalQualificationMutation();
   const [createTraining] = useCreateTrainingMutation();
+  const [updateTraining] = useUpdateTrainingMutation();
+  const [deleteInitialQual] = useDeleteInitialQualificationMutation();
+  const [deleteAdditionalQual] = useDeleteAdditionalQualificationMutation();
+  const [deleteTraining] = useDeleteTrainingMutation();
 
   const [initialQuals, setInitialQuals] = useState<QualRow[]>([EMPTY_QUAL_ROW]);
   const [additionalQuals, setAdditionalQuals] = useState<QualRow[]>([]);
   const [trainings, setTrainings] = useState<TrainingRow[]>([]);
+  const [removedInitial, setRemovedInitial] = useState<number[]>([]);
+  const [removedAdditional, setRemovedAdditional] = useState<number[]>([]);
+  const [removedTrainings, setRemovedTrainings] = useState<number[]>([]);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -72,6 +92,7 @@ function SectionA({ onNext, id }: Props) {
     setInitialQuals(
       appraisal.initial_qualifications?.length
         ? appraisal.initial_qualifications.map((q) => ({
+            id: q.id,
             date_period: q.date_period || "",
             institution: q.institution || "",
             qualification_attained: q.qualification_attained || "",
@@ -81,6 +102,7 @@ function SectionA({ onNext, id }: Props) {
 
     setAdditionalQuals(
       appraisal.additional_qualifications?.map((q) => ({
+        id: q.id,
         date_period: q.date_period || "",
         institution: q.institution || "",
         qualification_attained: q.qualification_attained || "",
@@ -89,6 +111,7 @@ function SectionA({ onNext, id }: Props) {
 
     setTrainings(
       appraisal.trainings?.map((t) => ({
+        id: t.id,
         date_period: t.date_period || "",
         organiser: t.organiser || "",
         attainment: t.attainment || "",
@@ -103,7 +126,15 @@ function SectionA({ onNext, id }: Props) {
 
   const validationSchema = Yup.object({
     start_date: Yup.string().required("Start date is required"),
-    end_date: Yup.string().required("End date is required"),
+    end_date: Yup.string().required("End date is required").test(
+      "period", "End date must follow the start date and be within three months for probation or one year otherwise",
+      (value, context) => {
+        const start = context.parent.start_date;
+        if (!value || !start) return true;
+        const days = (Date.parse(value) - Date.parse(start)) / 86400000;
+        return days >= 0 && days <= (terms === "probation" ? 92 : 366);
+      },
+    ),
   });
 
   const updateRow = <T,>(arr: T[], i: number, key: keyof T, val: string) =>
@@ -134,15 +165,33 @@ function SectionA({ onNext, id }: Props) {
         (t) => t.organiser || t.attainment || t.date_period,
       );
 
+      if ([...filledInitial, ...filledAdditional].some((q) => !q.institution.trim() || !q.qualification_attained.trim()) ||
+          filledTrainings.some((t) => !t.date_period.trim() || !t.organiser.trim() || !t.attainment.trim())) {
+        toast.error("Complete every qualification and training row before continuing.");
+        return;
+      }
+
+      await Promise.all([
+        ...removedInitial.map((rowId) => deleteInitialQual(rowId).unwrap()),
+        ...removedAdditional.map((rowId) => deleteAdditionalQual(rowId).unwrap()),
+        ...removedTrainings.map((rowId) => deleteTraining(rowId).unwrap()),
+      ]);
+
       await Promise.all([
         ...filledInitial.map((q) =>
-          createInitialQual({ ...q, appraisal: appraisalId }).unwrap(),
+          q.id
+            ? updateInitialQual({ id: q.id, data: q }).unwrap()
+            : createInitialQual({ ...q, appraisal: appraisalId }).unwrap(),
         ),
         ...filledAdditional.map((q) =>
-          createAdditionalQual({ ...q, appraisal: appraisalId }).unwrap(),
+          q.id
+            ? updateAdditionalQual({ id: q.id, data: q }).unwrap()
+            : createAdditionalQual({ ...q, appraisal: appraisalId }).unwrap(),
         ),
         ...filledTrainings.map((t) =>
-          createTraining({ ...t, appraisal: appraisalId }).unwrap(),
+          t.id
+            ? updateTraining({ id: t.id, data: t }).unwrap()
+            : createTraining({ ...t, appraisal: appraisalId }).unwrap(),
         ),
       ]);
 
@@ -165,9 +214,28 @@ function SectionA({ onNext, id }: Props) {
         <h3 className="font-semibold text-primary mb-2">
           A.1 Period of Assessment
         </h3>
+        <p className="mb-3 text-muted-foreground">The appraisal cycle runs July to June. Use a three month period for probation or a twelve month period for confirmed staff.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <DatePicker name="start_date" label="Start Date" required />
           <DatePicker name="end_date" label="End Date" required />
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-md bg-muted/40 p-4 text-sm">
+        <h3 className="mb-2 font-semibold text-primary">A.1 Personal information</h3>
+        <p className="mb-3 text-muted-foreground">These details come from employee biodata. HR can correct them there.</p>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <p>Appraisee: {biodata?.names || appraisal?.appraisee_name || "—"}</p>
+          <p>Date of birth: {biodata?.date_of_birth || appraisal?.appraisee_birth_date || "—"}</p>
+          <p>Job title: {biodata?.designation_name || appraisal?.appraisee_designation || "—"}</p>
+          <p>Directorate: {biodata?.directorate_name || appraisal?.appraisee_directorate || "—"}</p>
+          <p>Department / unit: {biodata?.department_name || appraisal?.appraisee_department || "—"}</p>
+          <p>Date of present appointment: {biodata?.present_appointment_date || appraisal?.present_appointment_date || "—"}</p>
+          <p>Terms of employment: {biodata?.employment_terms_name || terms || "—"}</p>
+          <p>Salary scale: {biodata?.grade_scale_code || appraisal?.appraisee_salary_scale || "—"}</p>
+          <p>Appraiser: {biodata?.supervisor_name || appraisal?.appraiser_name || "—"}</p>
+          <p>Appraiser job title: {biodata?.supervisor_designation_name || appraisal?.appraiser_designation || "—"}</p>
+          <p>Appraiser salary scale: {biodata?.supervisor_grade_scale_code || appraisal?.appraiser_salary_scale || "—"}</p>
         </div>
       </section>
 
@@ -250,11 +318,10 @@ function SectionA({ onNext, id }: Props) {
                     type="button"
                     size="icon"
                     variant="ghost"
-                    onClick={() =>
-                      setInitialQuals(
-                        initialQuals.filter((_, idx) => idx !== i),
-                      )
-                    }
+                    onClick={() => {
+                      if (q.id) setRemovedInitial((ids) => [...ids, q.id!]);
+                      setInitialQuals(initialQuals.filter((_, idx) => idx !== i));
+                    }}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
@@ -356,11 +423,10 @@ function SectionA({ onNext, id }: Props) {
                     type="button"
                     size="icon"
                     variant="ghost"
-                    onClick={() =>
-                      setAdditionalQuals(
-                        additionalQuals.filter((_, idx) => idx !== i),
-                      )
-                    }
+                    onClick={() => {
+                      if (q.id) setRemovedAdditional((ids) => [...ids, q.id!]);
+                      setAdditionalQuals(additionalQuals.filter((_, idx) => idx !== i));
+                    }}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
@@ -450,9 +516,10 @@ function SectionA({ onNext, id }: Props) {
                     type="button"
                     size="icon"
                     variant="ghost"
-                    onClick={() =>
-                      setTrainings(trainings.filter((_, idx) => idx !== i))
-                    }
+                    onClick={() => {
+                      if (t.id) setRemovedTrainings((ids) => [...ids, t.id!]);
+                      setTrainings(trainings.filter((_, idx) => idx !== i));
+                    }}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>

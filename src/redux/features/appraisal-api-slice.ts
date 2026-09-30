@@ -155,6 +155,10 @@ const appraisalApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({ url: "/appraisals/initial-qualifications/", method: "POST", body: data }),
       invalidatesTags: ["Appraisal"],
     }),
+    updateInitialQualification: builder.mutation<AppraisalQualification, { id: number; data: Partial<AppraisalQualification> }>({
+      query: ({ id, data }) => ({ url: `/appraisals/initial-qualifications/${id}/`, method: "PATCH", body: data }),
+      invalidatesTags: ["Appraisal"],
+    }),
     deleteInitialQualification: builder.mutation<void, number>({
       query: (id) => ({ url: `/appraisals/initial-qualifications/${id}/`, method: "DELETE" }),
       invalidatesTags: ["Appraisal"],
@@ -163,12 +167,20 @@ const appraisalApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({ url: "/appraisals/additional-qualifications/", method: "POST", body: data }),
       invalidatesTags: ["Appraisal"],
     }),
+    updateAdditionalQualification: builder.mutation<AppraisalQualification, { id: number; data: Partial<AppraisalQualification> }>({
+      query: ({ id, data }) => ({ url: `/appraisals/additional-qualifications/${id}/`, method: "PATCH", body: data }),
+      invalidatesTags: ["Appraisal"],
+    }),
     deleteAdditionalQualification: builder.mutation<void, number>({
       query: (id) => ({ url: `/appraisals/additional-qualifications/${id}/`, method: "DELETE" }),
       invalidatesTags: ["Appraisal"],
     }),
     createTraining: builder.mutation<AppraisalTraining, Partial<AppraisalTraining>>({
       query: (data) => ({ url: "/appraisals/trainings/", method: "POST", body: data }),
+      invalidatesTags: ["Appraisal"],
+    }),
+    updateTraining: builder.mutation<AppraisalTraining, { id: number; data: Partial<AppraisalTraining> }>({
+      query: ({ id, data }) => ({ url: `/appraisals/trainings/${id}/`, method: "PATCH", body: data }),
       invalidatesTags: ["Appraisal"],
     }),
     deleteTraining: builder.mutation<void, number>({
@@ -213,10 +225,13 @@ export const {
   useUpdateNextYearPlanMutation,
   useDeleteNextYearPlanMutation,
   useCreateInitialQualificationMutation,
+  useUpdateInitialQualificationMutation,
   useDeleteInitialQualificationMutation,
   useCreateAdditionalQualificationMutation,
+  useUpdateAdditionalQualificationMutation,
   useDeleteAdditionalQualificationMutation,
   useCreateTrainingMutation,
+  useUpdateTrainingMutation,
   useDeleteTrainingMutation,
   useCreateCommentMutation,
 } = appraisalApiSlice;
