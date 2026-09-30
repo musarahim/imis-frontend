@@ -11,9 +11,11 @@ const leaveApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: args,
       }),
+      invalidatesTags: (_result, error) => error ? [] : ["LeaveSchedules"],
     }),
     getLeaveSchedules: builder.query<LeaveSchedule[], void>({
       query: () => "/leave/leave-applications/schedules/",
+      providesTags: ["LeaveSchedules"],
     }),
     createLeaveApplication: builder.mutation({
       query: (args: LeaveApplication) => ({
@@ -31,6 +33,7 @@ const leaveApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: patch,
       }),
+      invalidatesTags: (_result, error) => error ? [] : ["LeaveSchedules"],
     }),
     approveLeaveDelegation: builder.mutation({
       query: ({

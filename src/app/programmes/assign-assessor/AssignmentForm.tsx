@@ -2,6 +2,7 @@
 
 import { AppForm, SelectField, SubmitButton } from "@/components/forms";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
     Table,
@@ -28,8 +29,9 @@ type FormValues = {
 
 function AssignmentForm() {
   const router = useRouter();
+  const [page, setPage] = React.useState(1);
   const { data, isLoading, isError } = useGetProgrammesReadyForAccessmentQuery(
-    {},
+    { page, pageSize: 25 },
   );
   const { data: assessors } = useGetProgrammeAssessorsQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -44,22 +46,23 @@ function AssignmentForm() {
 
   const selectAll =
     (data?.results?.length ?? 0) > 0 &&
-    selectedRows.size === (data?.results?.length ?? 0);
+    (data?.results ?? []).every((row) => selectedRows.has(String(row.id)));
 
   const handleSelectAll = (checked: boolean | "indeterminate") => {
     const isChecked = checked === true;
 
     if (isChecked) {
-      setSelectedRows(
-        new Set(
-          (data?.results ?? []).map((row: ProgrammeAccreditation) =>
-            String(row.id),
-          ),
-        ),
-      );
+      setSelectedRows((previous) => new Set([
+        ...previous,
+        ...(data?.results ?? []).map((row) => String(row.id)),
+      ]));
       setApplicationError("");
     } else {
-      setSelectedRows(new Set());
+      setSelectedRows((previous) => {
+        const remaining = new Set(previous);
+        (data?.results ?? []).forEach((row) => remaining.delete(String(row.id)));
+        return remaining;
+      });
     }
   };
 
@@ -100,18 +103,11 @@ function AssignmentForm() {
 
     setApplicationError("");
 
-    const selectedApplications =
-      data?.results?.filter((row: ProgrammeAccreditation) =>
-        selectedRows.has(String(row.id)),
-      ) ?? [];
-
     const selectedAssessor = assessors?.find(
       (assessor) => String(assessor.id) === values.assessor,
     );
 
-    const selectedApplicationIds = selectedApplications
-      .map((app: ProgrammeAccreditation) => app.id)
-      .filter((id: number | undefined): id is number => id !== undefined);
+    const selectedApplicationIds = Array.from(selectedRows, Number);
     const selectedAssessorId = selectedAssessor?.id ?? null;
 
     if (selectedAssessorId) {
@@ -141,7 +137,7 @@ function AssignmentForm() {
       validationSchema={validationSchema}
     >
       <div className="mb-4 mt-1.5 text-lg font-semibold">
-        Assign Preliminary Assessor
+        Assign Assessor
       </div>
 
       <Separator className="my-4" />
@@ -191,6 +187,15 @@ function AssignmentForm() {
               ))}
             </TableBody>
           </Table>
+
+          <div className="mt-3 flex items-center justify-between text-sm">
+            <span>{selectedRows.size} selected · {data?.count ?? 0} ready</span>
+            <div className="flex gap-2">
+              <Button type="button" variant="outline" size="sm" disabled={!data?.previous} onClick={() => setPage((current) => current - 1)}>Previous</Button>
+              <span className="self-center">Page {page}</span>
+              <Button type="button" variant="outline" size="sm" disabled={!data?.next} onClick={() => setPage((current) => current + 1)}>Next</Button>
+            </div>
+          </div>
 
           {applicationError && (
             <p className="mt-2 text-sm text-red-600">{applicationError}</p>

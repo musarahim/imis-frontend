@@ -51,6 +51,11 @@ function ActionsCell({ row }: { row: Row<PerformanceAppraisal> }) {
           <DropdownMenuItem onClick={() => router.push(`/hr/performance_appraisal/${appraisal.id}`)}>
             View
           </DropdownMenuItem>
+          {appraisal.status === "draft" && (
+            <DropdownMenuItem onClick={() => router.push(`/hr/performance_appraisal/edit/${appraisal.id}`)}>
+              Continue draft
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

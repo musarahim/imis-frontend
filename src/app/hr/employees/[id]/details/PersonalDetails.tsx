@@ -186,6 +186,18 @@ function PersonalDetails({ employee }: { employee: Employee }) {
               {employee?.joining_date}
             </TableCell>
           </TableRow>
+          <TableRow>
+            <TableCell className="font-medium py-3">Date of present appointment</TableCell>
+            <TableCell className="text-left sm:text-right py-3">{employee?.present_appointment_date || "—"}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium py-3">Terms of employment</TableCell>
+            <TableCell className="text-left sm:text-right py-3">{employee?.employment_terms_name || "—"}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium py-3">Salary scale</TableCell>
+            <TableCell className="text-left sm:text-right py-3">{employee?.grade_scale_code || "—"}</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </div>

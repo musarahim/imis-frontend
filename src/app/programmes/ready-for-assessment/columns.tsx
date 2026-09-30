@@ -29,7 +29,7 @@ function ActionCell({ application }: { application: ProgrammeAccreditation }) {
           <DropdownMenuItem
             onClick={() =>
               router.push(
-                `/programmes/programme-accreditation/${application.review_id}/details`,
+                `/programmes/programme-accreditation/${application.id}/details`,
               )
             }
           >
@@ -69,17 +69,19 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
   },
   {
     accessorKey: "status",
-    header: () => <div className="text-center">Progressed</div>,
+    header: () => <div className="text-center">Expert recommendation</div>,
     cell: ({ row }) => {
       return (
         <div className="flex justify-center">
           <LinkAsBadge
-            href={`/programmes/programme-accreditation/${row.original.review_id}/details`}
-            text={row.original.expert_progression ?? ""}
+            href={`/programmes/programme-accreditation/${row.original.id}/details`}
+            text={row.original.expert_progression ?? "Not recorded"}
             className={
               row.original.expert_progression === "Yes"
                 ? "bg-green-500 text-white dark:bg-green-600 hover:bg-green-600"
-                : "bg-amber-500 text-white dark:bg-amber-600 hover:bg-amber-600"
+                : row.original.expert_progression === "No"
+                  ? "bg-amber-500 text-white dark:bg-amber-600 hover:bg-amber-600"
+                  : "bg-slate-500 text-white dark:bg-slate-600 hover:bg-slate-600"
             }
           />
         </div>
