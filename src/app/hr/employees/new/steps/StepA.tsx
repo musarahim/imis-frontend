@@ -10,7 +10,6 @@ import {
 import {
     useGetNationalitiesQuery,
     useGetReligionsQuery,
-    useGetTitlesQuery,
     useGetTribesQuery,
 } from "@/redux/features/commonApiSlice";
 import {
@@ -35,11 +34,11 @@ type StepProps = {
 };
 
 type FormValues = {
-  title: string;
   system_account: string;
   directorate: string;
   department: string;
   designation: string;
+  personal_email: string;
   employee_number: string;
   nssf_number: string;
   tin_number: string;
@@ -90,9 +89,13 @@ const employment_terms_options = [
 function GradeScaleSelect() {
   const { values } = useFormikContext<FormValues>();
   const { data: grades } = useGetGradeScalesQuery();
-  const options = grades?.filter((grade) => String(grade.designation) === values.designation)
-    .map((grade) => ({ label: grade.code, value: String(grade.id) })) || [];
-  return <SelectField name="grade_scale" label="Salary scale" options={options} />;
+  const options =
+    grades
+      ?.filter((grade) => String(grade.designation) === values.designation)
+      .map((grade) => ({ label: grade.code, value: String(grade.id) })) || [];
+  return (
+    <SelectField name="grade_scale" label="Salary scale" options={options} />
+  );
 }
 
 function DepartmentSelect() {
@@ -105,7 +108,10 @@ function DepartmentSelect() {
 
   useEffect(() => {
     if (prevDirectorateRef.current !== values.directorate) {
-      setFieldValue("department", "");
+      // Keep prefilled department when update data hydrates the form for the first time.
+      if (prevDirectorateRef.current) {
+        setFieldValue("department", "");
+      }
       prevDirectorateRef.current = values.directorate;
     }
   }, [values.directorate, setFieldValue]);
@@ -135,13 +141,6 @@ function StepA({ onNext, id }: StepProps) {
   const isLoading = isCreatingNew ? isCreating : isUpdating;
 
   const { data: initialValues } = useGetEmployeeDetailsQuery(id ?? skipToken);
-  console.log("initialValues", initialValues?.gender);
-  const { data: titles } = useGetTitlesQuery();
-  const titleOptions =
-    titles?.map((title) => ({
-      label: title.name,
-      value: title.id?.toString() || "",
-    })) || [];
   const { data: nationalities } = useGetNationalitiesQuery();
   const nationalityOptions =
     nationalities?.map((nationality) => ({
@@ -191,12 +190,12 @@ function StepA({ onNext, id }: StepProps) {
     })) || [];
 
   const stepAInitialValues: FormValues = {
-    title: initialValues?.title || "",
     system_account: initialValues?.system_account || "",
     directorate: initialValues?.directorate || "",
     department: initialValues?.department || "",
     designation: initialValues?.designation || "",
     employee_number: initialValues?.employee_number || "",
+    personal_email: initialValues?.personal_email || "",
     nssf_number: initialValues?.nssf_number || "",
     tin_number: initialValues?.tin_number || "",
     date_of_birth: initialValues?.date_of_birth || "",
@@ -216,8 +215,8 @@ function StepA({ onNext, id }: StepProps) {
   };
 
   const stepAValidation = Yup.object({
-    title: Yup.string().required("This field is required"),
     system_account: Yup.string().required("This field is required"),
+    personal_email: Yup.string().email("Invalid email address"),
     directorate: Yup.string().required("This field is required"),
     department: Yup.string().required("This field is required"),
     designation: Yup.string().required("This field is required"),
@@ -286,7 +285,7 @@ function StepA({ onNext, id }: StepProps) {
         </h2>
       </div>
       <div className="mt-3 grid grid-cols-1 gap-x-3 gap-y-6 sm:grid-cols-6">
-        <div className="sm:col-span-3">
+        <div className="sm:col-span-full">
           <SelectField
             name="system_account"
             label="System Account"
@@ -294,13 +293,8 @@ function StepA({ onNext, id }: StepProps) {
             options={userOptions}
           />
         </div>
-        <div className="sm:col-span-3">
-          <SelectField
-            name="title"
-            label="Title"
-            required
-            options={titleOptions}
-          />
+        <div className="sm:col-span-full">
+          <InputField name="personal_email" label="Personal Email" />
         </div>
         <div className="sm:col-span-3">
           <SelectField
@@ -395,15 +389,22 @@ function StepA({ onNext, id }: StepProps) {
           <DatePicker name="joining_date" label="Joining Date" required />
         </div>
         <div className="sm:col-span-3">
-          <DatePicker name="present_appointment_date" label="Date of present appointment" />
+          <DatePicker
+            name="present_appointment_date"
+            label="Date of present appointment"
+          />
         </div>
         <div className="sm:col-span-3">
-          <SelectField name="employment_terms" label="Terms of employment" options={employment_terms_options} />
+          <SelectField
+            name="employment_terms"
+            label="Terms of employment"
+            options={employment_terms_options}
+          />
         </div>
         <div className="sm:col-span-3">
           <GradeScaleSelect />
         </div>
-        <div className="sm:col-span-3">
+        <div className="sm:col-span-full">
           <SelectField
             name="supervisor"
             label="Reports To (Supervisor)"
