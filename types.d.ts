@@ -556,6 +556,7 @@ interface Employee {
   date_of_birth: string;
   names?: string;
   email?: string;
+  personal_email?: string;
   phone?: string;
   alternative_phone_number?: string;
   profile_pic?: string;
@@ -622,8 +623,6 @@ interface Employee {
   department_name: string;
   designation: string;
   designation_name?: string;
-  title: string;
-  title_name?: string;
   nationality: string;
   nationality_name: string;
   religion: string;
@@ -680,7 +679,7 @@ interface EducationHistory {
   qualification: string;
   from_year: number;
   to_year: number;
-  award_date: string;
+  award_year: number;
   employee?: number;
   certificate_document?: string;
 }

@@ -1,11 +1,10 @@
 "use client";
 import {
     AppForm,
-    DatePicker,
     FileField,
     InputField,
     SelectField,
-    SubmitButton,
+    SubmitButton
 } from "@/components/forms";
 import { useUpdateEmployeeMutation } from "@/redux/features/hr-api-slice";
 import { FieldArray } from "formik";
@@ -25,7 +24,7 @@ type EducationEntry = {
   from_year: string;
   to_year: string;
   qualification: string;
-  award_date: string;
+  award_year: string;
   certificate_document: File | string | null;
 };
 
@@ -38,7 +37,7 @@ const emptyEducation: EducationEntry = {
   from_year: "",
   to_year: "",
   qualification: "",
-  award_date: "",
+  award_year: "",
   certificate_document: null,
 };
 
@@ -59,7 +58,7 @@ function StepJ({ onNext, onBack, data }: StepProps) {
           from_year: String(e.from_year ?? ""),
           to_year: String(e.to_year ?? ""),
           qualification: e.qualification ?? "",
-          award_date: e.award_date ?? "",
+          award_year: String(e.award_year ?? ""),
           certificate_document: e.certificate_document ?? null,
         }))
       : [],
@@ -72,7 +71,7 @@ function StepJ({ onNext, onBack, data }: StepProps) {
         from_year: Yup.string().required("From year is required"),
         to_year: Yup.string().required("To year is required"),
         qualification: Yup.string().required("Qualification is required"),
-        award_date: Yup.string(),
+        award_year: Yup.string(),
         certificate_document: Yup.mixed().nullable().notRequired(),
       }),
     ),
@@ -169,9 +168,10 @@ function StepJ({ onNext, onBack, data }: StepProps) {
                     />
                   </div>
                   <div className="sm:col-span-2">
-                    <DatePicker
-                      name={`education_histories[${index}].award_date`}
-                      label="Award Date"
+                    <SelectField
+                      options={yearOptions}
+                      name={`education_histories[${index}].award_year`}
+                      label="Year of Award"
                     />
                   </div>
                   <div className="sm:col-span-full">

@@ -22,6 +22,14 @@ function PersonalDetails({ employee }: { employee: Employee }) {
           </TableRow>
           <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
             <TableCell className="font-medium w-1/3 min-w-30 sm:w-35 text-left align-top py-3">
+              Personal Email
+            </TableCell>
+            <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
+              {employee?.personal_email}
+            </TableCell>
+          </TableRow>
+          <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
+            <TableCell className="font-medium w-1/3 min-w-30 sm:w-35 text-left align-top py-3">
               Contact Numbers
             </TableCell>
             <TableCell className="text-left sm:text-right text-gray-800 dark:text-gray-100 py-3 wrap-break-words">
@@ -187,16 +195,26 @@ function PersonalDetails({ employee }: { employee: Employee }) {
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className="font-medium py-3">Date of present appointment</TableCell>
-            <TableCell className="text-left sm:text-right py-3">{employee?.present_appointment_date || "—"}</TableCell>
+            <TableCell className="font-medium py-3">
+              Date of present appointment
+            </TableCell>
+            <TableCell className="text-left sm:text-right py-3">
+              {employee?.present_appointment_date || "—"}
+            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className="font-medium py-3">Terms of employment</TableCell>
-            <TableCell className="text-left sm:text-right py-3">{employee?.employment_terms_name || "—"}</TableCell>
+            <TableCell className="font-medium py-3">
+              Terms of employment
+            </TableCell>
+            <TableCell className="text-left sm:text-right py-3">
+              {employee?.employment_terms_name || "—"}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium py-3">Salary scale</TableCell>
-            <TableCell className="text-left sm:text-right py-3">{employee?.grade_scale_code || "—"}</TableCell>
+            <TableCell className="text-left sm:text-right py-3">
+              {employee?.grade_scale_code || "—"}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
