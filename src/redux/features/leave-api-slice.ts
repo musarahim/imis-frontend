@@ -2,6 +2,9 @@ import { apiSlice } from "../services/apiSlice";
 
 const leaveApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getStaffOnLeave: builder.query<{ count: number; as_of: string }, void>({
+      query: () => "/leave/leave-applications/staff-on-leave/",
+    }),
     getLeaveTypes: builder.query<LeaveType[], void>({
       query: () => "/leave/leave-types/",
     }),
@@ -174,6 +177,7 @@ const leaveApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetStaffOnLeaveQuery,
   useGetLeaveTypesQuery,
   useCreateLeaveScheduleMutation,
   useGetLeaveSchedulesQuery,
