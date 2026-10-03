@@ -7,6 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEmployeeData } from "@/hooks";
 import { Calendar, Camera, Mail, MapPin } from "lucide-react";
+import { useState } from "react";
+import ProfileProgress from "./ProfileProgress";
 import BankDetail from "./BankDetail";
 import ContactPerson from "./ContactPerson";
 import Dependants from "./Dependants";
@@ -22,13 +24,15 @@ import WorkHistory from "./WorkHistory";
 
 function Content() {
   const { user, employee } = useEmployeeData();
+  const [activeTab, setActiveTab] = useState("personal_details");
 
   return (
     <div className="w-full min-h-screen py-0">
       {/* full-width container */}
       <div className="mx-auto w-full max-w-none   ">
         {/* Single Tabs wrapper for both columns */}
-        <Tabs defaultValue="personal_details" className="w-full">
+        <ProfileProgress employeeId={user?.employee} onSelectSection={setActiveTab} />
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* responsive grid: 1 col on mobile, 2 cols from md+ (1/4 + 3/4) */}
           <div className=" grid w-full grid-cols-1 gap-4  md:grid-cols-4">
             {/* LEFT COLUMN */}

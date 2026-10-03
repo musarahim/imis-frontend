@@ -1,5 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { FormValuesObserverContext } from "@/components/forms/form-values-observer";
+import CompletionSummary from "@/app/profile/CompletionSummary";
+import { useGetEmployeeDetailsQuery } from "@/redux/features/hr-api-slice";
+import { skipToken } from "@reduxjs/toolkit/query";
 import {
     StepA,
     StepB,
@@ -35,11 +39,22 @@ const stepsArray = [
   "L",
   "M",
 ];
+const sectionIds = [
+  "personal_details", "residential_address", "place_of_origin", "next_of_kin",
+  "contact_person", "parents", "identification", "bank_details", "dependents",
+  "education_history", "work_history", "referees", "documents",
+];
 function Form({ showStepNumber, employee_id }: props) {
   const [step, setStep] = useState("A");
   const [formData, setFormData] = useState<Partial<Employee>>({});
+  const [draftValues, setDraftValues] = useState<Partial<Employee>>({});
+  const { data: savedEmployee, isLoading: isEmployeeLoading } = useGetEmployeeDetailsQuery(employee_id ?? skipToken);
+  const observeValues = useCallback((values: Record<string, unknown>) => {
+    setDraftValues(values as Partial<Employee>);
+  }, []);
 
   const handleNext = (data?: Employee) => {
+    setDraftValues({});
     if (data) setFormData(data);
     if (step === "A") {
       setStep("B");
@@ -68,6 +83,7 @@ function Form({ showStepNumber, employee_id }: props) {
     }
   };
   const handleBack = () => {
+    setDraftValues({});
     if (step === "M") {
       setStep("L");
     } else if (step === "L") {
@@ -114,7 +130,11 @@ function Form({ showStepNumber, employee_id }: props) {
     );
   };
   return (
-    <div className="space-y-12  overflow-y-auto px-3">
+    <FormValuesObserverContext.Provider value={observeValues}>
+    <div className="space-y-6 overflow-y-auto px-3">
+      {isEmployeeLoading ? <p role="status">Loading form completion...</p> : (
+        <CompletionSummary employee={{ ...savedEmployee, ...formData, ...draftValues }} live activeSection={sectionIds[stepsArray.indexOf(step)]} />
+      )}
       {renderTopStepNumber()}
       <div>
         {step === "A" && <StepA onNext={handleNext} id={employee_id} />}
@@ -200,6 +220,7 @@ function Form({ showStepNumber, employee_id }: props) {
         )}
       </div>
     </div>
+    </FormValuesObserverContext.Provider>
   );
 }
 
