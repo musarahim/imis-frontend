@@ -195,7 +195,7 @@ function StepC({ onNext, onBack, data }: StepProps) {
         }
       }
     });
-    console.log("Submitting Step B with data:", values);
+
     await updateEmployee({
       id: data?.id ? Number(data.id) : 0,
       data: formdata,

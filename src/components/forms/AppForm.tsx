@@ -1,6 +1,7 @@
 import { Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { ReactNode } from "react";
 import * as Yup from "yup";
+import { FormValuesObserver } from "./form-values-observer";
 
 interface FormikWrapperProps<T extends FormikValues = FormikValues> {
   initialValues: T;
@@ -25,6 +26,7 @@ export default function FormikWrapper<T extends FormikValues>({
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}  className="space-y-4"  encType="multipart/form-data">
+          <FormValuesObserver />
           {children}
         </Form>
       )}

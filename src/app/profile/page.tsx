@@ -10,7 +10,6 @@ function page() {
   return (
  <RequireAuth>
     <SiteHeader />
-          <AppSidebar />
          <div className="flex flex-1">
               <AppSidebar />
             {/* Main content */}
