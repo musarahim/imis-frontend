@@ -47,7 +47,7 @@ test("rounding never reports 100 percent when a field remains", () => {
 });
 
 test("live document progress counts a selected upload and identifies missing names", () => {
-  const document = new File(["certificate"], "certificate.pdf");
+  const document = { name: "certificate.pdf" };
   const progress = getProfileCompletion({ documents: [{ name: "", document }] }, true);
   const documents = progress.sections.find((section) => section.id === "documents");
   assert.equal(documents.completed, 1);
