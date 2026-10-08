@@ -37,8 +37,21 @@ jobs:
           port: 22
           script_stop: true
           script: |
-            set -e
             cd /var/www/portal/
-            git pull origin main
+
+            echo "Fetching latest code..."
+            git fetch origin main
+
+            echo "Synchronizing code..."
+            git reset --hard origin/main
+
+            echo "Installing dependencies..."
+            npm install
+
+            echo "Building application..."
             npm run build
-            pm2 restart portal
+
+            echo "Restarting PM2 application..."
+            pm2 restart portal --update-env
+
+            echo "Deployment completed successfully!"
