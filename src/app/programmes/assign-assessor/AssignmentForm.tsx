@@ -181,7 +181,7 @@ function AssignmentForm() {
                   <TableCell className="font-medium">
                     {row?.institution}
                   </TableCell>
-                  <TableCell>{row?.program_name}</TableCell>
+                  <TableCell>{row?.programme_name}</TableCell>
                   <TableCell>{row?.program_level}</TableCell>
                 </TableRow>
               ))}

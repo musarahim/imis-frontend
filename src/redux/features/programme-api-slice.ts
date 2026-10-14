@@ -3,7 +3,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProgrammeAccreditations: builder.query<
       ListResponse<ProgrammeAccreditation>,
-      ListParams
+      ListParams & { institution?: string; programme_category?: string }
     >({
       query: (params) => {
         const p = params ?? {};
@@ -13,11 +13,19 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         if (p.pageSize !== undefined)
           search.set("page_size", String(p.pageSize));
         if (p.search) search.set("search", p.search);
+        if (p.institution) search.set("institution", p.institution);
+        if (p.programme_category) search.set("programme_category", p.programme_category);
         if (p.ordering) search.set("ordering", p.ordering);
 
         const qs = search.toString();
         return `/programmes/programme-accreditation/submitted-applications/${qs ? `?${qs}` : ""}`;
       },
+    }),
+    getSubmittedApplicationFilterOptions: builder.query<{
+      institutions: { id: number; name: string }[];
+      programme_categories: { value: string; label: string }[];
+    }, void>({
+      query: () => "/programmes/programme-accreditation/submitted-application-filter-options/",
     }),
     getProgrammeAccreditationsUnderReview: builder.query<
       ListResponse<ProgrammeAccreditation>,
@@ -102,7 +110,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getProgrammeReviewers: builder.query<Reviewer[], void>({
+    getProgrammeReviewers: builder.query<ProgrammeReviewer[], void>({
       query: () => `/programmes/programme-reviewers/`,
     }),
     assignReviewers: builder.mutation<
@@ -434,6 +442,8 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetProgrammeAccreditationsQuery,
+  useLazyGetProgrammeAccreditationsQuery,
+  useGetSubmittedApplicationFilterOptionsQuery,
   useRetrieveProgrammeAccreditationQuery,
   usePatchProgrammeAccreditationMutation,
   useCreateProgrammeAccreditationMutation,

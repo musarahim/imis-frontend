@@ -21,7 +21,7 @@ function Content({ id }: { id: string }) {
   console.log("Programme Accreditation Data:", data);
   return (
     <div className="bg-white dark:bg-gray-950 rounded-lg border p-2 h-full">
-      <h3 className="text-xl font-semibold">{data?.program_name}</h3>
+      <h3 className="text-xl font-semibold">{data?.programme_name}</h3>
       <Separator className="my-4" />
       <Table className="w-full mt-1">
         <TableBody>
@@ -46,7 +46,7 @@ function Content({ id }: { id: string }) {
               Programme Name:
             </TableCell>
 
-            <TableCell className="text-md">{data?.program_name}</TableCell>
+            <TableCell className="text-md">{data?.programme_name}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-semibold text-md" colSpan={3}>
@@ -54,13 +54,6 @@ function Content({ id }: { id: string }) {
             </TableCell>
 
             <TableCell className="text-md">{data?.program_level}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Number of Years:
-            </TableCell>
-
-            <TableCell className="text-md">{data?.number_of_years}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-semibold text-md" colSpan={3}>
@@ -118,7 +111,7 @@ function Content({ id }: { id: string }) {
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
-                Programme Structure
+                Programme Document
               </button>
             )}
             {data?.letter_of_submission && (

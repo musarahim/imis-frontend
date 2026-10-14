@@ -42,7 +42,7 @@ function Content({ id }: { id: string }) {
 
   return (
     <div className="bg-white dark:bg-gray-950 rounded-lg border p-2 h-full">
-      <h3 className="text-xl font-semibold">{data?.program_name}</h3>
+      <h3 className="text-xl font-semibold">{data?.programme_name}</h3>
       <Separator className="my-4" />
       <Table className="mt-1 w-full table-fixed">
         <colgroup>
@@ -74,7 +74,7 @@ function Content({ id }: { id: string }) {
             </TableCell>
 
             <TableCell className={plainTextCellClassName}>
-              {data?.program_name}
+              {data?.programme_name}
             </TableCell>
           </TableRow>
           <TableRow className="bg-muted">
@@ -93,14 +93,6 @@ function Content({ id }: { id: string }) {
 
             <TableCell className={plainTextCellClassName}>
               {data?.program_level}
-            </TableCell>
-          </TableRow>
-          <TableRow className="bg-muted">
-            <TableCell className={labelCellClassName} colSpan={1}>
-              Number of years
-            </TableCell>
-            <TableCell className={plainTextCellClassName}>
-              {data?.number_of_years}
             </TableCell>
           </TableRow>
           <TableRow className="bg-muted">
@@ -134,7 +126,7 @@ function Content({ id }: { id: string }) {
 
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
-              Programme Structure:
+              Programme Document:
             </TableCell>
 
             <TableCell className={plainTextCellClassName}>
@@ -580,7 +572,7 @@ function Content({ id }: { id: string }) {
           </TableRow>
           <TableRow>
             <TableCell className={labelCellClassName} colSpan={1}>
-              Programme Structure:
+              Programme Document:
             </TableCell>
 
             <TableCell className="align-top text-gray-800 dark:text-gray-100">

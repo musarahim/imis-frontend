@@ -2,10 +2,10 @@
 import { DataTableColumnHeader } from "@/components/common/data-table-column-header";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LinkAsBadge } from "@/components/ui/link-as-badge";
 import { ColumnDef } from "@tanstack/react-table";
@@ -51,13 +51,15 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
   },
   {
     accessorKey: "application_number",
+    id: "Application Code",
     header: "Application Code",
     cell: ({ row }) => {
       return <div>{row.original.application_number}</div>;
     },
   },
   {
-    accessorKey: "program_name",
+    id: "Programme Name",
+    accessorKey: "programme_name",
     header: "Name",
   },
   //   {
@@ -65,12 +67,14 @@ export const columns: ColumnDef<ProgrammeAccreditation>[] = [
   //     header: "Application Type",
   //   },
   {
+    id: "Programme Level",
     accessorKey: "program_level",
     header: "Programme Level",
   },
 
   {
     accessorKey: "date_submitted",
+    id: "Application Date",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Application Date" />
     ),
