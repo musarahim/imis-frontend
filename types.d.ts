@@ -13,6 +13,10 @@ type Reviewer = {
   name: string;
 };
 
+type ProgrammeReviewer = Reviewer & {
+  assigned_application_count: number;
+};
+
 type ReviewerAssignment = {
   id?: number;
   user: string;
@@ -433,10 +437,9 @@ interface ProgrammeAccreditation {
   application_number?: string;
   application_type: string;
   program_level: string;
-  program_name: string;
+  programme_name: string;
   duration: number;
   duration_type: string;
-  number_of_years: number;
   campus: string;
   date_submitted?: string;
   status?: string;

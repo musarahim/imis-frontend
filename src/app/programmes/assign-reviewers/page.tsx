@@ -10,7 +10,10 @@ function page() {
       <SiteHeader
         items={[
           { label: "Home", href: "/" },
-          { label: "Programmes", href: "/programmes" },
+          {
+            label: "Submitted Applications",
+            href: "/programmes/programme-accreditation",
+          },
           {
             label: "Assign Reviewers",
             href: "/programmes/assign-reviewers",

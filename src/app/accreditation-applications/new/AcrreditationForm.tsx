@@ -36,7 +36,7 @@ function AccreditationForm() {
     programme_name: Yup.string().required("Programme Name is required"),
     duration_semester: Yup.number().required("Duration Semester is required").min(1, "Must be at least 1 semester"),
     campus: Yup.string().required("Campus is required"),
-    programme_structure: Yup.mixed().required("Programme Structure is required"),
+    programme_structure: Yup.mixed().required("Programme Document is required"),
     letter_of_submission: Yup.mixed().required("Letter of Submission is required"),
   });
   const onSubmit = async (values: typeof initialValues) => {
@@ -88,7 +88,7 @@ function AccreditationForm() {
                       
                 </div>
                 <div className="sm:col-span-full">
-                  <FileField name="programme_structure" label="Programme Structure" required />
+                  <FileField name="programme_structure" label="Programme Document" required />
                 </div>
                 <div className="sm:col-span-full">
                   <FileField name="letter_of_submission" label="Letter of Submission" required />

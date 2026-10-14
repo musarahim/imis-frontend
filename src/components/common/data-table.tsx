@@ -1,6 +1,8 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { serializeTableCsv } from "@/lib/csv";
 import { LinkButton } from "@/components/ui/link-button";
 import {
     Table,
@@ -24,7 +26,8 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { Loader2 } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 import * as React from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options ";
@@ -36,6 +39,13 @@ interface DataTableProps<TData, TValue> {
   totalCount?: number;
   addHref?: string;
   addText?: string;
+  toolbarActions?: React.ReactNode;
+  /** Exports visible data columns. Supply fetchRows to export all matching server pages. */
+  csvExport?: {
+    filename: string;
+    fetchRows?: () => Promise<TData[]>;
+    columnLabels?: Record<string, string>;
+  };
   addRequiredPermissions?: string[];
   //handlers
   pagination: PaginationState;
@@ -55,6 +65,8 @@ export function DataTable<TData extends object, TValue>({
   data,
   addHref,
   addText,
+  toolbarActions,
+  csvExport,
   addRequiredPermissions,
   isFetching,
   totalCount,
@@ -71,6 +83,7 @@ export function DataTable<TData extends object, TValue>({
 }: DataTableProps<TData, TValue>) {
   const { user } = useEmployeeData();
   const [searchValue, setSearchValue] = React.useState(globalFilter);
+  const [isExporting, setIsExporting] = React.useState(false);
   const canShowAddButton = React.useMemo(() => {
     if (!addHref) {
       return false;
@@ -141,9 +154,42 @@ export function DataTable<TData extends object, TValue>({
     enableHiding: true,
   });
 
+  const exportCsv = async () => {
+    if (!csvExport || isExporting || isFetching || searchValue !== globalFilter) return;
+    const exportColumns = table.getVisibleLeafColumns().filter((column) => column.accessorFn);
+    if (!exportColumns.length) {
+      toast.error("Show at least one data column before exporting.");
+      return;
+    }
+    setIsExporting(true);
+    try {
+      const rows = csvExport.fetchRows
+        ? await csvExport.fetchRows()
+        : table.getRowModel().rows.map((row) => row.original);
+      if (!rows.length) {
+        toast.info("No rows match the current filters.");
+        return;
+      }
+      const csv = serializeTableCsv(rows, exportColumns, csvExport.columnLabels);
+      const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${csvExport.filename.replace(/\.csv$/i, "")}-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      toast.success(`Exported ${rows.length} rows.`);
+    } catch {
+      toast.error("Could not export rows. Please try again.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex flex-wrap items-center gap-2 py-4">
         <Input
           placeholder="Search..."
           value={searchValue}
@@ -151,7 +197,16 @@ export function DataTable<TData extends object, TValue>({
           className="max-w-sm"
         />
 
-        <div className="ml-auto mr-2">
+        <div className="ml-auto mr-2 flex items-center gap-2">
+          {csvExport && (
+            <Button type="button" variant="secondary" onClick={() => void exportCsv()}
+              disabled={isExporting || isFetching || searchValue !== globalFilter || !data.length}
+              title={csvExport.fetchRows ? "Export all matching rows across all pages" : "Export rows on the current page"}>
+              {isExporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+              {isExporting ? "Exporting..." : "Export CSV"}
+            </Button>
+          )}
+          {toolbarActions}
           {shouldShowButton && (
             <LinkButton href={addHref} linkText={addText || "Add New"} />
           )}

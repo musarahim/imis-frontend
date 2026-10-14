@@ -81,7 +81,7 @@ function AssessmentForm({ id }: AssessmentFormProps) {
     staffing_levels: Yup.string().required("Staffing levels are required"),
     infrastructure: Yup.string().required("Infrastructure is required"),
     programme_structure: Yup.string().required(
-      "Programme structure is required",
+      "Programme Document is required",
     ),
     other_comments: Yup.string(),
     // course
@@ -186,7 +186,7 @@ function AssessmentForm({ id }: AssessmentFormProps) {
 
         <RichEditorField
           name="programme_structure"
-          label="10. Programme Structure"
+          label="10. Programme Document"
         />
         <RichEditorField name="other_comments" label="13. Other Comments" />
         <Separator className="my-4" />

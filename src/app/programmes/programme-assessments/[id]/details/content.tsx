@@ -259,7 +259,7 @@ function Content({ id }: { id: string }) {
           </TableRow>
           <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
-              Programme Structure:
+              Programme Document:
             </TableCell>
 
             <TableCell className="align-top text-gray-800 dark:text-gray-100">

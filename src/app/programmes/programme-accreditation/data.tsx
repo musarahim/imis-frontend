@@ -1,6 +1,7 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useGetProgrammeAccreditationsQuery } from "@/redux/features/programme-api-slice";
+import { useGetProgrammeAccreditationsQuery, useLazyGetProgrammeAccreditationsQuery } from "@/redux/features/programme-api-slice";
+import { collectPaginatedRows } from "@/lib/csv";
 import {
   ColumnFiltersState,
   PaginationState,
@@ -12,6 +13,7 @@ import { columns } from "./columns";
 // ...existing code...
 
 function ProgrammeAccreditationData() {
+  const [fetchExportPage] = useLazyGetProgrammeAccreditationsQuery();
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -42,7 +44,7 @@ function ProgrammeAccreditationData() {
     };
   }, [pagination, sorting, globalFilter]);
 
-  const { data, isLoading, isError } = useGetProgrammeAccreditationsQuery(
+  const { currentData: data, isLoading, isFetching, isError } = useGetProgrammeAccreditationsQuery(
     queryParams,
     {
       // 3. Refetch data when pagination, sorting, or filtering changes
@@ -55,7 +57,20 @@ function ProgrammeAccreditationData() {
   return (
     <>
       <DataTable<ProgrammeAccreditation, unknown>
-        isFetching={isLoading}
+        isFetching={isFetching}
+        totalCount={data?.count ?? 0}
+        csvExport={{
+          filename: "programme-accreditation",
+          columnLabels: { "Programme Name": "Programme Name" },
+          fetchRows: () => collectPaginatedRows<ProgrammeAccreditation>(async (page) => {
+            const request = fetchExportPage({ ...queryParams, page, pageSize: 100 });
+            try {
+              return await request.unwrap();
+            } finally {
+              request.unsubscribe();
+            }
+          }),
+        }}
         columns={columns}
         data={data?.results ?? []}
         pagination={pagination}
