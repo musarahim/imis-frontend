@@ -1,185 +1,24 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useRetrieveDeskReviewInvoiceQuery } from "@/redux/features/programme-api-slice";
 import ExportInvoicePdfButton from "./ExportInvoicePdfButton";
 import InvoiceActions from "./InvoiceActions";
+import InvoicePaper from "../../InvoicePaper";
 
-const formatDate = (value?: string) => {
-  if (!value) return "-";
-
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-
-  return date.toLocaleDateString();
-};
-
-const formatCurrency = (value?: string | number) => {
-  if (value === undefined || value === null || value === "") return "0";
-
-  const numericValue = typeof value === "number" ? value : Number(value);
-  if (Number.isNaN(numericValue)) return String(value);
-
-  return numericValue.toLocaleString();
-};
-
-const normalizeInvoice = (payload: unknown): DeskReviewInvoice | null => {
-  if (!payload) return null;
-
-  if (Array.isArray(payload)) {
-    return (payload[0] as DeskReviewInvoice) ?? null;
-  }
-
-  if (typeof payload === "object") {
-    const data = payload as {
-      results?: DeskReviewInvoice[];
-      data?: DeskReviewInvoice;
-    };
-
-    if (Array.isArray(data.results)) {
-      return data.results[0] ?? null;
-    }
-
-    if (data.data && typeof data.data === "object") {
-      return data.data;
-    }
-
-    return payload as DeskReviewInvoice;
-  }
-
-  return null;
-};
-
-function Content({ id }: { id: string }) {
-  const { data, error, isLoading } = useRetrieveDeskReviewInvoiceQuery(
-    Number(id),
-    {
-      refetchOnMountOrArgChange: true,
-      pollingInterval: 60000,
-    },
-  );
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading invoice</div>;
-
-  const invoice = normalizeInvoice(data);
-
-  if (!invoice) {
-    return <div>No invoice data available</div>;
-  }
-
-  return (
-    <div className="bg-white dark:bg-gray-950 rounded-lg border p-2">
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <h3 className="text-xl font-semibold">Invoice Details</h3>
-        <ExportInvoicePdfButton
-          invoice={{
-            invoice_number: invoice.invoice_number,
-            application: invoice.application,
-            institution: invoice.institution,
-            invoice_date: invoice.invoice_date,
-            payment_reference: invoice?.payment_reference,
-            payment_date: invoice.payment_date,
-            status: invoice.status,
-            administrative_fee: invoice.administrative_fee,
-            desk_review_fee: invoice.desk_review_fee,
-            grand_total: invoice.grand_total,
-          }}
-        />
-      </div>
-      <Separator className="my-4" />
+export default function Content({ id }: { id: string }) {
+  const { data: invoice, isLoading, isError } = useRetrieveDeskReviewInvoiceQuery(Number(id), { refetchOnMountOrArgChange: true, pollingInterval: 60000 });
+  if (isLoading) return <p>Loading invoice...</p>;
+  if (isError || !invoice) return <p role="alert">Unable to load this invoice.</p>;
+  return <div className="space-y-6">
+    <div className="flex flex-wrap items-center justify-between gap-4"><h1 className="text-2xl font-semibold">Desk Review Invoice</h1><ExportInvoicePdfButton invoice={invoice} /></div>
+    <section className="rounded-lg border bg-white p-5 dark:bg-gray-950" aria-label="Payment tracking">
+      <p className="font-semibold">{invoice.status === "Paid" ? "Payment submitted ? awaiting full verification" : invoice.status} ? {invoice.programme_count} programme(s)</p>
+      <div className="mt-3 flex flex-wrap gap-6 text-sm"><p>Invoice total: <strong>UGX {Number(invoice.grand_total).toLocaleString()}</strong></p><p>Verified: <strong>UGX {Number(invoice.verified_amount).toLocaleString()}</strong></p><p>Balance: <strong>UGX {Number(invoice.outstanding_balance).toLocaleString()}</strong></p></div>
+      <p className={`mt-3 font-medium ${invoice.cleared ? "text-green-700" : "text-amber-700"}`}>{invoice.cleared ? "Full payment verified. All programmes on this invoice are cleared for assessor assignment." : "All programmes remain blocked from assessor assignment until Accounts verifies the full invoice total."}</p>
+      {invoice.payment_receipt && <a className="mt-3 inline-block text-blue-600 underline" href={invoice.payment_receipt} target="_blank" rel="noopener noreferrer">View Payment Receipt</a>}
       <InvoiceActions invoice={invoice} />
-      {invoice.status?.toLowerCase() === "paid" && <p className="mb-4 font-medium text-amber-700">Payment proof submitted — awaiting accounts verification.</p>}
-      {invoice.cleared && <p className="mb-4 font-medium text-green-700">Payment verified and acknowledged.</p>}
-      {invoice.payment_receipt && <a className="mb-4 inline-block text-blue-600 underline" href={invoice.payment_receipt} target="_blank" rel="noopener noreferrer">View Payment Receipt</a>}
-
-      <Table className="w-full mt-1 table-fixed [&_td]:whitespace-normal [&_td]:[overflow-wrap:anywhere]">
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Invoice Number:
-            </TableCell>
-            <TableCell className="text-md">
-              {invoice.invoice_number ?? "-"}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Application Number:
-            </TableCell>
-            <TableCell className="text-md">
-              {invoice.application ?? "-"}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Institution:
-            </TableCell>
-            <TableCell className="text-md">
-              {invoice.institution ?? "-"}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Invoice Date:
-            </TableCell>
-            <TableCell className="text-md">
-              {formatDate(invoice.invoice_date)}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Payment Date:
-            </TableCell>
-            <TableCell className="text-md">
-              {formatDate(invoice?.payment_date ?? undefined)}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Payment Reference:
-            </TableCell>
-            <TableCell className="text-md">
-              {invoice.payment_reference ?? "-"}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Status:
-            </TableCell>
-            <TableCell className="text-md capitalize">
-              {invoice.status ?? "-"}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Desk Review Fee:
-            </TableCell>
-            <TableCell className="text-md capitalize">
-              {formatCurrency(invoice.desk_review_fee ?? "-")}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              10% Administrative Fee:
-            </TableCell>
-            <TableCell className="text-md capitalize">
-              {formatCurrency(invoice.administrative_fee ?? "-")}
-            </TableCell>
-          </TableRow>
-          <TableRow className="bg-gray-300 dark:bg-gray-800">
-            <TableCell className="font-semibold text-md" colSpan={3}>
-              Grand Total:
-            </TableCell>
-            <TableCell className="text-md">
-              {formatCurrency(invoice.grand_total ?? invoice.grand_total)}
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
-  );
+      {!!invoice.verifications?.length && <div className="mt-4 overflow-x-auto"><h2 className="mb-2 font-semibold">Verification history</h2><table className="w-full text-left text-sm"><thead><tr><th>Date</th><th>Verified by</th><th>Reference</th><th>Cumulative verified amount (UGX)</th></tr></thead><tbody>{invoice.verifications.map((item, index) => <tr key={index} className="border-t"><td className="py-2">{new Date(item.verified_at).toLocaleString()}</td><td>{item.verified_by}</td><td>{item.payment_reference}</td><td>{Number(item.verified_total).toLocaleString()}</td></tr>)}</tbody></table></div>}
+    </section>
+    <InvoicePaper invoice={invoice} />
+  </div>;
 }
-
-export default Content;

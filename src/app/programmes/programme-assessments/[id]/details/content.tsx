@@ -333,7 +333,7 @@ function Content({ id }: { id: string }) {
           </TableRow>
           <TableRow className="bg-muted">
             <TableCell className={labelCellClassName} colSpan={1}>
-              Credit Units:
+              Credits:
             </TableCell>
 
             <TableCell className={plainTextCellClassName}>
