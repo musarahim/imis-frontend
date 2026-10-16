@@ -343,6 +343,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               url: "/programmes/reviewed-applications",
             },
             {
+              title: "Desk Review Invoices",
+              url: "/programmes/desk-review-invoices",
+            },
+            {
               title: "Ready for Assessment",
               url: "/programmes/ready-for-assessment",
               isActive: pathname.startsWith("/programmes/ready-for-assessment"),
@@ -376,10 +380,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {
               title: "Invoiced Applications",
               url: "/programmes/invoiced-applications",
-            },
-            {
-              title: "Desk Review Invoices",
-              url: "/programmes/desk-review-invoices",
             },
             {
               title: "Management Review",
@@ -422,6 +422,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               ],
             },
             {
+              title: "Desk Review Invoices",
+              url: "/programmes/desk-review-invoices",
+              isActive: pathname.startsWith("/programmes/desk-review-invoices"),
+              requiredPermissions: [
+                "Head Programme Accreditation",
+                "Finance Officer",
+                "System Administrator",
+              ].some((group) => userGroups.has(group)) ? [] : [
+                  "add_programmeassessmentinvoice",
+                  "change_programmeassessmentinvoice",
+                  "delete_programmeassessmentinvoice",
+                  "view_programmeassessmentinvoice",
+                ],
+            },
+            {
               title: "Ready for Assessment",
               url: "/programmes/ready-for-assessment",
               isActive: pathname.startsWith("/programmes/ready-for-assessment"),
@@ -461,17 +476,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               requiredPermissions: ["can_make_directorate_decision"],
             },
 
-            {
-              title: "Desk Review Invoices",
-              url: "/programmes/desk-review-invoices",
-              isActive: pathname.startsWith("/programmes/desk-review-invoices"),
-              requiredPermissions: [
-                "add_programmeassessmentinvoice",
-                "change_programmeassessmentinvoice",
-                "delete_programmeassessmentinvoice",
-                "view_programmeassessmentinvoice",
-              ],
-            },
             {
               title: "Administrative Visit Invoices",
               url: "/programmes/application-invoices",
@@ -825,6 +829,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }),
     [
       pathname,
+      userGroups,
       isActiveRoute,
       directorateLabel,
       canSeeAppraiserMenu,

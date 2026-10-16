@@ -89,7 +89,7 @@ function AssessmentForm({ id }: AssessmentFormProps) {
     course_code: Yup.string().required("Course code is required"),
     course_level: Yup.string().required("Course level is required"),
     notional_hours: Yup.string().required("Notional hours are required"),
-    credit_units: Yup.string().required("Credit units are required"),
+    credit_units: Yup.string().required("Credits are required"),
     course_description: Yup.string().required("Course description is required"),
     course_competences: Yup.string().required(
       "Course competences are required",
@@ -195,7 +195,7 @@ function AssessmentForm({ id }: AssessmentFormProps) {
         <TextAreaField name="course_code" label="Course Code" />
         <TextAreaField name="course_level" label="Course Level" />
         <TextAreaField name="notional_hours" label="Notional Hours" />
-        <TextAreaField name="credit_units" label="Credit Units" />
+        <TextAreaField name="credit_units" label="Credits" />
         <TextAreaField name="course_description" label="Course Description" />
         <TextAreaField name="course_competences" label="Course Competences" />
         <TextAreaField

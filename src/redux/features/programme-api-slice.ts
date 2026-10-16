@@ -1,5 +1,7 @@
 import { apiSlice } from "../services/apiSlice";
 const ProgrammeApiSlice = apiSlice.injectEndpoints({
+  // Fast Refresh reuses the API instance, so replace its old query definitions.
+  overrideExisting: process.env.NODE_ENV === "development",
   endpoints: (builder) => ({
     getProgrammeAccreditations: builder.query<
       ListResponse<ProgrammeAccreditation>,
@@ -193,13 +195,13 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
     retrieveProgrammeAssessment: builder.query<ProgrammeAssessment, number>({
       query: (id) => `/programmes/programme-assessments/${id}/`,
     }),
-    getProgrammeAssessors: builder.query<Reviewer[], void>({
+    getProgrammeAssessors: builder.query<ProgrammeAssessor[], void>({
       query: () => `/programmes/programme-assessors/`,
     }),
 
     getProgrammesReadyForAccessment: builder.query<
       ListResponse<ProgrammeAccreditation>,
-      ListParams
+      ListParams & { institution?: string; programme_category?: string; tier_displine?: string }
     >({
       query: (params) => {
         const p = params ?? {};
@@ -209,11 +211,21 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         if (p.pageSize !== undefined)
           search.set("page_size", String(p.pageSize));
         if (p.search) search.set("search", p.search);
+        if (p.institution) search.set("institution", p.institution);
+        if (p.programme_category) search.set("programme_category", p.programme_category);
+        if (p.tier_displine) search.set("tier_displine", p.tier_displine);
         if (p.ordering) search.set("ordering", p.ordering);
 
         const qs = search.toString();
         return `/programmes/programme-accreditation/ready-for-assessment/${qs ? `?${qs}` : ""}`;
       },
+    }),
+    getAssessmentApplicationFilterOptions: builder.query<{
+      institutions: { id: number; name: string }[];
+      programme_categories: { value: string; label: string }[];
+      tier_disciplines: { value: string; label: string }[];
+    }, void>({
+      query: () => "/programmes/programme-accreditation/assessment-application-filter-options/",
     }),
     getProgressedToDirectorateApplications: builder.query<
       ListResponse<ProgrammeAccreditation>,
@@ -282,23 +294,23 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    addProgrammeAssessmentInvoice: builder.mutation({
-      query: ({
-        id,
-        data,
-      }: {
-        id: number;
-        data: { desk_review_fee: number };
-      }) => {
-        const formData = new FormData();
-        formData.append("application", String(id));
-        formData.append("desk_review_fee", String(data.desk_review_fee));
-        return {
-          url: `/programmes/programme-assessment-invoices/`,
-          method: "POST",
-          body: formData,
-        };
-      },
+    addProgrammeAssessmentInvoice: builder.mutation<DeskReviewInvoice, { institution_id: number; lines: DeskReviewInvoiceLine[] }>({
+      query: (body) => ({ url: `/programmes/programme-assessment-invoices/`, method: "POST", body }),
+      invalidatesTags: ["InvoicedApplications"],
+    }),
+    deskReviewCreationOptions: builder.query<{ can_create: boolean; institutions: { id: number; name: string }[]; payment_instructions?: DeskReviewInvoice['payment_instructions'] }, void>({
+      query: () => `/programmes/programme-assessment-invoices/creation-options/`,
+      providesTags: ["InvoicedApplications"],
+    }),
+    availableDeskReviewProgrammes: builder.query<InvoiceEligibleProgramme[], number>({
+      query: (id) => `/programmes/programme-assessment-invoices/available-programmes/?institution_id=${id}`,
+      providesTags: ["InvoicedApplications"],
+    }),
+    downloadDeskReviewInvoice: builder.mutation<string, number>({
+      query: (id) => ({
+        url: `/programmes/programme-assessment-invoices/${id}/pdf/`,
+        responseHandler: async (response) => response.ok ? URL.createObjectURL(await response.blob()) : response.json(),
+      }),
     }),
 
     addInvoice: builder.mutation<
@@ -412,11 +424,11 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
       query: (id) => `/programmes/programme-assessment-invoices/${id}/`,
       providesTags: (_result, _error, id) => [{ type: "InvoicedApplications", id: `REVIEW_${id}` }],
     }),
-    updateDeskReviewInvoice: builder.mutation<DeskReviewInvoice, { id: number; desk_review_fee: string }>({
-      query: ({ id, desk_review_fee }) => ({
+    updateDeskReviewInvoice: builder.mutation<DeskReviewInvoice, { id: number; lines: DeskReviewInvoiceLine[] }>({
+      query: ({ id, lines }) => ({
         url: `/programmes/programme-assessment-invoices/${id}/`,
         method: "PATCH",
-        body: { desk_review_fee },
+        body: { lines },
       }),
       invalidatesTags: (_result, _error, { id }) => [
         { type: "InvoicedApplications", id: "REVIEW_LIST" },
@@ -430,17 +442,18 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         { type: "InvoicedApplications", id: `REVIEW_${id}` },
       ],
     }),
-    acknowledgeDeskReviewPayment: builder.mutation<DeskReviewInvoice, number>({
-      query: (id) => ({ url: `/programmes/programme-assessment-invoices/${id}/reconcile-invoice/`, method: "POST" }),
-      invalidatesTags: (_result, _error, id) => [
-        { type: "InvoicedApplications", id: "REVIEW_LIST" },
-        { type: "InvoicedApplications", id: `REVIEW_${id}` },
-      ],
+    acknowledgeDeskReviewPayment: builder.mutation<DeskReviewInvoice, { id: number; verified_amount: string }>({
+      query: ({ id, verified_amount }) => ({ url: `/programmes/programme-assessment-invoices/${id}/reconcile-invoice/`, method: "POST", body: { verified_amount } }),
+      invalidatesTags: ["InvoicedApplications"],
     }),
   }),
 });
 
 export const {
+  useGetAssessmentApplicationFilterOptionsQuery,
+  useDeskReviewCreationOptionsQuery,
+  useAvailableDeskReviewProgrammesQuery,
+  useDownloadDeskReviewInvoiceMutation,
   useGetProgrammeAccreditationsQuery,
   useLazyGetProgrammeAccreditationsQuery,
   useGetSubmittedApplicationFilterOptionsQuery,

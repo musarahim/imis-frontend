@@ -33,10 +33,10 @@ export const columns: ColumnDef<DeskReviewInvoice>[] = [
     accessorKey: "application",
     id: "Application Number",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Application Code" />
+      <DataTableColumnHeader column={column} title="Programmes / Applications" />
     ),
     cell: ({ row }) => {
-      return <div>{row.original.application}</div>;
+      return <div><p>{row.original.programme_count} programme(s)</p><p className="text-xs text-muted-foreground">{row.original.application}</p></div>;
     },
   },
   {
@@ -100,6 +100,11 @@ export const columns: ColumnDef<DeskReviewInvoice>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Payment Reference" />
     ),
+  },
+  {
+    accessorKey: "outstanding_balance",
+    header: "Outstanding (UGX)",
+    cell: ({ row }) => Number(row.original.outstanding_balance ?? 0).toLocaleString(),
   },
   {
     id: "actions",

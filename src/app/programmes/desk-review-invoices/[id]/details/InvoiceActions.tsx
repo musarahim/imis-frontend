@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import DeskReviewFeeInput from "../../DeskReviewFeeInput";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useUpdateDeskReviewInvoiceMutation, useSendDeskReviewInvoiceMutation, useAcknowledgeDeskReviewPaymentMutation } from "@/redux/features/programme-api-slice";
 
@@ -18,13 +20,15 @@ function errorMessage(error: unknown) {
 }
 
 export default function InvoiceActions({ invoice }: { invoice: DeskReviewInvoice }) {
+  const router = useRouter();
   const [action, setAction] = useState<"edit" | "send" | "acknowledge" | null>(null);
-  const [fee, setFee] = useState("");
+  const [lines, setLines] = useState<DeskReviewInvoiceLine[]>([]);
+  const [verifiedAmount, setVerifiedAmount] = useState("");
   const [update, updateState] = useUpdateDeskReviewInvoiceMutation();
   const [send, sendState] = useSendDeskReviewInvoiceMutation();
   const [acknowledge, acknowledgeState] = useAcknowledgeDeskReviewPaymentMutation();
   const busy = updateState.isLoading || sendState.isLoading || acknowledgeState.isLoading;
-  if (!invoice.can_manage || !invoice.id) return null;
+  if ((!invoice.can_manage && !invoice.can_send) || !invoice.id) return null;
   const draft = invoice.status?.toLowerCase() === "draft";
   const paid = invoice.status?.toLowerCase() === "paid";
 
@@ -33,14 +37,15 @@ export default function InvoiceActions({ invoice }: { invoice: DeskReviewInvoice
     if (!invoice.id || busy) return;
     try {
       if (action === "edit") {
-        await update({ id: invoice.id, desk_review_fee: fee }).unwrap();
+        await update({ id: invoice.id, lines: lines.map(({ application, desk_review_fee }) => ({ application, desk_review_fee })) }).unwrap();
         toast.success("Invoice updated.");
       } else if (action === "send") {
         await send(invoice.id).unwrap();
         toast.success("Invoice sent to the institution.");
+        router.push("/programmes/desk-review-invoices");
       } else if (action === "acknowledge") {
-        await acknowledge(invoice.id).unwrap();
-        toast.success("Payment acknowledged. The institution has been notified.");
+        const result = await acknowledge({ id: invoice.id, verified_amount: verifiedAmount }).unwrap();
+        toast.success(result.cleared ? "Full payment verified. All programmes are cleared for assessor assignment." : "Verified amount recorded. Programmes remain blocked until the balance is paid.");
       }
       setAction(null);
     } catch (error) {
@@ -50,31 +55,37 @@ export default function InvoiceActions({ invoice }: { invoice: DeskReviewInvoice
 
   return <>
     <div className="my-4 flex flex-wrap gap-2">
-      {draft && <>
-        <Button variant="outline" onClick={() => { setFee(invoice.desk_review_fee ?? ""); setAction("edit"); }}>Edit Invoice</Button>
+      {draft && invoice.can_send && <>
+        <Button variant="outline" onClick={() => { setLines((invoice.lines ?? []).map((line) => ({ ...line }))); setAction("edit"); }}>Edit Programme Fees</Button>
         <Button onClick={() => setAction("send")}>Send Invoice to Institution</Button>
       </>}
-      {paid && <Button onClick={() => setAction("acknowledge")}>Verify & Acknowledge Payment</Button>}
+      {paid && invoice.can_manage && <Button onClick={() => { setVerifiedAmount(""); setAction("acknowledge"); }}>Verify & Acknowledge Payment</Button>}
     </div>
     <Dialog open={action !== null} onOpenChange={(open) => { if (!open && !busy) setAction(null); }}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{action === "edit" ? "Edit Invoice" : action === "send" ? "Send Invoice to Institution" : "Acknowledge Payment"}</DialogTitle>
           <DialogDescription>
-            {action === "edit" ? "The 10% administrative fee and total will be recalculated." : action === "send" ? "The institution will receive the invoice by email and can view it in their portal. The issued amount will be locked." : "Confirm that you have checked the receipt and payment reference against the payment received. This will allow the application to proceed."}
+            {action === "edit" ? "The 10% administrative fee and invoice total will be recalculated from the programme fees." : action === "send" ? "The institution will receive the invoice by email. Programme lines and fees will be locked." : "Check the receipt and payment reference against the payment received. Enter the total amount verified to date, including previous verifications. Every programme remains blocked until the full invoice total is verified."}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
           {action === "edit" ? <div className="space-y-2">
-            <Label htmlFor="desk-review-fee">Desk Review Fee (UGX)</Label>
-            <Input id="desk-review-fee" type="number" min="0.01" max="90909090.90" step="0.01" value={fee} onChange={(event) => setFee(event.target.value)} required disabled={busy} />
+            {lines.map((line, index) => <div key={line.application} className="space-y-2">
+              <Label htmlFor={`fee-${line.application}`}>{line.programme_name} (UGX)</Label>
+              <DeskReviewFeeInput id={`fee-${line.application}`} value={line.desk_review_fee} onValueChange={(value) => setLines((previous) => previous.map((item, i) => i === index ? { ...item, desk_review_fee: value } : item))} required disabled={busy} />
+            </div>)}
           </div> : <div className="space-y-2 [overflow-wrap:anywhere]">
             <p>Invoice: {invoice.invoice_number}</p>
             <p>Total: UGX {Number(invoice.grand_total).toLocaleString()}</p>
             {action === "acknowledge" && <>
               <p>Reference: {invoice.payment_reference}</p>
               <p>Payment date: {invoice.payment_date}</p>
+              <p>Previously verified: UGX {Number(invoice.verified_amount).toLocaleString()}</p>
+              <p>Outstanding balance: UGX {Number(invoice.outstanding_balance).toLocaleString()}</p>
               {invoice.payment_receipt && <a href={invoice.payment_receipt} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">View Payment Receipt</a>}
+              <Label htmlFor="verified-total">Cumulative verified amount (UGX)</Label>
+              <Input id="verified-total" type="number" min={(Number(invoice.verified_amount) + 0.01).toFixed(2)} max={Number(invoice.grand_total)} step="0.01" required disabled={busy} value={verifiedAmount} onChange={(event) => setVerifiedAmount(event.target.value)} />
             </>}
           </div>}
           <DialogFooter>

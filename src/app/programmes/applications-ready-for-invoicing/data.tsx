@@ -1,6 +1,8 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useGetProgrammesReadyForInvoiceQuery } from "@/redux/features/programme-api-slice";
+import { useGetProgrammesReadyForInvoiceQuery, useDeskReviewCreationOptionsQuery } from "@/redux/features/programme-api-slice";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
     ColumnFiltersState,
     PaginationState,
@@ -12,6 +14,7 @@ import { columns } from "./columns";
 // ...existing code...
 
 function ReadyForInvoice() {
+  const { data: options } = useDeskReviewCreationOptionsQuery();
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -54,6 +57,7 @@ function ReadyForInvoice() {
   console.log(data);
   return (
     <>
+      {options?.can_create && <div className="mb-4 flex justify-end"><Button asChild><Link href="/programmes/desk-review-invoices/create">Create Desk Review Invoice</Link></Button></div>}
       <DataTable<ProgrammeAccreditation, unknown>
         isFetching={isLoading}
         columns={columns}

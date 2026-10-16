@@ -17,6 +17,10 @@ type ProgrammeReviewer = Reviewer & {
   assigned_application_count: number;
 };
 
+type ProgrammeAssessor = Reviewer & {
+  assigned_application_count: number;
+};
+
 type ReviewerAssignment = {
   id?: number;
   user: string;
@@ -433,6 +437,8 @@ interface CharterApplication {
 }
 
 interface ProgrammeAccreditation {
+  tier_displine?: string | null;
+  tier_displine_display?: string | null;
   id?: number;
   application_number?: string;
   application_type: string;
@@ -836,7 +842,17 @@ type InvoiceItemType = {
 };
 
 interface DeskReviewInvoice {
+  institution_id?: number;
+  institution_address?: string;
+  programme_count?: number;
+  lines?: DeskReviewInvoiceLine[];
+  verified_amount?: string;
+  outstanding_balance?: string;
+  amount_in_words?: string;
+  payment_instructions?: { account_name: string; account_number: string; bank: string; branch: string };
+  verifications?: { verified_total: string; verified_by: string; verified_at: string; payment_reference: string }[];
   can_manage?: boolean;
+  can_send?: boolean;
   id?: number;
   application?: string;
   status?: string;
@@ -850,6 +866,20 @@ interface DeskReviewInvoice {
   payment_reference?: string | null;
   payment_receipt?: string | null;
   institution?: string;
+}
+
+interface DeskReviewInvoiceLine {
+  application: number;
+  application_number?: string;
+  programme_name?: string;
+  desk_review_fee: string;
+}
+
+interface InvoiceEligibleProgramme {
+  id: number;
+  application_number: string;
+  programme_name: string;
+  program_level: string;
 }
 
 interface Directorate {
