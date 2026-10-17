@@ -1,0 +1,13 @@
+.metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.metric { text-align: left; cursor: pointer; color: inherit; }
+.metric:hover { border-color: var(--secondary); }
+.metric:focus-visible { outline: 2px solid var(--secondary); outline-offset: 3px; }
+.summary { margin-bottom: 16px; }
+.progress { height: 12px; overflow: hidden; border-radius: 999px; background: var(--line); margin: 20px 0 12px; }
+.progress span { display: block; height: 100%; border-radius: inherit; background: var(--secondary); }
+.hint { margin-top: 18px; font-size: 13px; line-height: 1.7; color: var(--muted); }
+.stages { display: flex; flex-wrap: wrap; gap: 10px; }
+.stage { display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; font-size: 12px; }
+.stage strong { background: var(--secondary); color: var(--secondary-foreground); border-radius: 6px; padding: 2px 7px; }
+@media (max-width: 900px) { .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 400px) { .metrics { grid-template-columns: minmax(0, 1fr); } }
