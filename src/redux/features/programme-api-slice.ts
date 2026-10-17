@@ -1,8 +1,29 @@
 import { apiSlice } from "../services/apiSlice";
+import type { ProgrammeDashboardSummary, ProgrammeDashboardApplication, ProgrammeDashboardFilters, ProgrammeDashboardParams } from "@/types/programme-dashboard";
 const ProgrammeApiSlice = apiSlice.injectEndpoints({
   // Fast Refresh reuses the API instance, so replace its old query definitions.
   overrideExisting: process.env.NODE_ENV === "development",
   endpoints: (builder) => ({
+    getProgrammeHeadDashboardSummary: builder.query<ProgrammeDashboardSummary, void>({
+      query: () => "/programmes/head-dashboard/summary/",
+      providesTags: ["InvoicedApplications"],
+    }),
+    getProgrammeHeadDashboardFilters: builder.query<ProgrammeDashboardFilters, void>({
+      query: () => "/programmes/head-dashboard/filter-options/",
+      providesTags: ["InvoicedApplications"],
+    }),
+    getProgrammeHeadDashboardRegister: builder.query<ListResponse<ProgrammeDashboardApplication>, ProgrammeDashboardParams>({
+      query: (params) => {
+        const query = new URLSearchParams();
+        if (params.page) query.set("page", String(params.page));
+        if (params.pageSize) query.set("page_size", String(params.pageSize));
+        for (const key of ["search", "institution", "programme_category", "status", "ordering"] as const) {
+          if (params[key]) query.set(key, params[key]);
+        }
+        return `/programmes/head-dashboard/?${query}`;
+      },
+      providesTags: ["InvoicedApplications"],
+    }),
     getProgrammeAccreditations: builder.query<
       ListResponse<ProgrammeAccreditation>,
       ListParams & { institution?: string; programme_category?: string }
@@ -450,6 +471,10 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetProgrammeHeadDashboardSummaryQuery,
+  useGetProgrammeHeadDashboardFiltersQuery,
+  useGetProgrammeHeadDashboardRegisterQuery,
+  useLazyGetProgrammeHeadDashboardRegisterQuery,
   useGetAssessmentApplicationFilterOptionsQuery,
   useDeskReviewCreationOptionsQuery,
   useAvailableDeskReviewProgrammesQuery,
