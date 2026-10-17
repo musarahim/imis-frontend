@@ -46,3 +46,36 @@ export interface ProgrammeDashboardParams {
   status?: string;
   ordering?: string;
 }
+
+export interface ReviewerDashboardSummary {
+  totals: { assigned: number; pending: number; completed: number; institutions: number };
+  stages: { value: string; label: string; count: number }[];
+}
+
+export interface ReviewerDashboardApplication {
+  id: number;
+  application_number: string;
+  programme_name: string;
+  institution: string;
+  date_submitted: string;
+  status: string;
+  status_label: string;
+  has_review: boolean;
+  review_pending: boolean;
+  reviewed_at: string | null;
+}
+
+export interface AssessorDashboardSummary {
+  totals: { assigned: number; pending: number; completed: number; institutions: number };
+}
+
+export interface AssessorDashboardApplication {
+  id: number;
+  application_number: string;
+  programme_name: string;
+  institution: string;
+  date_submitted: string;
+  has_assessment: boolean;
+  assessment_pending: boolean;
+  assessment_date: string | null;
+}

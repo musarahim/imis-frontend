@@ -41,12 +41,14 @@ test("summary failures show a retry instead of invented zero counts", () => {
 });
 
 test("dashboard registry selects the programme head dashboard only for that group", () => {
-  for (const [group, expected] of [["Head Programme Accreditation", "head-dashboard"], ["Human Resource", "hr-dashboard"], ["Staff", "My workspace"]]) {
+  for (const [group, expected] of [["Head Programme Accreditation", "head-dashboard"], ["Programme Assessors", "assessor-dashboard"], ["Programme Reviewers", "reviewer-dashboard"], ["Human Resource", "hr-dashboard"], ["Staff", "My workspace"]]) {
     const load = createLoader({
       "next/link": "a",
       "@/components/ui/button": { Button: "button" },
       "@/components/ui/card": { Card: "section", CardContent: "div", CardHeader: "header", CardTitle: "h2" },
       "@/redux/features/authApiSlice": { useRetrieveUserQuery: () => ({ data: { first_name: "Test", groups: [{ name: group }] } }) },
+      "./programme-assessor-dashboard": () => React.createElement("div", null, "assessor-dashboard"),
+      "./preliminary-reviewer-dashboard": () => React.createElement("div", null, "reviewer-dashboard"),
       "./human-resource-dashboard": () => React.createElement("div", null, "hr-dashboard"),
       "./programme-accreditation-dashboard": () => React.createElement("div", null, "head-dashboard"),
     });

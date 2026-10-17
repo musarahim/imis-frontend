@@ -1,9 +1,25 @@
 import { apiSlice } from "../services/apiSlice";
-import type { ProgrammeDashboardSummary, ProgrammeDashboardApplication, ProgrammeDashboardFilters, ProgrammeDashboardParams } from "@/types/programme-dashboard";
+import type { AssessorDashboardSummary, AssessorDashboardApplication, ReviewerDashboardSummary, ReviewerDashboardApplication, ProgrammeDashboardSummary, ProgrammeDashboardApplication, ProgrammeDashboardFilters, ProgrammeDashboardParams } from "@/types/programme-dashboard";
 const ProgrammeApiSlice = apiSlice.injectEndpoints({
   // Fast Refresh reuses the API instance, so replace its old query definitions.
   overrideExisting: process.env.NODE_ENV === "development",
   endpoints: (builder) => ({
+    getAssessorDashboardSummary: builder.query<AssessorDashboardSummary, void>({
+      query: () => "/programmes/assessor-dashboard/summary/",
+      providesTags: ["InvoicedApplications"],
+    }),
+    getAssessorDashboardApplications: builder.query<ListResponse<AssessorDashboardApplication>, { page: number; search: string; queue: string }>({
+      query: ({ page, search, queue }) => `/programmes/assessor-dashboard/?${new URLSearchParams({ page: String(page), search, queue })}`,
+      providesTags: ["InvoicedApplications"],
+    }),
+    getReviewerDashboardSummary: builder.query<ReviewerDashboardSummary, void>({
+      query: () => "/programmes/reviewer-dashboard/summary/",
+      providesTags: ["InvoicedApplications"],
+    }),
+    getReviewerDashboardApplications: builder.query<ListResponse<ReviewerDashboardApplication>, { page: number; search: string; queue: string }>({
+      query: ({ page, search, queue }) => `/programmes/reviewer-dashboard/?${new URLSearchParams({ page: String(page), search, queue })}`,
+      providesTags: ["InvoicedApplications"],
+    }),
     getProgrammeHeadDashboardSummary: builder.query<ProgrammeDashboardSummary, void>({
       query: () => "/programmes/head-dashboard/summary/",
       providesTags: ["InvoicedApplications"],
@@ -145,6 +161,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { userId, applications },
       }),
+      invalidatesTags: ["InvoicedApplications"],
     }),
     assignAssessors: builder.mutation<
       ReviewerAssignment,
@@ -155,6 +172,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { userId, applications },
       }),
+      invalidatesTags: ["InvoicedApplications"],
     }),
 
     createPreliminaryReview: builder.mutation({
@@ -163,6 +181,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: args,
       }),
+      invalidatesTags: ["InvoicedApplications"],
     }),
 
     getPreliminaryReviews: builder.query<
@@ -193,6 +212,7 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: args,
       }),
+      invalidatesTags: ["InvoicedApplications"],
     }),
 
     getProgrammeAssessments: builder.query<
@@ -471,6 +491,10 @@ const ProgrammeApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetAssessorDashboardSummaryQuery,
+  useGetAssessorDashboardApplicationsQuery,
+  useGetReviewerDashboardSummaryQuery,
+  useGetReviewerDashboardApplicationsQuery,
   useGetProgrammeHeadDashboardSummaryQuery,
   useGetProgrammeHeadDashboardFiltersQuery,
   useGetProgrammeHeadDashboardRegisterQuery,
