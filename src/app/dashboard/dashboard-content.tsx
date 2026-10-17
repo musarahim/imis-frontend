@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRetrieveUserQuery } from "@/redux/features/authApiSlice";
 import HumanResourceDashboard from "./human-resource-dashboard";
+import ProgrammeAccreditationDashboard from "./programme-accreditation-dashboard";
 
 // Entries are ordered: the first matching group selects the dashboard.
 const roleDashboards = [
+  { group: "Head Programme Accreditation", component: ProgrammeAccreditationDashboard },
   { group: "Human Resource", component: HumanResourceDashboard },
 ];
 
