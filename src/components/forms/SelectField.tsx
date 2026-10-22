@@ -31,6 +31,7 @@ interface Props {
   options: Option[];
   id?: string;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 function SelectField({
@@ -40,6 +41,7 @@ function SelectField({
   options,
   id,
   placeholder,
+  disabled = false,
 }: Props) {
   const [open, setOpen] = useState(false);
   const [field, meta] = useField<string>(name);
@@ -70,6 +72,7 @@ function SelectField({
           <PopoverTrigger asChild>
             <Button
               id={id ?? name}
+              disabled={disabled}
               variant="outline"
               role="combobox"
               aria-expanded={open}

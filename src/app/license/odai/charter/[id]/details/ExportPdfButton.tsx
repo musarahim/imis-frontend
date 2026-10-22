@@ -1,4 +1,5 @@
 "use client";
+import { parseProvisionalObjectives } from "@/utils/provisionalObjectives";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -262,9 +263,14 @@ function buildExportRows(
       { label: "Mobile", value: toDisplayValue(institution?.phone) },
       { label: "Region", value: toDisplayValue(institution?.region) },
       { label: "District", value: toDisplayValue(institution?.district) },
+      { label: "County", value: toDisplayValue(institution?.county_name) },
+      { label: "Sub-county", value: toDisplayValue(institution?.sub_county_name) },
+      { label: "Parish", value: toDisplayValue(institution?.parish_name) },
+      { label: "Village", value: toDisplayValue(institution?.village_name) },
       { label: "Location", value: toDisplayValue(institution?.location) },
     ],
     location: [
+      { label: "Geographical location", value: toDisplayValue(licenseData?.geographical_location) },
       {
         label: "Has provisional license",
         value: toDisplayValue(licenseData?.has_provisional_license),
@@ -384,7 +390,7 @@ function buildExportRows(
       },
       {
         label: "Vehicle registration",
-        value: toDisplayValue(licenseData?.vehicle_registration),
+        value: toDisplayValue(licenseData?.vehicles?.length ? licenseData.vehicles.map((vehicle) => `${vehicle.make} - ${vehicle.registration_number}`).join("\n") : licenseData?.vehicle_registration),
       },
     ],
     facilities: [
@@ -428,6 +434,7 @@ function buildExportRows(
         label: "University has internet access",
         value: toDisplayValue(licenseData?.has_internet_access),
       },
+      { label: "Internet Service Provider (ISP)", value: toDisplayValue(licenseData?.ISP_provider) },
       {
         label: "Library seats",
         value: toDisplayValue(licenseData?.library_seats),
@@ -612,7 +619,7 @@ function buildExportRows(
       { label: "Mission", value: toDisplayValue(licenseData?.mission) },
       {
         label: "Specific objectives",
-        value: toDisplayValue(licenseData?.specific_objectives),
+        value: toDisplayValue(parseProvisionalObjectives(licenseData?.specific_objectives).map((objective, index) => `${index + 1}. ${objective}`).join("\n")),
       },
       {
         label: "Strategic plan",
@@ -698,6 +705,7 @@ function buildExportRows(
       },
     ],
     documents: [
+      ...(licenseData?.supporting_documents ?? []).map((document) => ({ label: document.title, value: toFileName(document.document) })),
       {
         label: "Signatures of the officers",
         value: toFileName(licenseData?.signature_officers),

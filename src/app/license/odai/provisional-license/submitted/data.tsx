@@ -1,6 +1,6 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useGetProvisionalLicensesQuery } from "@/redux/features/license-api-slice";
+import { useGetODAIProvisionalLicensesQuery } from "@/redux/features/license-api-slice";
 import {
     ColumnFiltersState,
     PaginationState,
@@ -43,7 +43,7 @@ function ProvisionalLicenseData() {
   }, [pagination, sorting, globalFilter]);
 
   const { data, isLoading, isError } =
-    useGetProvisionalLicensesQuery(queryParams);
+    useGetODAIProvisionalLicensesQuery(queryParams);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
   console.log(data);

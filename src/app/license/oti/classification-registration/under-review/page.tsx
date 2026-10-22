@@ -1,6 +1,5 @@
+import LicensingPage from "@/components/licensing/LicensingPage";
 
-function page() {
-  return <div>page</div>;
+export default function Page() {
+  return <LicensingPage applicationType="oti-classification" mode="under-review" />;
 }
-
-export default page;
