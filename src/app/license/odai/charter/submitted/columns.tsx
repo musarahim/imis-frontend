@@ -31,7 +31,7 @@ function ActionsCell({ application }: { application: CharterApplication }) {
           <DropdownMenuItem
             onClick={() =>
               router.replace(
-                `/license/university/charter/${application.id}/details`,
+                `/license/odai/charter/${application.id}/details`,
               )
             }
           >

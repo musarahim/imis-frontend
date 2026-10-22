@@ -1,6 +1,6 @@
 "use client";
 import { DataTable } from "@/components/common/data-table";
-import { useGetCharterApplicationsQuery } from "@/redux/features/license-api-slice";
+import { useGetODAICharterApplicationsQuery } from "@/redux/features/license-api-slice";
 import {
     ColumnFiltersState,
     PaginationState,
@@ -42,7 +42,7 @@ function CharterApplicationData() {
   }, [pagination, sorting, globalFilter]);
 
   const { data, isLoading, isError } =
-    useGetCharterApplicationsQuery(queryParams);
+    useGetODAICharterApplicationsQuery(queryParams);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
   console.log(data);

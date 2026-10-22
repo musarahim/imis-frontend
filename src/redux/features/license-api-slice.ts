@@ -1,3 +1,4 @@
+import { licensingApplications, LicensingApplicationType, LicensingQueueKind, LicensingQueueResponse, LicensingReviewer, LicensingAssignmentFilters } from "@/lib/licensing";
 import { apiSlice } from "../services/apiSlice";
 
 const buildListQuery = (path: string, params?: ListParams) => {
@@ -15,6 +16,48 @@ const buildListQuery = (path: string, params?: ListParams) => {
 
 const LicenseApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+
+    getLicensingQueue: builder.query<LicensingQueueResponse, {
+      applicationType: LicensingApplicationType; queue: LicensingQueueKind; page: number; search?: string;
+      pageSize?: number; institution?: string; status?: string;
+    }>({
+      query: ({ applicationType, queue, page, search, pageSize = 10, institution, status }) => {
+        const path = buildListQuery(`/licenses/${licensingApplications[applicationType].endpoint}/${queue}/`, { page, pageSize, search });
+        const filters = new URLSearchParams();
+        if (institution) filters.set("institution", institution);
+        if (status) filters.set("status", status);
+        return path + (filters.size ? `&${filters}` : "");
+      },
+    }),
+    getLicensingAssignmentFilters: builder.query<LicensingAssignmentFilters, LicensingApplicationType>({
+      query: (applicationType) => `/licenses/${licensingApplications[applicationType].endpoint}/assignment-filter-options/`,
+    }),
+    assignLicensingReviewers: builder.mutation<{ message: string; assigned_count: number; changed_count: number }, {
+      applicationType: LicensingApplicationType; userId: number; applications: number[];
+    }>({
+      query: ({ applicationType, userId, applications }) => ({
+        url: `/licenses/${licensingApplications[applicationType].endpoint}/assign-desk-reviewer/`,
+        method: 'POST', body: { userId, applications },
+      }),
+    }),
+
+
+    retrieveODAIInterimAuthority: builder.query<InterimAuthority, number>({
+      query: (id) => `/licenses/interim-authority-odai/${id}/`,
+    }),
+    getODAIProvisionalLicenses: builder.query<ListResponse<UniversityProvisionalLicense>, ListParams>({
+      query: (params) => buildListQuery('/licenses/provisional-license-odai/', params),
+    }),
+    retrieveODAIProvisionalLicense: builder.query<UniversityProvisionalLicense, number>({
+      query: (id) => `/licenses/provisional-license-odai/${id}/`,
+    }),
+    getODAICharterApplications: builder.query<ListResponse<CharterApplication>, ListParams>({
+      query: (params) => buildListQuery('/licenses/charter-application-odai/', params),
+    }),
+    retrieveODAICharterApplication: builder.query<CharterApplication, number>({
+      query: (id) => `/licenses/charter-application-odai/${id}/`,
+    }),
+
     getIntrimAuthorities: builder.query<
       ListResponse<InterimAuthority>,
       ListParams
@@ -131,8 +174,10 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
     }),
 
     //license application reviewer
-    getDeskReviewers: builder.query<Reviewer[], void>({
-      query: () => `/licenses/desk-reviewers/`,
+    getDeskReviewers: builder.query<LicensingReviewer[], { applicationType: LicensingApplicationType } | void>({
+      query: (params) => params?.applicationType
+        ? `/licenses/desk-reviewers/?review_permission=${licensingApplications[params.applicationType].reviewPermission}`
+        : `/licenses/desk-reviewers/`,
     }),
     assignInterimAuthorityReviewers: builder.mutation<
       ReviewerAssignment,
@@ -159,6 +204,14 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetLicensingAssignmentFiltersQuery,
+  useGetLicensingQueueQuery,
+  useAssignLicensingReviewersMutation,
+  useRetrieveODAIInterimAuthorityQuery,
+  useGetODAIProvisionalLicensesQuery,
+  useRetrieveODAIProvisionalLicenseQuery,
+  useGetODAICharterApplicationsQuery,
+  useRetrieveODAICharterApplicationQuery,
   useGetIntrimAuthoritiesQuery,
   useRetrieveInterimAuthorityQuery,
   usePatchInterimAuthorityMutation,

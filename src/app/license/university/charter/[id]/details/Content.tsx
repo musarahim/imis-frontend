@@ -6,6 +6,7 @@ import { useGetInstitutionsQuery } from "@/redux/features/institution-api-slice"
 import { useRetrieveCharterApplicationQuery } from "@/redux/features/license-api-slice";
 
 import { useGetPaymentPRNsQuery } from "@/redux/features/payment-api-slice";
+import { parseProvisionalObjectives } from "@/utils/provisionalObjectives";
 import { FileDisplay } from "@/utils/fileUtils";
 import ExportPdfButton from "./ExportPdfButton";
 
@@ -155,6 +156,22 @@ function Content({ id }: { id: string }) {
                   {institution?.district}
                 </TableCell>
               </TableRow>
+              <TableRow>
+                <TableCell className="font-medium w-[300px]">County</TableCell>
+                <TableCell className="whitespace-normal break-words">{institution?.county_name || "Not provided"}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium w-[300px]">Sub-county</TableCell>
+                <TableCell className="whitespace-normal break-words">{institution?.sub_county_name || "Not provided"}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium w-[300px]">Parish</TableCell>
+                <TableCell className="whitespace-normal break-words">{institution?.parish_name || "Not provided"}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium w-[300px]">Village</TableCell>
+                <TableCell className="whitespace-normal break-words">{institution?.village_name || "Not provided"}</TableCell>
+              </TableRow>
               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
                 <TableCell className="font-medium w-[100px]">
                   Location{" "}
@@ -210,6 +227,10 @@ function Content({ id }: { id: string }) {
                 <TableCell className="text-right text-gray-800 dark:text-gray-100">
                   {license?.amount_of_land_owned} acres
                 </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium w-[300px]">Geographical location</TableCell>
+                <TableCell className="whitespace-normal break-words">{license?.geographical_location || "Not provided"}</TableCell>
               </TableRow>
               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
                 <TableCell className="font-medium w-[300px]">
@@ -494,7 +515,7 @@ function Content({ id }: { id: string }) {
                 </TableCell>
 
                 <TableCell className="text-right text-gray-800 dark:text-gray-100">
-                  {license?.vehicle_registration}
+                  {license?.vehicles?.length ? <ul className="space-y-1">{license.vehicles.map((vehicle) => <li key={vehicle.id}>{vehicle.make} — {vehicle.registration_number}</li>)}</ul> : license?.vehicle_registration}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -598,6 +619,10 @@ function Content({ id }: { id: string }) {
                 <TableCell className="text-right text-gray-800 dark:text-gray-100">
                   {license?.has_internet_access ? "Yes" : "No"}
                 </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium w-[300px]">Internet Service Provider (ISP)</TableCell>
+                <TableCell className="whitespace-normal break-words">{license?.ISP_provider || "Not provided"}</TableCell>
               </TableRow>
               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
                 <TableCell className="font-medium w-[100px]">
@@ -1080,7 +1105,9 @@ function Content({ id }: { id: string }) {
                 </TableCell>
 
                 <TableCell className="text-gray-800 dark:text-gray-100 whitespace-pre-wrap break-words">
-                  {license?.specific_objectives}
+                  {parseProvisionalObjectives(license?.specific_objectives).length ? (
+<ol className="list-decimal space-y-1 pl-5 text-left">{parseProvisionalObjectives(license?.specific_objectives).map((objective, index) => <li key={index} className="whitespace-pre-wrap">{objective}</li>)}</ol>
+) : "No objectives provided"}
                 </TableCell>
               </TableRow>
               <TableRow className="odd:bg-white even:bg-gray-100 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
@@ -1348,6 +1375,10 @@ function Content({ id }: { id: string }) {
                 <TableCell className="text-right text-gray-800 dark:text-gray-100">
                   <FileDisplay file={license?.facilities} />
                 </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium w-[300px]">Supporting documents</TableCell>
+                <TableCell className="whitespace-normal break-words">{license?.supporting_documents?.length ? <ul className="space-y-3">{license.supporting_documents.map((document) => <li key={document.id}><p className="font-medium">{document.title}</p><FileDisplay file={document.document} /></li>)}</ul> : "No supporting documents uploaded"}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

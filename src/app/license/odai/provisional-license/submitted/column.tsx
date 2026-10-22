@@ -40,7 +40,7 @@ function ActionsCell({ row }: ActionsCellProps) {
           <DropdownMenuItem
             onClick={() =>
               router.replace(
-                `/university-provisional-license/${application.id}/details`,
+                `/license/odai/provisional-license/${application.id}/details`,
               )
             }
           >

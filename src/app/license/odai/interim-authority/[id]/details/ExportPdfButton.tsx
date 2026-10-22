@@ -1,4 +1,5 @@
 "use client";
+import { parseProvisionalObjectives } from "@/utils/provisionalObjectives";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -181,6 +182,24 @@ function formatCurrency(value: number | null | undefined) {
   return `UGX ${new Intl.NumberFormat("en-UG").format(value)}`;
 }
 
+function formatPromoters(licenseData?: InterimAuthority) {
+  const promoters = licenseData?.promoters_details;
+
+  if (!promoters?.length) {
+    return "-";
+  }
+
+  const formatted = promoters
+    .map((promoter) => {
+      const email = promoter.email ? ` (${promoter.email})` : "";
+      const nationality = promoter.nationality_name ? ` - ${promoter.nationality_name}` : "";
+      return `${promoter.name} - ${promoter.phone}${email}${nationality}`;
+    })
+    .join("; ");
+
+  return formatted || "-";
+}
+
 function buildExportRows(
   licenseData?: InterimAuthority,
   institution?: Institution,
@@ -213,9 +232,15 @@ function buildExportRows(
       { label: "Mobile", value: toDisplayValue(institution?.phone) },
       { label: "Region", value: toDisplayValue(institution?.region) },
       { label: "District", value: toDisplayValue(institution?.district) },
+{ label: "County", value: toDisplayValue(institution?.county_name) },
+{ label: "Sub-county", value: toDisplayValue(institution?.sub_county_name) },
+{ label: "Parish", value: toDisplayValue(institution?.parish_name) },
+{ label: "Village", value: toDisplayValue(institution?.village_name) },
       { label: "Location", value: toDisplayValue(institution?.location) },
     ],
     location: [
+      { label: "Land size (acres)", value: toDisplayValue(licenseData?.land_size) },
+      { label: "Geographical location", value: toDisplayValue(licenseData?.geographical_location) },
       {
         label: "Has title deed",
         value: toDisplayValue(licenseData?.has_title_deed),
@@ -227,21 +252,21 @@ function buildExportRows(
       },
       {
         label: "University promoters",
-        value: toDisplayValue(licenseData?.names_of_promoters),
+        value: formatPromoters(licenseData),
       },
     ],
     strategy: [
       { label: "Vision", value: toDisplayValue(licenseData?.vision) },
       { label: "Mission", value: toDisplayValue(licenseData?.mission) },
-      { label: "Objectives", value: toDisplayValue(licenseData?.objectives) },
+      { label: "Objectives", value: toDisplayValue(parseProvisionalObjectives(licenseData?.objectives).map((objective, index) => `${index + 1}. ${objective}`).join("\n")) },
       { label: "Philosophy", value: toDisplayValue(licenseData?.philosophy) },
       {
         label: "Governance structures",
-        value: toDisplayValue(licenseData?.governance_structure),
+        value: toFileName(licenseData?.governance_structure),
       },
       {
         label: "Human resources",
-        value: toDisplayValue(licenseData?.human_resources),
+        value: toFileName(licenseData?.human_resources),
       },
       {
         label: "Source of finance",
@@ -254,6 +279,8 @@ function buildExportRows(
       },
     ],
     documents: [
+      ...(licenseData?.supporting_documents ?? []).map((document) => ({ label: document.title, value: toFileName(document.document) })),
+      ...(licenseData?.promoters_details ?? []).filter((promoter) => promoter.id_passport_document).map((promoter) => ({ label: `${promoter.name} ID / passport`, value: toFileName(promoter.id_passport_document) })),
       {
         label: "Promoters signatures",
         value: toFileName(licenseData?.promoters),

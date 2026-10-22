@@ -40,7 +40,7 @@ function ActionsCell({ row }: ActionsCellProps) {
           <DropdownMenuItem
             onClick={() =>
               router.push(
-                `/license/university/interim-authority/${application.id}/details`,
+                `/license/odai/interim-authority/${application.id}/details`,
               )
             }
           >
@@ -97,7 +97,7 @@ const columns: ColumnDef<InterimAuthority>[] = [
     cell: ({ row }) => (
       <div className="flex justify-center">
         <LinkAsBadge
-          href={`/interim-authority/${row.original.id}/details`}
+          href={`/license/odai/interim-authority/${row.original.id}/details`}
           text={row.original.status ?? ""}
           className="bg-blue-500 text-white dark:bg-blue-600 hover:bg-blue-600"
         />

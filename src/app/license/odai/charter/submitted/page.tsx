@@ -1,30 +1,5 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
-import { SidebarInset } from "@/components/ui/sidebar";
-import { RequireAuth } from "@/utils";
-import CharterApplicationData from "./data";
-function page() {
-  return (
-    <RequireAuth>
-      <SiteHeader
-        items={[
-          { label: "Home", href: "/" },
-          {
-            label: "Grant Charter University",
-            href: "/university-grant-charter",
-          },
-        ]}
-      />
-      <div className="flex flex-1">
-        <AppSidebar />
-        <SidebarInset>
-          <div className="flex flex-1 flex-col gap-4 p-4">
-            <CharterApplicationData />
-          </div>
-        </SidebarInset>
-      </div>
-    </RequireAuth>
-  );
-}
+import LicensingPage from "@/components/licensing/LicensingPage";
 
-export default page;
+export default function Page() {
+  return <LicensingPage applicationType="odai-charter" mode="submitted" />;
+}

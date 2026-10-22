@@ -100,6 +100,10 @@ type InstitutionForm = {
 };
 
 type Institution = {
+  county_name?: string | null;
+  sub_county_name?: string | null;
+  parish_name?: string | null;
+  village_name?: string | null;
   id?: number;
   name: string;
   acroynm: string;
@@ -168,6 +172,10 @@ interface FinancialYear {
 }
 
 interface InterimAuthority {
+  geographical_location?: string | null;
+  land_size?: number | null;
+  promoters_details?: { id?: number; name: string; phone: string; email?: string | null; nationality_name?: string | null; id_passport_document?: string | null }[];
+  supporting_documents?: { id: number; title: string; document: string }[];
   id?: number;
   application_code?: string;
   has_title_deed: boolean;
@@ -197,6 +205,11 @@ interface InterimAuthority {
 }
 
 interface UniversityProvisionalLicense {
+  student_Welfare_offices?: number | null;
+  geographical_location?: string | null;
+  ISP_provider?: string | null;
+  vehicles?: { id: number; make: string; registration_number: string }[];
+  supporting_documents?: { id: number; title: string; document: string }[];
   id?: number;
   application_code?: string;
   institution: string;
@@ -310,6 +323,10 @@ interface UniversityProvisionalLicense {
 }
 
 interface CharterApplication {
+  geographical_location?: string | null;
+  ISP_provider?: string | null;
+  vehicles?: { id: number; make: string; registration_number: string }[];
+  supporting_documents?: { id: number; title: string; document: string }[];
   id?: string;
   application_code?: string;
   has_provisional_license: boolean;

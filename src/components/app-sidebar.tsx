@@ -1,4 +1,5 @@
 "use client";
+import { licensingApplications } from "@/lib/licensing";
 
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
@@ -114,6 +115,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     : "Your Directorate";
 
   const canSeeItem = (item: Item): boolean => {
+    if (item.url.startsWith("/license/") && (
+      userGroups.has("System Administrator") ||
+      (userGroups.has("ILA Desk Review Officer") && !item.url.endsWith("/assign-reviewer"))
+    )) return true;
+    const licensing = Object.values(licensingApplications).find((config) =>
+      item.url.startsWith(`/license/${config.path}/`),
+    );
+    if (licensing) {
+      const canAssign = userPermissions.has("can_assign_reviewers") || userPermissions.has(licensing.permission)
+        || userGroups.has("Head of Department(ILA)") || userGroups.has("Director QA");
+      const canReview = userPermissions.has("can_review_institutional_licensing") || userPermissions.has(licensing.reviewPermission);
+      return canAssign || (canReview && !item.url.endsWith("/assign-reviewer"));
+    }
     if (item.isVisible === false) {
       return false;
     }
