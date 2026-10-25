@@ -1,5 +1,8 @@
 import { licensingApplications, LicensingApplicationType, LicensingQueueKind, LicensingQueueResponse, LicensingReviewer, LicensingAssignmentFilters } from "@/lib/licensing";
+import { LicensingReviewInput, LicensingReviewResponse } from "@/lib/licensing-review";
 import { apiSlice } from "../services/apiSlice";
+import { ProcessingInput, ProcessingState, ProcessingQueue } from "@/lib/licensing-processing";
+import { LicensingApplicationStatus, LicensingStatusEndpoint } from "@/lib/licensing-status";
 
 const buildListQuery = (path: string, params?: ListParams) => {
   const p = params ?? {};
@@ -16,16 +19,41 @@ const buildListQuery = (path: string, params?: ListParams) => {
 
 const LicenseApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getLicensingApplicationStatus: builder.query<LicensingApplicationStatus, { endpoint: LicensingStatusEndpoint; id: number }>({
+      query: ({ endpoint, id }) => `/licenses/${endpoint}/${id}/application-status/`,
+    }),
+    getLicensingProcessingQueue: builder.query<ProcessingQueue, { applicationType: LicensingApplicationType; page: number; search: string; pageSize?: number; ordering?: string; queue?: string }>({
+      query: ({ applicationType, page, search, pageSize, ordering, queue }) => {
+        const path = buildListQuery(`/licenses/${licensingApplications[applicationType].endpoint}/processing-queue/`, { page, search, pageSize, ordering });
+        return `${path}&queue=${encodeURIComponent(queue ?? "all")}`;
+      },
+    }),
+    getLicensingProcessing: builder.query<ProcessingState, { applicationType: LicensingApplicationType; id: number }>({
+      query: ({ applicationType, id }) => `/licenses/${licensingApplications[applicationType].endpoint}/${id}/processing/`,
+    }),
+    saveLicensingProcessing: builder.mutation<ProcessingState, { applicationType: LicensingApplicationType; id: number; data: ProcessingInput }>({
+      query: ({ applicationType, id, data }) => ({ url: `/licenses/${licensingApplications[applicationType].endpoint}/${id}/processing/`, method: "POST", body: data }),
+    }),
+    getLicensingPreliminaryReview: builder.query<LicensingReviewResponse, { applicationType: LicensingApplicationType; id: number }>({
+      query: ({ applicationType, id }) => `/licenses/${licensingApplications[applicationType].endpoint}/${id}/preliminary-review/`,
+    }),
+    saveLicensingPreliminaryReview: builder.mutation<LicensingReviewResponse, { applicationType: LicensingApplicationType; id: number; data: LicensingReviewInput }>({
+      query: ({ applicationType, id, data }) => ({
+        url: `/licenses/${licensingApplications[applicationType].endpoint}/${id}/preliminary-review/`, method: "POST", body: data,
+      }),
+    }),
 
     getLicensingQueue: builder.query<LicensingQueueResponse, {
       applicationType: LicensingApplicationType; queue: LicensingQueueKind; page: number; search?: string;
       pageSize?: number; institution?: string; status?: string;
+      reviewStatus?: string;
     }>({
-      query: ({ applicationType, queue, page, search, pageSize = 10, institution, status }) => {
+      query: ({ applicationType, queue, page, search, pageSize = 10, institution, status, reviewStatus }) => {
         const path = buildListQuery(`/licenses/${licensingApplications[applicationType].endpoint}/${queue}/`, { page, pageSize, search });
         const filters = new URLSearchParams();
         if (institution) filters.set("institution", institution);
         if (status) filters.set("status", status);
+        if (reviewStatus) filters.set("review_status", reviewStatus);
         return path + (filters.size ? `&${filters}` : "");
       },
     }),
@@ -204,6 +232,12 @@ const LicenseApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetLicensingApplicationStatusQuery,
+  useGetLicensingProcessingQueueQuery,
+  useGetLicensingProcessingQuery,
+  useSaveLicensingProcessingMutation,
+  useGetLicensingPreliminaryReviewQuery,
+  useSaveLicensingPreliminaryReviewMutation,
   useGetLicensingAssignmentFiltersQuery,
   useGetLicensingQueueQuery,
   useAssignLicensingReviewersMutation,
