@@ -53,6 +53,7 @@ export type LicensingApplicationRow = {
   status_code: string;
   desk_reviewer: number | null;
   desk_reviewer_name: string | null;
+  can_open_review?: boolean;
 };
 export type LicensingQueueResponse = ListResponse<LicensingApplicationRow> & { can_assign: boolean };
 export type LicensingReviewer = Reviewer & { assigned_application_count: number };

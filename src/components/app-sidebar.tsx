@@ -115,6 +115,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     : "Your Directorate";
 
   const canSeeItem = (item: Item): boolean => {
+    if (item.url.startsWith("/license/") && item.url.endsWith("/processing")) {
+      const application = Object.values(licensingApplications).find((config) => item.url.startsWith(`/license/${config.path}/`));
+      return userGroups.has("System Administrator") || userGroups.has("Head of Department(ILA)") || userGroups.has("Director QA") ||
+        ["can_process_licensing", "can_forward_licensing", "can_decide_licensing", "can_record_charter_authorities", "can_assign_reviewers"].some((permission) => userPermissions.has(permission)) ||
+        !!(application && userPermissions.has(application.permission));
+    }
     if (item.url.startsWith("/license/") && (
       userGroups.has("System Administrator") ||
       (userGroups.has("ILA Desk Review Officer") && !item.url.endsWith("/assign-reviewer"))
@@ -557,6 +563,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               ],
               items: [
                 {
+                  title: "Application Processing",
+                  url: "/license/university/interim-authority/processing",
+                  isActive: pathname.startsWith("/license/university/interim-authority/processing"),
+                },
+                {
                   title: "Submitted",
                   url: "/license/university/interim-authority/submitted",
                   isActive: pathname.startsWith(
@@ -588,6 +599,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               requiredPermissions: ["can_assign_reviewers"],
               items: [
                 {
+                  title: "Application Processing",
+                  url: "/license/university/provisional-license/processing",
+                  isActive: pathname.startsWith("/license/university/provisional-license/processing"),
+                },
+                {
                   title: "Submitted",
                   url: "/license/university/provisional-license/submitted",
                   isActive: pathname.startsWith(
@@ -617,6 +633,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               isActive: pathname.startsWith("/license/university/charter"),
               requiredPermissions: ["can_assign_reviewers"],
               items: [
+                {
+                  title: "Application Processing",
+                  url: "/license/university/charter/processing",
+                  isActive: pathname.startsWith("/license/university/charter/processing"),
+                },
                 {
                   title: "Submitted",
                   url: "/license/university/charter/submitted",
@@ -651,6 +672,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               requiredPermissions: ["can_assign_reviewers"],
               items: [
                 {
+                  title: "Application Processing",
+                  url: "/license/odai/interim-authority/processing",
+                  isActive: pathname.startsWith("/license/odai/interim-authority/processing"),
+                },
+                {
                   title: "Submitted",
                   url: "/license/odai/interim-authority/submitted",
                   isActive: pathname.startsWith(
@@ -684,6 +710,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               requiredPermissions: ["can_assign_reviewers"],
               items: [
                 {
+                  title: "Application Processing",
+                  url: "/license/odai/provisional-license/processing",
+                  isActive: pathname.startsWith("/license/odai/provisional-license/processing"),
+                },
+                {
                   title: "Submitted",
                   url: "/license/odai/provisional-license/submitted",
                   isActive: pathname.startsWith(
@@ -713,6 +744,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               isActive: pathname.startsWith("/license/odai/charter/submitted"),
               requiredPermissions: ["can_assign_reviewers"],
               items: [
+                {
+                  title: "Application Processing",
+                  url: "/license/odai/charter/processing",
+                  isActive: pathname.startsWith("/license/odai/charter/processing"),
+                },
                 {
                   title: "Submitted",
                   url: "/license/odai/charter/submitted",
